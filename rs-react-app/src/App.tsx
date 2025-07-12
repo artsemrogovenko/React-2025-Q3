@@ -1,35 +1,31 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
+import React from 'react';
+import { Controls } from './controls/Controls';
+import { Results } from './results/Results';
+import { ErrorBoundary } from './components/Errorboundary';
 
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+class App extends React.Component {
+  render() {
+    return (
+      <div className="flex flex-col p-4 max-w-2xl mx-auto border-2 border-b-blue-900 gap-[20px]">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Rick and Morty App
+        </h2>
+        <Controls />
+        <ErrorBoundary>
+          <Results />
+          <button
+            onClick={() => {
+              throw new Error('Test error');
+            }}
+            className="mt-4 px-4 py-2 bg-red-500  rounded"
+          >
+            Generate error
+          </button>
+        </ErrorBoundary>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+    );
+  }
 }
 
 export default App;
