@@ -20,10 +20,10 @@ export class Controls extends React.Component<ControlsProps, ControlsState> {
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  handleSearch(e: React.FormEvent<HTMLFormElement>): void {
+  async handleSearch(e: React.FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     setSearchQuery(this.state.searchQuery);
-    this.props.onSubmit(this.state.searchQuery);
+    return this.props.onSubmit(this.state.searchQuery);
   }
 
   handleInputChange(e: React.ChangeEvent<HTMLInputElement>): void {

@@ -35,6 +35,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   async requestCharacter(query: string): Promise<void> {
+    this.resetError();
     try {
       this.setState({ isLoading: true });
       const characters = await getCharacters({ name: query.trim() });
