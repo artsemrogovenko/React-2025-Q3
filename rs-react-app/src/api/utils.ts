@@ -1,7 +1,6 @@
 export const getPrevQuery = (): string => {
   const stored = localStorage.getItem('previous');
-  if (stored) return stored;
-  return '';
+  return stored ? stored : '';
 };
 
 export const setSearchQuery = (text: string): void => {

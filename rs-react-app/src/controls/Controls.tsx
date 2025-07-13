@@ -1,8 +1,9 @@
 import React from 'react';
 import { getPrevQuery, setSearchQuery } from '../api/utils';
 
-type ControlsProps = Record<string, never>;
-
+interface ControlsProps {
+  onSubmit: (query: string) => Promise<void>;
+}
 interface ControlsState {
   searchQuery: string;
 }
@@ -22,7 +23,7 @@ export class Controls extends React.Component<ControlsProps, ControlsState> {
   handleSearch(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     setSearchQuery(this.state.searchQuery);
-    console.log('value:', this.state.searchQuery);
+    this.props.onSubmit(this.state.searchQuery);
   }
 
   handleInputChange(e: React.ChangeEvent<HTMLInputElement>): void {
