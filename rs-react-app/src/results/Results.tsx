@@ -11,7 +11,6 @@ interface ResultsProps {
 export class Results extends React.Component<ResultsProps> {
   render(): React.ReactNode {
     const { data, loading, error } = this.props;
-    // if (error) throw new Error(error);
     return (
       <div className="flex flex-col p-6 rounded-lg border-2 max-w-sm min-h-[360px] text-center gap-2">
         {loading ? (
