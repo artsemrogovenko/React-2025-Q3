@@ -18,6 +18,7 @@ export class MySpinner extends React.Component<MySpinnerProps> {
     return (
       <div className="flex flex-col justify-center items-center">
         <svg
+          data-testid="loading-spinner"
           className="animate-spin origin-center"
           style={{
             transformOrigin: `${circleSize}px ${circleSize}px`,
