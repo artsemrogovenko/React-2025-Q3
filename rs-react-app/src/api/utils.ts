@@ -4,5 +4,5 @@ export const getPrevQuery = (): string => {
 };
 
 export const setSearchQuery = (text: string): void => {
-  localStorage.setItem('previous', text);
+  localStorage.setItem('previous', text.trim());
 };

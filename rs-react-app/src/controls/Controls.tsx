@@ -49,6 +49,7 @@ export class Controls extends React.Component<ControlsProps, ControlsState> {
       >
         <div className="relative flex-1">
           <input
+            data-testid="character-search-input"
             type="text"
             maxLength={30}
             placeholder="Search Input Field"
