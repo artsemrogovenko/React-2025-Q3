@@ -33,5 +33,7 @@ export default defineConfig({
         lines: 50,
       },
     },
+    environment: 'jsdom',
+    globals: true,
   },
 });
