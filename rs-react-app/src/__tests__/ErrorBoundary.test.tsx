@@ -17,7 +17,7 @@ test('Отображение компонента если нет ошибки',
 test('Отображение запасного компонента, и возможность сброса', async () => {
   render(
     <ErrorBoundary>
-      <SimulateError />
+      <SimulateError simulate={true} />
     </ErrorBoundary>
   );
 

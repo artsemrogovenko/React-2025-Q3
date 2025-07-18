@@ -1,8 +1,10 @@
 import React from 'react';
 
-export class SimulateError extends React.Component {
+export class SimulateError extends React.Component<{ simulate: boolean }> {
   render() {
-    throw new Error('Error simulated');
-    return <div></div>;
+    if (this.props.simulate) {
+      throw new Error('Error simulated');
+    }
+    return <div>No error</div>;
   }
 }
