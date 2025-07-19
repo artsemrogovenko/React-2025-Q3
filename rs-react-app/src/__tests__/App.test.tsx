@@ -16,6 +16,7 @@ import { ErrorBoundary } from '../components/ErrorBoundary';
 vi.mock('../api/utils');
 vi.mock('rickmortyapi');
 vi.mocked(getPrevQuery).mockReturnValue('gobo');
+vi.spyOn(console, 'error').mockImplementation(() => {});
 
 const mockResponse: ApiResponse<Info<Character[]>> = {
   status: 200,

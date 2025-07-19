@@ -4,6 +4,9 @@ import { MySpinner } from '../components/Loader';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { SimulateError } from './__mock__/SimulateError';
+import { vi } from 'vitest';
+
+vi.spyOn(console, 'error').mockImplementation(() => {});
 
 test('Отображение компонента если нет ошибки', () => {
   render(
