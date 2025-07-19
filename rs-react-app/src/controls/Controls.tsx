@@ -44,6 +44,7 @@ export class Controls extends React.Component<ControlsProps, ControlsState> {
   render() {
     return (
       <form
+        data-testid="character-search-form"
         className="flex  p-6 rounded-lg border-2 max-w-sm text-center"
         onSubmit={this.handleSearch}
       >

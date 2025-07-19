@@ -6,3 +6,5 @@ export const getPrevQuery = (): string => {
 export const setSearchQuery = (text: string): void => {
   localStorage.setItem('previous', text.trim());
 };
+
+export const NotFoundMsg = 'No characters found';

@@ -8,7 +8,7 @@ import {
   type Character,
   type Info,
 } from 'rickmortyapi';
-import { getPrevQuery } from './api/utils';
+import { getPrevQuery, NotFoundMsg } from './api/utils';
 
 type AppProps = Record<string, never>;
 
@@ -31,26 +31,28 @@ class App extends React.Component<AppProps, AppState> {
   };
 
   async componentDidMount() {
-    await this.requestCharacter(getPrevQuery().trim());
+    await this.requestCharacter(getPrevQuery());
   }
 
   async requestCharacter(query: string): Promise<void> {
     this.resetError();
+    const searchQuery = query.trim();
     try {
       this.setState({ isLoading: true });
-      const characters = await getCharacters({ name: query.trim() });
+      const characters = await getCharacters({ name: searchQuery });
       if (characters.status !== SUCCESS) {
-        this.setState({ error: 'No characters found' });
+        this.setState({ error: NotFoundMsg });
         return;
       }
       this.setState({ results: characters, error: null });
     } catch (error) {
-      this.setState({
-        error: error instanceof Error ? error.message : 'Unknown error',
-        isLoading: false,
-      });
+      if (error instanceof Error)
+        this.setState({
+          error: error.message,
+          isLoading: false,
+        });
     } finally {
-      this.setState({ query: query.trim(), isLoading: false });
+      this.setState({ query: searchQuery, isLoading: false });
     }
   }
 
