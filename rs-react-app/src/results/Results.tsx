@@ -12,7 +12,10 @@ export class Results extends React.Component<ResultsProps> {
   render(): React.ReactNode {
     const { data, loading, error } = this.props;
     return (
-      <div className="flex flex-col p-6 rounded-lg border-2 max-w-sm min-h-[360px] text-center gap-2">
+      <div
+        data-testid="search-results"
+        className="flex flex-col p-6 rounded-lg border-2 max-w-sm min-h-[360px] text-center gap-2"
+      >
         {loading ? (
           <MySpinner />
         ) : error ? (

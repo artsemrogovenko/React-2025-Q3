@@ -29,11 +29,15 @@ export class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
   render() {
     if (this.state.errorMessage) {
       return (
-        <div className="p-4 bg-red-50 border border-red-200 rounded text-red-600 min-h-[360px]">
+        <div
+          data-testid="error-component"
+          className="p-4 bg-red-50 border border-red-200 rounded text-red-600 min-h-[360px]"
+        >
           {this.state.errorMessage}
           <button
             onClick={this.resetError}
             className="ml-2 px-2 py-1 bg-red-100 hover:bg-red-200 rounded"
+            data-testid="reset-error"
           >
             ОК
           </button>

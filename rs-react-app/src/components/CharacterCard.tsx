@@ -8,7 +8,11 @@ export class CharacterCard extends React.Component<CharacterCardProps> {
   render() {
     const { character } = this.props;
     return (
-      <div key={character.id} className="bg-white p-4 rounded-lg shadow-md">
+      <div
+        data-testid="character-card"
+        key={character.id}
+        className="bg-white p-4 rounded-lg shadow-md"
+      >
         <img
           src={character.image}
           alt={character.name}
