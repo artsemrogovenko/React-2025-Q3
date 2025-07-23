@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface MySpinnerProps {
-  size?: number;
-  color?: string;
-}
+import type { MySpinnerProps } from './types';
 
 export class MySpinner extends React.Component<MySpinnerProps> {
   static defaultProps = {

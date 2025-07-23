@@ -1,12 +1,6 @@
 import React from 'react';
+import type { ErrorProps, ErrorState } from './types';
 
-interface ErrorProps {
-  children: React.ReactNode;
-}
-
-interface ErrorState {
-  errorMessage: string;
-}
 export class ErrorBoundary extends React.Component<ErrorProps, ErrorState> {
   state: ErrorState;
   constructor(props: ErrorProps) {

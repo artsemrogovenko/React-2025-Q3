@@ -1,26 +1,25 @@
 import React from 'react';
-import type { Character } from 'rickmortyapi';
+import type { CharacterCardProps } from './types';
 
-interface CharacterCardProps {
-  character: Character;
-}
 export class CharacterCard extends React.Component<CharacterCardProps> {
   render() {
     const { character } = this.props;
+    const image = character.image;
+    const name = character.name;
+    const species = character.species;
     return (
       <div
         data-testid="character-card"
-        key={character.id}
         className="bg-white p-4 rounded-lg shadow-md"
       >
         <img
-          src={character.image}
-          alt={character.name}
+          src={image}
+          alt={name}
           className="w-full h-48 object-cover rounded-t-lg"
         />
         <div className="p-4">
-          <h3 className="text-lg font-bold">{character.name}</h3>
-          <p className="text-gray-600">{character.species}</p>
+          <h3 className="text-lg font-bold">{name}</h3>
+          <p className="text-gray-600">{species}</p>
         </div>
       </div>
     );

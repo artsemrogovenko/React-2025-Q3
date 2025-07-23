@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../App';
-import { getPrevQuery, NotFoundMsg } from '../api/utils';
+import { getPrevQuery } from '../api/utils';
 import {
   getCharacters,
   type ApiResponse,
@@ -12,6 +12,7 @@ import { vi } from 'vitest';
 import { charactersResponse } from './__mock__/charatersData';
 import userEvent from '@testing-library/user-event';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { NOT_FOUND_MSG } from '../constants';
 
 vi.mock('../api/utils');
 vi.mock('rickmortyapi');
@@ -86,7 +87,7 @@ describe('App взаимодействие', () => {
   });
 
   test('Сообщение при отрицательном запросе', () => {
-    expect(screen.getByText(NotFoundMsg)).toBeInTheDocument();
+    expect(screen.getByText(NOT_FOUND_MSG)).toBeInTheDocument();
   });
 });
 
