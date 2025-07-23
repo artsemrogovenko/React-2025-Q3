@@ -20,6 +20,10 @@ export function useRequestCharacter() {
   });
 
   const requestCharacter = useCallback(async (query: string): Promise<void> => {
+    setState((prevState: RequestCharacterState) => ({
+      ...prevState,
+      error: '',
+    }));
     const searchQuery = query.trim();
     try {
       setState((prevState: RequestCharacterState) => ({

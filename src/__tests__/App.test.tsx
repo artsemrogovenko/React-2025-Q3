@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../App';
-import { getPrevQuery } from '../api/utils';
+import { getPrevQuery, useRequestCharacter } from '../api/utils';
 import {
   getCharacters,
   type ApiResponse,
@@ -12,21 +12,21 @@ import { vi } from 'vitest';
 import { charactersResponse } from './__mock__/charatersData';
 import userEvent from '@testing-library/user-event';
 import { ErrorBoundary } from '../components/ErrorBoundary';
-import { NOT_FOUND_MSG } from '../constants';
+import { NOT_FOUND, NOT_FOUND_MSG, SUCCESS } from '../constants';
 
 vi.mock('../api/utils');
 vi.mock('rickmortyapi');
-vi.mocked(getPrevQuery).mockReturnValue('gobo');
+vi.mocked(getPrevQuery).mockReturnValue('rick');
 vi.spyOn(console, 'error').mockImplementation(() => {});
 
 const mockResponse: ApiResponse<Info<Character[]>> = {
-  status: 200,
+  status: SUCCESS,
   data: charactersResponse,
   statusMessage: '',
 };
 
 const errorResponse: ApiResponse<Info<Character[]>> = {
-  status: 404,
+  status: NOT_FOUND,
   data: {},
   statusMessage: '',
 };
@@ -39,6 +39,17 @@ describe('App initiation', () => {
     vi.mocked(getCharacters).mockReturnValue(
       Promise.reject(new Error(errorMessage))
     );
+    vi.mocked(useRequestCharacter).mockReturnValue({
+      results: errorResponse,
+      isLoading: false,
+      error: errorMessage,
+      requestCharacter: vi
+        .fn()
+        .mockImplementation(async (query: string): Promise<void> => {
+          await getCharacters({ name: query });
+        }),
+    });
+
     await act(async () => {
       render(<App />);
     });
@@ -53,7 +64,7 @@ describe('App initiation', () => {
     expect(testButton).toBeInTheDocument();
   });
   test('Request for mounting', async () => {
-    await expect(getCharacters).toHaveBeenCalledWith({ name: 'gobo' });
+    await expect(getCharacters).toHaveBeenCalledWith({ name: 'rick' });
   });
 
   test('Network error response', async () => {
@@ -65,6 +76,13 @@ describe('App interaction', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     vi.mocked(getCharacters).mockResolvedValue(errorResponse);
+
+    vi.mocked(useRequestCharacter).mockReturnValue({
+      results: errorResponse,
+      isLoading: false,
+      error: NOT_FOUND_MSG,
+      requestCharacter: vi.fn(),
+    });
     await act(async () => {
       render(
         <ErrorBoundary>
@@ -75,7 +93,7 @@ describe('App interaction', () => {
   });
 
   test('Checking the imitation of an error', async () => {
-    const testBtn = screen.getByText('Error Button');
+    const testBtn = screen.getByRole('button', { name: /Error Button/i });
     await userEvent.click(testBtn);
 
     await waitFor(async () => {
@@ -92,7 +110,18 @@ describe('App interaction', () => {
 });
 
 test('Accept data with a successful request', async () => {
-  vi.mocked(getCharacters).mockResolvedValue(mockResponse);
+  vi.mocked(getCharacters).mockReturnValue(Promise.resolve(mockResponse));
+  vi.mocked(useRequestCharacter).mockReturnValue({
+    results: mockResponse,
+    isLoading: false,
+    error: '',
+    requestCharacter: vi
+      .fn()
+      .mockImplementation(async (query: string): Promise<void> => {
+        await getCharacters({ name: query });
+      }),
+  });
+
   const countCards = Number(mockResponse.data.results?.length).valueOf();
   await act(async () => {
     render(<App />);
