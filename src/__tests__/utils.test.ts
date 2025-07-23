@@ -8,17 +8,17 @@ describe('localStorage utils', () => {
     localStorage.clear();
   });
 
-  it('изначально истории запросов нет', () => {
+  it('Initially, there are no requests', () => {
     expect(getPrevQuery()).toBe('');
     expect(localStorage.getItem).toHaveBeenCalledWith('previous');
   });
 
-  it('проверка успешного сохранения запроса', () => {
+  it('Verification of successful conservation of a request', () => {
     localStorage.setItem('previous', 'Rick');
     expect(getPrevQuery()).toBe('Rick');
   });
 
-  it('старое значение успешно перезаписано', () => {
+  it('The old value is successfully overwritten', () => {
     setSearchQuery('Dark');
     expect(localStorage.setItem).toHaveBeenCalledWith('previous', 'Dark');
     expect(localStorage.getItem('previous')).toBe('Dark');

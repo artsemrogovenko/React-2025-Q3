@@ -20,7 +20,7 @@ describe('Rendering Tests', () => {
     input = screen.getByTestId('character-search-input') as HTMLInputElement;
   });
 
-  it('Наличие элементов и отображение сохраненного значения', async () => {
+  it('The presence of elements and display of the preserved value', async () => {
     const submit = screen.getByRole('button', {
       name: /search/i,
     }) as HTMLButtonElement;
@@ -31,7 +31,7 @@ describe('Rendering Tests', () => {
     expect(input.value).toBe('Dark');
   });
 
-  it('Сброс поля ввода и localstorage', async () => {
+  it('Resetting the input field and Localstorage', async () => {
     const reset = screen.getByLabelText('Clear input') as HTMLButtonElement;
 
     expect(reset).toBeInTheDocument();

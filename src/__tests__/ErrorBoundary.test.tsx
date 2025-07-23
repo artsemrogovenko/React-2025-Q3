@@ -8,7 +8,7 @@ import { vi } from 'vitest';
 
 vi.spyOn(console, 'error').mockImplementation(() => {});
 
-test('Отображение компонента если нет ошибки', () => {
+test('The component display if there is no error', () => {
   render(
     <ErrorBoundary>
       <MySpinner />
@@ -17,7 +17,7 @@ test('Отображение компонента если нет ошибки',
   expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
 });
 
-test('Отображение запасного компонента, и возможность сброса', async () => {
+test('Display of the spare component, and the possibility of resetting', async () => {
   render(
     <ErrorBoundary>
       <SimulateError simulate={true} />

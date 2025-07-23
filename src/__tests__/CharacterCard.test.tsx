@@ -7,7 +7,7 @@ import { charactersResponse } from './__mock__/charatersData';
 
 const characterData: Character = charactersResponse.results?.pop() as Character;
 
-test('Отображение имени и описания персонажа', () => {
+test('Display the name and description of the character', () => {
   render(<CharacterCard character={characterData} />);
 
   const characterName = screen.getByText(/Ants in my Eyes Johnson/i);

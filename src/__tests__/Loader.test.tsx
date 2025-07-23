@@ -3,7 +3,7 @@ import { expect, test } from 'vitest';
 import '@testing-library/jest-dom';
 import { MySpinner } from '../components/Loader';
 
-test('Отображение изображения и текста, размер по умолчанию', () => {
+test('Display image and text, default size', () => {
   render(<MySpinner />);
 
   const spinner = screen.getByTestId('loading-spinner');
@@ -16,7 +16,7 @@ test('Отображение изображения и текста, разме�
   expect(spinner).toHaveAttribute('height', '50');
 });
 
-test('Размер спинера правильно задается', () => {
+test('The size of the spine is correctly set', () => {
   render(<MySpinner size={100} />);
 
   const spinner = screen.getByTestId('loading-spinner');

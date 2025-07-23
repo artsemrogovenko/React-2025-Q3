@@ -31,7 +31,7 @@ const errorResponse: ApiResponse<Info<Character[]>> = {
   statusMessage: '',
 };
 
-describe('App инициализация', () => {
+describe('App initiation', () => {
   const errorMessage = 'Fetch failed';
 
   beforeEach(async () => {
@@ -44,7 +44,7 @@ describe('App инициализация', () => {
     });
   });
 
-  test('Рендер поиска, результатов, тестовой кнопки', () => {
+  test('Search Render, results, test button', () => {
     const search = screen.getByTestId('character-search-form');
     const results = screen.getByTestId('search-results');
     const testButton = screen.getByRole('button', { name: /Error Button/i });
@@ -52,16 +52,16 @@ describe('App инициализация', () => {
     expect(results).toBeInTheDocument();
     expect(testButton).toBeInTheDocument();
   });
-  test('Запрос при монтировании', async () => {
+  test('Request for mounting', async () => {
     await expect(getCharacters).toHaveBeenCalledWith({ name: 'gobo' });
   });
 
-  test('Реагирование на ошибку сети', async () => {
+  test('Network error response', async () => {
     await expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
 });
 
-describe('App взаимодействие', () => {
+describe('App interaction', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     vi.mocked(getCharacters).mockResolvedValue(errorResponse);
@@ -74,7 +74,7 @@ describe('App взаимодействие', () => {
     });
   });
 
-  test('Проверка имитации ошибки', async () => {
+  test('Checking the imitation of an error', async () => {
     const testBtn = screen.getByText('Error Button');
     await userEvent.click(testBtn);
 
@@ -86,12 +86,12 @@ describe('App взаимодействие', () => {
     });
   });
 
-  test('Сообщение при отрицательном запросе', () => {
+  test('Message for a negative request', () => {
     expect(screen.getByText(NOT_FOUND_MSG)).toBeInTheDocument();
   });
 });
 
-test('Принять данные при успешном запросе', async () => {
+test('Accept data with a successful request', async () => {
   vi.mocked(getCharacters).mockResolvedValue(mockResponse);
   const countCards = Number(mockResponse.data.results?.length).valueOf();
   await act(async () => {

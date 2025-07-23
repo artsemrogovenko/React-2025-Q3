@@ -3,12 +3,12 @@ import { Results } from '../results/Results';
 import '@testing-library/jest-dom';
 import { charactersResponse } from './__mock__/charatersData';
 
-test('Показать сообщение ошибки', () => {
+test('Show the message error', () => {
   render(<Results data={null} loading={false} error={'not found'} />);
   expect(screen.getByText('not found')).toBeVisible();
 });
 
-test('Показывать анимацию при загрузке', () => {
+test('Show animation when loading', () => {
   const { rerender } = render(
     <Results data={null} loading={true} error={''} />
   );
@@ -19,7 +19,7 @@ test('Показывать анимацию при загрузке', () => {
   expect(spinner).not.toBeVisible();
 });
 
-test('Отобразить верное количество карточек', () => {
+test('Display the right number of cards', () => {
   const response = charactersResponse;
   const countCards = Number(response.results?.length);
 
