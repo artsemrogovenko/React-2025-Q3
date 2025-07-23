@@ -1,65 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getPrevQuery, setSearchQuery } from '../api/utils';
 import { SubmitButton } from './SubmitButton';
 import { ClearButton } from './ClearButton';
-import type { ControlsProps, ControlsState } from './types';
+import type { ControlsProps } from './types';
+import { MAX_SEARCH_LENGTH } from '../constants';
 
-export class Controls extends React.Component<ControlsProps, ControlsState> {
-  state: ControlsState;
-  MAX_SEARCH_LENGTH = 30;
-  constructor(props: ControlsProps) {
-    super(props);
-    this.state = {
-      searchQuery: getPrevQuery(),
-    };
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-  }
+export function Controls(props: ControlsProps) {
+  const [query, setQuery] = useState(getPrevQuery());
 
-  handleSearch = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSearch = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
-    setSearchQuery(this.state.searchQuery);
-    return this.props.onSubmit(this.state.searchQuery);
+    setSearchQuery(query);
+    return props.onSubmit(query);
   };
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchQuery: e.target.value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
   };
 
-  resetInput = () => {
-    this.setState({ searchQuery: '' });
+  const resetInput = () => {
+    setQuery('');
     setSearchQuery('');
   };
 
-  handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      this.resetInput();
+      resetInput();
     }
   };
 
-  render() {
-    return (
-      <form
-        data-testid="character-search-form"
-        className="flex  p-6 rounded-lg border-2 max-w-sm text-center"
-        onSubmit={this.handleSearch}
-      >
-        <div className="relative flex-1">
-          <input
-            data-testid="character-search-input"
-            type="text"
-            maxLength={this.MAX_SEARCH_LENGTH}
-            placeholder="Search Input Field"
-            className="w-full border-2 rounded-l-sm h-[45px] px-4 pr-8"
-            value={this.state.searchQuery}
-            onChange={this.handleInputChange}
-            onKeyDown={this.handleKeyDown}
-          />
-          {this.state.searchQuery && <ClearButton reset={this.resetInput} />}
-        </div>
-        <SubmitButton />
-      </form>
-    );
-  }
+  return (
+    <form
+      data-testid="character-search-form"
+      className="flex  p-6 rounded-lg border-2 max-w-sm text-center"
+      onSubmit={handleSearch}
+    >
+      <div className="relative flex-1">
+        <input
+          data-testid="character-search-input"
+          type="text"
+          maxLength={MAX_SEARCH_LENGTH}
+          placeholder="Search Input Field"
+          className="w-full border-2 rounded-l-sm h-[45px] px-4 pr-8"
+          value={query}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+        />
+        {query && <ClearButton reset={resetInput} />}
+      </div>
+      <SubmitButton />
+    </form>
+  );
 }

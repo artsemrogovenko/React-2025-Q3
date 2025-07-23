@@ -1,10 +1,11 @@
-import React from 'react';
+type SumulateProp = {
+  simulate: boolean;
+};
 
-export class SimulateError extends React.Component<{ simulate: boolean }> {
-  render() {
-    if (this.props.simulate) {
-      throw new Error('Error simulated');
-    }
-    return <div>No error</div>;
+export function SimulateError(prop: SumulateProp) {
+  const { simulate } = prop;
+  if (simulate) {
+    throw new Error('Error simulated');
   }
+  return <div>No error</div>;
 }
