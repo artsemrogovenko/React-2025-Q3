@@ -3,7 +3,7 @@ import { getPrevQuery, setSearchQuery } from '../api/utils';
 import { SubmitButton } from './SubmitButton';
 import { ClearButton } from './ClearButton';
 import type { ControlsProps } from './types';
-import { MAX_SEARCH_LENGTH } from '../constants';
+import { MAX_SEARCH_LENGTH, FLEX_STYLE_ROUNDED } from '../constants';
 
 export function Controls(props: ControlsProps) {
   const [query, setQuery] = useState(getPrevQuery());
@@ -34,7 +34,7 @@ export function Controls(props: ControlsProps) {
   return (
     <form
       data-testid="character-search-form"
-      className="flex  p-6 rounded-lg border-2 max-w-sm text-center"
+      className={`${FLEX_STYLE_ROUNDED} max-w-sm text-center`}
       onSubmit={handleSearch}
     >
       <div className="relative flex-1">

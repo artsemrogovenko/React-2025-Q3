@@ -1,7 +1,11 @@
 import { useCallback, useState } from 'react';
-import { getCharacters } from 'rickmortyapi';
+import { getCharacters, getEpisode } from 'rickmortyapi';
 import { SUCCESS, NOT_FOUND_MSG } from '../constants';
-import type { AppState as RequestCharacterState } from '../types';
+import type {
+  CharacterEpisode,
+  RequestCharacterState,
+  RequestEpisodeState,
+} from '../types';
 
 export const getPrevQuery = (): string => {
   const stored = localStorage.getItem('previous');
@@ -58,4 +62,75 @@ export function useRequestCharacter() {
     }
   }, []);
   return { ...state, requestCharacter };
+}
+
+export function useRequestEpisode() {
+  const [state, setState] = useState<RequestEpisodeState>({
+    results: null,
+    isLoading: false,
+    error: null,
+  });
+
+  const requestEpisodes = useCallback(
+    async (episodeIds: number[]): Promise<void> => {
+      setState((prevState) => ({
+        ...prevState,
+        error: '',
+      }));
+
+      try {
+        setState((prevState) => ({
+          ...prevState,
+          isLoading: true,
+        }));
+        const episodes = await getEpisode(episodeIds);
+
+        if (episodes.status !== SUCCESS) {
+          setState((prevState) => ({
+            ...prevState,
+            error: NOT_FOUND_MSG,
+          }));
+          return;
+        }
+        setState((prevState) => ({
+          ...prevState,
+          results: episodes,
+          error: null,
+        }));
+      } catch (error) {
+        if (error instanceof Error)
+          setState((prevState) => ({
+            ...prevState,
+            error: error.message,
+            isLoading: false,
+          }));
+      } finally {
+        setState((prevState) => ({
+          ...prevState,
+          isLoading: false,
+        }));
+      }
+    },
+    []
+  );
+  return { ...state, requestEpisodes };
+}
+
+export function ejectEpisodesIds(data: string[]): number[] {
+  return [...data].map((episodeUrl) =>
+    Number(episodeUrl.charAt(episodeUrl.length - 1))
+  );
+}
+
+export function showEpisodesNames(
+  data: CharacterEpisode | CharacterEpisode[]
+): string {
+  if (Array.isArray(data)) {
+    return [...data]
+      .map((n) => {
+        return n.name;
+      })
+      .join(', ');
+  }
+  return data.name;
 }

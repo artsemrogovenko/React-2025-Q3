@@ -1,0 +1,10 @@
+import Picture from '../assets/404.svg';
+export const NotFound = () => {
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <img src={Picture} alt="404" />
+      <h3 className="capitalize">page not found</h3>
+      <button className="bg-fuchsia-800 capitalize">back to homepage</button>
+    </div>
+  );
+};

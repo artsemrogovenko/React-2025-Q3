@@ -1,7 +1,18 @@
-import type { ApiResponse, Info, Character } from 'rickmortyapi';
+import type { ApiResponse, Info, Character, Episode } from 'rickmortyapi';
 
-export type AppState = {
+type RequestState = { isLoading: boolean; error: string | null };
+
+export type CharacterEpisode = Episode & {
+  id: number;
+  name: string;
+  url: string;
+  created: string;
+};
+
+export type RequestCharacterState = RequestState & {
   results: ApiResponse<Info<Character[]>> | null;
-  isLoading: boolean;
-  error: string | null;
+};
+
+export type RequestEpisodeState = RequestState & {
+  results: ApiResponse<CharacterEpisode | CharacterEpisode[]> | null;
 };
