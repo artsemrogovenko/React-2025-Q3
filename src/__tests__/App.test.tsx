@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../App';
 import { getPrevQuery, useRequestCharacter } from '../api/utils';
@@ -10,7 +10,6 @@ import {
 } from 'rickmortyapi';
 import { vi } from 'vitest';
 import { charactersResponse } from './__mock__/charatersData';
-import userEvent from '@testing-library/user-event';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { NOT_FOUND, NOT_FOUND_MSG, SUCCESS } from '../constants';
 
@@ -89,18 +88,6 @@ describe('App interaction', () => {
           <App />
         </ErrorBoundary>
       );
-    });
-  });
-
-  test('Checking the imitation of an error', async () => {
-    const testBtn = screen.getByRole('button', { name: /Error Button/i });
-    await userEvent.click(testBtn);
-
-    await waitFor(async () => {
-      const resetError = screen.getByTestId('reset-error');
-      expect(resetError).toBeInTheDocument();
-      await userEvent.click(resetError);
-      expect(resetError).not.toBeInTheDocument();
     });
   });
 

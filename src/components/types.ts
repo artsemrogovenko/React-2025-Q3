@@ -16,3 +16,14 @@ export type MySpinnerProps = {
   size?: number;
   color?: string;
 };
+
+export type MyButtonProps = {
+  text: string;
+  onClick?: () => void;
+  isDisabled?: boolean;
+  isVisible?: boolean;
+};
+export type PaginationProps = {
+  isDisabled?: boolean;
+  isVisible: boolean;
+};

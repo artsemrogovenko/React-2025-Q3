@@ -10,6 +10,7 @@ import {
 import { useEffect } from 'react';
 import { MySpinner } from '../components/Loader';
 import { FLEX_STYLE_ROUNDED } from '../constants';
+import { MyButton } from '../components/MyButton';
 export function Details() {
   const characters = charactersResponse.results as Character[];
   const character = characters[0];
@@ -21,13 +22,13 @@ export function Details() {
   useEffect(() => {
     const episodesIds = ejectEpisodesIds(episode);
     requestEpisodes(episodesIds);
-  }, [requestEpisodes,episode]);
+  }, [requestEpisodes, episode]);
   return (
     <div
       data-testid="character-details"
-      className={`${FLEX_STYLE_ROUNDED} flex-col w-full h-[90dvh] sticky top-0 bg-amber-100`}
+      className={`${FLEX_STYLE_ROUNDED} flex-col w-full h-[90dvh] sticky top-0 gap-y-4 bg-amber-100`}
     >
-      <div className="flex mb-2">
+      <div className="flex ">
         <img src={image} alt={name} className="w-1/2 object-fit rounded-2xl" />
 
         <div className={`flex flex-col w-[50%]`}>
@@ -48,6 +49,7 @@ export function Details() {
         results !== null &&
         DescriptionItem('Episodes:', showEpisodesNames(results.data), 'text-lg')
       )}
+      <MyButton text="Close" />
     </div>
   );
 }
