@@ -1,7 +1,11 @@
 import type { ReactNode } from 'react';
 import type { ApiResponse, Info, Character, Episode } from 'rickmortyapi';
 
-type RequestState = { isLoading: boolean; error: string | null };
+export type RequestState<T> = {
+  results: T | null;
+  isLoading: boolean;
+  error: string | null;
+};
 
 export type CharacterEpisode = Episode & {
   id: number;
@@ -10,13 +14,11 @@ export type CharacterEpisode = Episode & {
   created: string;
 };
 
-export type searchCharacterState = RequestState & {
-  results: ApiResponse<Info<Character[]>> | null;
-};
+export type searchCharacterState = RequestState<ApiResponse<Info<Character[]>>>;
 
-export type RequestEpisodeState = RequestState & {
-  results: ApiResponse<CharacterEpisode | CharacterEpisode[]> | null;
-};
+export type RequestEpisodeState = RequestState<
+  ApiResponse<CharacterEpisode | CharacterEpisode[]>
+>;
 
 export type AppProviderProps = {
   children: ReactNode;

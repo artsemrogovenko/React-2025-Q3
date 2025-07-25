@@ -4,20 +4,22 @@ import { Controls } from './controls/Controls';
 import { Results } from './results/Results';
 import { AppContext, FLEX_STYLE_ROUNDED } from './constants';
 import { AppTitle } from './components/AppTitle';
-import { getPrevQuery, useRequestCharacter } from './api/utils';
+import { getPrevQuery, useRequest } from './api/utils';
 import { Details } from './pages/Details';
 import { Pagination } from './components/Pagination';
+import { type Info, type Character, getCharacters } from 'rickmortyapi';
 
 function App() {
-  const { results, isLoading, error, searchCharacter } = useRequestCharacter();
+  const { results, isLoading, error, requestData } =
+    useRequest<Info<Character[]>>();
   const context = useContext(AppContext);
 
   useEffect(() => {
-    searchCharacter(getPrevQuery());
-  }, [searchCharacter]);
+    requestData(() => getCharacters({ name: getPrevQuery() }));
+  }, [requestData]);
 
   const handleSubmit = async (query: string): Promise<void> => {
-    await searchCharacter(query);
+    await requestData(() => getCharacters({ name: query }));
   };
 
   const visiblePagination =

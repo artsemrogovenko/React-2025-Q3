@@ -1,7 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../App';
-import { getPrevQuery, useRequestCharacter } from '../api/utils';
+import { getPrevQuery, useRequest } from '../api/utils';
 import {
   getCharacters,
   type ApiResponse,
@@ -38,11 +38,11 @@ describe('App initiation', () => {
     vi.mocked(getCharacters).mockReturnValue(
       Promise.reject(new Error(errorMessage))
     );
-    vi.mocked(useRequestCharacter).mockReturnValue({
+    vi.mocked(useRequest).mockReturnValue({
       results: errorResponse,
       isLoading: false,
       error: errorMessage,
-      searchCharacter: vi
+      requestData: vi
         .fn()
         .mockImplementation(async (query: string): Promise<void> => {
           await getCharacters({ name: query });
@@ -76,11 +76,11 @@ describe('App interaction', () => {
     vi.clearAllMocks();
     vi.mocked(getCharacters).mockResolvedValue(errorResponse);
 
-    vi.mocked(useRequestCharacter).mockReturnValue({
+    vi.mocked(useRequest).mockReturnValue({
       results: errorResponse,
       isLoading: false,
       error: NOT_FOUND_MSG,
-      searchCharacter: vi.fn(),
+      requestData: vi.fn(),
     });
     await act(async () => {
       render(
@@ -98,11 +98,11 @@ describe('App interaction', () => {
 
 test('Accept data with a successful request', async () => {
   vi.mocked(getCharacters).mockReturnValue(Promise.resolve(mockResponse));
-  vi.mocked(useRequestCharacter).mockReturnValue({
+  vi.mocked(useRequest).mockReturnValue({
     results: mockResponse,
     isLoading: false,
     error: '',
-    searchCharacter: vi
+    requestData: vi
       .fn()
       .mockImplementation(async (query: string): Promise<void> => {
         await getCharacters({ name: query });

@@ -1,16 +1,7 @@
 import { useCallback, useState } from 'react';
-import {
-  getCharacter,
-  getCharacters,
-  getEpisode,
-  type Character,
-} from 'rickmortyapi';
+import { getCharacter, type ApiResponse, type Character } from 'rickmortyapi';
 import { SUCCESS, NOT_FOUND_MSG } from '../constants';
-import type {
-  CharacterEpisode,
-  searchCharacterState,
-  RequestEpisodeState,
-} from '../types';
+import type { CharacterEpisode, RequestState } from '../types';
 
 export const getPrevQuery = (): string => {
   const stored = localStorage.getItem('previous');
@@ -21,77 +12,15 @@ export const setSearchQuery = (text: string): void => {
   localStorage.setItem('previous', text.trim());
 };
 
-export function useRequestCharacter() {
-  const [state, setState] = useState<searchCharacterState>({
+export function useRequest<T>() {
+  const [state, setState] = useState<RequestState<ApiResponse<T>>>({
     results: null,
     isLoading: false,
     error: null,
   });
 
-  const getCharacterDetails = async (
-    id: number
-  ): Promise<Character | undefined> => {
-    // if (state.results?.data.results) {
-    //   const characters = state.results?.data.results;
-    //   if (characters.length > 0) {
-    //     return characters.filter((c) => c.id === id).pop();
-    //   }
-    // }
-    // return;
-    const result = await getCharacter(id);
-    return result.data;
-  };
-
-  const searchCharacter = useCallback(async (query: string): Promise<void> => {
-    setState((prevState) => ({
-      ...prevState,
-      error: '',
-    }));
-    const searchQuery = query.trim();
-    try {
-      setState((prevState) => ({
-        ...prevState,
-        isLoading: true,
-      }));
-      const characters = await getCharacters({ name: searchQuery });
-      if (characters.status !== SUCCESS) {
-        setState((prevState) => ({
-          ...prevState,
-          error: NOT_FOUND_MSG,
-        }));
-        return;
-      }
-      setState((prevState) => ({
-        ...prevState,
-        results: characters,
-        error: null,
-      }));
-    } catch (error) {
-      if (error instanceof Error)
-        setState((prevState) => ({
-          ...prevState,
-          error: error.message,
-          isLoading: false,
-        }));
-    } finally {
-      setState((prevState) => ({
-        ...prevState,
-        isLoading: false,
-      }));
-    }
-  }, []);
-  return { ...state, searchCharacter, getCharacterDetails };
-}
-
-export function useRequestEpisode() {
-  const [state, setState] = useState<RequestEpisodeState>({
-    results: null,
-    isLoading: false,
-    error: null,
-  });
-
-  const requestEpisodes = useCallback(
-    async (episodeIds: number[]): Promise<void> => {
+  const requestData = useCallback(
+    async (arg: () => Promise<ApiResponse<T>>): Promise<void> => {
       setState((prevState) => ({
         ...prevState,
         error: '',
@@ -102,9 +31,9 @@ export function useRequestEpisode() {
           ...prevState,
           isLoading: true,
         }));
-        const episodes = await getEpisode(episodeIds);
+        const data = await arg();
 
-        if (episodes.status !== SUCCESS) {
+        if (data.status !== SUCCESS) {
           setState((prevState) => ({
             ...prevState,
             error: NOT_FOUND_MSG,
@@ -113,7 +42,7 @@ export function useRequestEpisode() {
         }
         setState((prevState) => ({
           ...prevState,
-          results: episodes,
+          results: data,
           error: null,
         }));
       } catch (error) {
@@ -132,8 +61,15 @@ export function useRequestEpisode() {
     },
     []
   );
-  return { ...state, requestEpisodes };
+  return { ...state, requestData };
 }
+
+export const getCharacterDetails = async (
+  id: number
+): Promise<Character | undefined> => {
+  const result = await getCharacter(id);
+  return result.data;
+};
 
 export function ejectEpisodesIds(data: string[]): number[] {
   return [...data].map((episodeUrl) =>

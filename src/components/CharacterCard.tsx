@@ -1,17 +1,16 @@
 import { useContext } from 'react';
-import { useRequestCharacter } from '../api/utils';
 import type { CharacterCardProps } from './types';
 import { AppContext } from '../constants';
+import { getCharacterDetails } from '../api/utils';
 
 export function CharacterCard(props: CharacterCardProps) {
   const { image, name, species, id } = props.character;
   const context = useContext(AppContext);
-  const { getCharacterDetails } = useRequestCharacter();
 
   const getDetails = async () => {
-    const detail = await getCharacterDetails(id);
-    context?.updateCharacter(detail);
+    context?.updateCharacter(await getCharacterDetails(id));
   };
+
   return (
     <div
       onClick={getDetails}
