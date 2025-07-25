@@ -22,7 +22,9 @@ export type MyButtonProps = {
   onClick?: () => void;
   isDisabled?: boolean;
   isVisible?: boolean;
+  style: string;
 };
+
 export type PaginationProps = {
   isDisabled?: boolean;
   isVisible: boolean;

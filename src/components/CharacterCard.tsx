@@ -1,11 +1,22 @@
+import { useContext } from 'react';
+import { useRequestCharacter } from '../api/utils';
 import type { CharacterCardProps } from './types';
+import { AppContext } from '../constants';
 
 export function CharacterCard(props: CharacterCardProps) {
-  const { image, name, species } = props.character;
+  const { image, name, species, id } = props.character;
+  const context = useContext(AppContext);
+  const { getCharacterDetails } = useRequestCharacter();
+
+  const getDetails = async () => {
+    const detail = await getCharacterDetails(id);
+    context?.updateCharacter(detail);
+  };
   return (
     <div
+      onClick={getDetails}
       data-testid="character-card"
-      className="bg-white p-4 rounded-lg shadow-md"
+      className="bg-white p-4 rounded-lg shadow-md hover:cursor-pointer hover:bg-amber-200"
     >
       <img
         src={image}

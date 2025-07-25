@@ -42,7 +42,7 @@ describe('App initiation', () => {
       results: errorResponse,
       isLoading: false,
       error: errorMessage,
-      requestCharacter: vi
+      searchCharacter: vi
         .fn()
         .mockImplementation(async (query: string): Promise<void> => {
           await getCharacters({ name: query });
@@ -80,7 +80,7 @@ describe('App interaction', () => {
       results: errorResponse,
       isLoading: false,
       error: NOT_FOUND_MSG,
-      requestCharacter: vi.fn(),
+      searchCharacter: vi.fn(),
     });
     await act(async () => {
       render(
@@ -102,7 +102,7 @@ test('Accept data with a successful request', async () => {
     results: mockResponse,
     isLoading: false,
     error: '',
-    requestCharacter: vi
+    searchCharacter: vi
       .fn()
       .mockImplementation(async (query: string): Promise<void> => {
         await getCharacters({ name: query });

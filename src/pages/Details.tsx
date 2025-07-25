@@ -1,5 +1,4 @@
 import type { Character } from 'rickmortyapi';
-import { charactersResponse } from '../__tests__/__mock__/charatersData';
 import pagesStyles from './Pages.module.scss';
 import { DescriptionItem } from './DescriptionItem';
 import {
@@ -7,13 +6,14 @@ import {
   showEpisodesNames,
   useRequestEpisode,
 } from '../api/utils';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { MySpinner } from '../components/Loader';
-import { FLEX_STYLE_ROUNDED } from '../constants';
+import { AppContext, FLEX_STYLE_ROUNDED } from '../constants';
 import { MyButton } from '../components/MyButton';
-export function Details() {
-  const characters = charactersResponse.results as Character[];
-  const character = characters[0];
+
+export function Details({ character }: { character: Character }) {
+  const context = useContext(AppContext);
+
   const { episode, gender, image, location, name, species, status, type } =
     character;
 
@@ -23,17 +23,20 @@ export function Details() {
     const episodesIds = ejectEpisodesIds(episode);
     requestEpisodes(episodesIds);
   }, [requestEpisodes, episode]);
+
   return (
     <div
       data-testid="character-details"
-      className={`${FLEX_STYLE_ROUNDED} flex-col w-full h-[90dvh] sticky top-0 gap-y-4 bg-amber-100`}
+      className={`${FLEX_STYLE_ROUNDED} flex-col w-full h-[90dvh] sticky top-0 gap-y-4 bg-amber-100 justify-between`}
     >
-      <div className="flex ">
-        <img src={image} alt={name} className="w-1/2 object-fit rounded-2xl" />
+      <div className="flex  ">
+        <div className="flex w-1/2 size-max-[412px] rounded-2xl">
+          <img src={image} alt={name} className="size-full object-cover" />
+        </div>
 
         <div className={`flex flex-col w-[50%]`}>
           <h3 className="text-[3vw] font-bold">{name}</h3>
-          <div className="flex flex-col">
+          <div className="flex flex-col ">
             <span
               className={`size-[20px] rounded-full ${pagesStyles[status.toLowerCase() ?? 'unknown']}`}
             ></span>
@@ -49,7 +52,11 @@ export function Details() {
         results !== null &&
         DescriptionItem('Episodes:', showEpisodesNames(results.data), 'text-lg')
       )}
-      <MyButton text="Close" />
+      <MyButton
+        text="Close"
+        onClick={context?.closeDetails}
+        style={'font-bold'}
+      />
     </div>
   );
 }

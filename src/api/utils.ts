@@ -1,9 +1,14 @@
 import { useCallback, useState } from 'react';
-import { getCharacters, getEpisode } from 'rickmortyapi';
+import {
+  getCharacter,
+  getCharacters,
+  getEpisode,
+  type Character,
+} from 'rickmortyapi';
 import { SUCCESS, NOT_FOUND_MSG } from '../constants';
 import type {
   CharacterEpisode,
-  RequestCharacterState,
+  searchCharacterState,
   RequestEpisodeState,
 } from '../types';
 
@@ -17,51 +22,65 @@ export const setSearchQuery = (text: string): void => {
 };
 
 export function useRequestCharacter() {
-  const [state, setState] = useState<RequestCharacterState>({
+  const [state, setState] = useState<searchCharacterState>({
     results: null,
     isLoading: false,
     error: null,
   });
 
-  const requestCharacter = useCallback(async (query: string): Promise<void> => {
-    setState((prevState: RequestCharacterState) => ({
+  const getCharacterDetails = async (
+    id: number
+  ): Promise<Character | undefined> => {
+    // if (state.results?.data.results) {
+    //   const characters = state.results?.data.results;
+    //   if (characters.length > 0) {
+    //     return characters.filter((c) => c.id === id).pop();
+    //   }
+    // }
+    // return;
+    const result = await getCharacter(id);
+    return result.data;
+  };
+
+  const searchCharacter = useCallback(async (query: string): Promise<void> => {
+    setState((prevState) => ({
       ...prevState,
       error: '',
     }));
     const searchQuery = query.trim();
     try {
-      setState((prevState: RequestCharacterState) => ({
+      setState((prevState) => ({
         ...prevState,
         isLoading: true,
       }));
       const characters = await getCharacters({ name: searchQuery });
       if (characters.status !== SUCCESS) {
-        setState((prevState: RequestCharacterState) => ({
+        setState((prevState) => ({
           ...prevState,
           error: NOT_FOUND_MSG,
         }));
         return;
       }
-      setState((prevState: RequestCharacterState) => ({
+      setState((prevState) => ({
         ...prevState,
         results: characters,
         error: null,
       }));
     } catch (error) {
       if (error instanceof Error)
-        setState((prevState: RequestCharacterState) => ({
+        setState((prevState) => ({
           ...prevState,
           error: error.message,
           isLoading: false,
         }));
     } finally {
-      setState((prevState: RequestCharacterState) => ({
+      setState((prevState) => ({
         ...prevState,
         isLoading: false,
       }));
     }
   }, []);
-  return { ...state, requestCharacter };
+  return { ...state, searchCharacter, getCharacterDetails };
 }
 
 export function useRequestEpisode() {

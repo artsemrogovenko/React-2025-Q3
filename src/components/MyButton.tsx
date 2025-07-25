@@ -5,7 +5,7 @@ export const MyButton = (props: MyButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="mt-4 px-4 py-2 rounded"
+      className={`mt-4 px-4 py-2 rounded ${props.style}`}
       disabled={isDisabled}
     >
       {text}
