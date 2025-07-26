@@ -15,7 +15,7 @@ import type { CharacterEpisode } from '../types';
 
 export function Details({ character }: { character: Character }) {
   const context = useContext(AppContext);
-  const { updateParam } = useUpdateLocation();
+  const { updateParam, removeParam } = useUpdateLocation();
 
   const { isLoading, requestData, results } = useRequest<
     CharacterEpisode | CharacterEpisode[]
@@ -30,6 +30,10 @@ export function Details({ character }: { character: Character }) {
     if (id) updateParam('details', id.toString());
   }, [requestData, episode, character, id]);
 
+  const handleClick = () => {
+    context?.closeDetails();
+    removeParam('details');
+  };
   return (
     <div className="flex flex-col  w-full">
       <div
@@ -64,11 +68,7 @@ export function Details({ character }: { character: Character }) {
           )
         )}
       </div>
-      <MyButton
-        text="Close"
-        onClick={context?.closeDetails}
-        style={'font-bold'}
-      />
+      <MyButton text="Close" onClick={handleClick} style={'font-bold'} />
     </div>
   );
 }

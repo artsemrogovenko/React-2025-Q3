@@ -18,12 +18,13 @@ export function DetailsHandler({
         <MySpinner />
       </DetailsBlock>
     );
-  if (Object.keys(character).length === 0)
+  if (Object.keys(character).length === 0) {
     return (
       <DetailsBlock>
         <NotFound reason={NOT_FOUND_DETAIL} />
       </DetailsBlock>
     );
+  }
   return (
     <DetailsBlock>
       <Details character={character} />

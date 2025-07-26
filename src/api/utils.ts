@@ -38,7 +38,6 @@ export function useRequest<T>() {
           isLoading: true,
         }));
         const data = await arg();
-        console.log(data);
         if (data.status !== SUCCESS) {
           setState((prevState) => ({
             ...prevState,
@@ -98,15 +97,16 @@ export function showEpisodesNames(
 
 export function calculatePages(info: InfoCharacter): CalculatedPages {
   const pages: CalculatedPages = { pageNext: null, pagePrev: null };
-  console.log(info);
   if (info) {
     const { next, prev } = info;
 
     if (next !== null) {
-      pages.pageNext = Number(next[next.length - 1]);
+      const indexSlash = next.lastIndexOf('=');
+      pages.pageNext = Number(next.slice(indexSlash + 1));
     }
     if (prev !== null) {
-      pages.pagePrev = Number(prev[prev.length - 1]);
+      const indexSlash = prev.lastIndexOf('=');
+      pages.pagePrev = Number(prev.slice(indexSlash + 1));
     }
   }
   return pages;
@@ -122,10 +122,17 @@ export function useUpdateLocation() {
     copyParams.set(param, value);
     setSearchParams(copyParams);
   }, []);
+
+  const removeParam = useCallback((param: string) => {
+    const copyParams = new URLSearchParams(searchParams);
+    copyParams.delete(param);
+    setSearchParams(copyParams);
+  }, []);
+
   if (page !== searchParams.get('page')) page = searchParams.get('page');
 
   if (details !== searchParams.get('details'))
     details = searchParams.get('details');
 
-  return { searchParams, updateParam, page, details };
+  return { searchParams, updateParam, page, details, removeParam };
 }

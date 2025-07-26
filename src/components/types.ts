@@ -30,3 +30,7 @@ export type PaginationProps = {
   isDisabled?: boolean;
   isVisible: boolean;
 };
+
+export type ToHomepageProps = {
+  className?: string;
+};

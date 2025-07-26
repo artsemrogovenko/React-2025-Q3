@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { getPrevQuery, setSearchQuery } from '../api/utils';
 import { SubmitButton } from './SubmitButton';
 import { ClearButton } from './ClearButton';
 import type { ControlsProps } from './types';
-import { FLEX_STYLE_ROUNDED, MAX_SEARCH_LENGTH } from '../constants';
+import {
+  AppContext,
+  FLEX_STYLE_ROUNDED,
+  MAX_SEARCH_LENGTH,
+} from '../constants';
 
 export function Controls(props: ControlsProps) {
   const [query, setQuery] = useState(getPrevQuery());
+  const context = useContext(AppContext);
 
   const handleSearch = async (
     e: React.FormEvent<HTMLFormElement>
@@ -23,6 +28,7 @@ export function Controls(props: ControlsProps) {
   const resetInput = () => {
     setQuery('');
     setSearchQuery('');
+    context?.resetUrl();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

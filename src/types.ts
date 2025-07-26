@@ -32,6 +32,9 @@ export type AppContextType = {
   updateCharacter: (value: Character | undefined) => void;
   closeDetails: () => void;
   updatePages: (value: CalculatedPages) => void;
+  resetUrl: () => void;
+  query: string;
+  updateQuery: (value: string) => void;
 };
 
 export type InfoCharacter =

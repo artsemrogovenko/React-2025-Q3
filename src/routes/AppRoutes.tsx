@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router';
 import { NotFound } from '../pages/NotFound';
 import App from '../App';
+import { About } from '../pages/About';
 
 export function AppRoutes() {
   return (
@@ -8,6 +9,7 @@ export function AppRoutes() {
       <Route path="/" element={<App />} />
       <Route index element={<App />} />
 
+      <Route path="about" element={<About />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

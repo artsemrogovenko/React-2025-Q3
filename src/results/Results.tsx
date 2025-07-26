@@ -2,6 +2,7 @@ import { CharacterCard } from '../components/CharacterCard';
 import { MySpinner } from '../components/Loader';
 import type { ResultsProps } from './types';
 import { ResultsContainer } from './ResultsContainer';
+import { NotFound } from '../pages/NotFound';
 
 export function Results(props: ResultsProps) {
   const { data, loading, error } = props;
@@ -9,7 +10,7 @@ export function Results(props: ResultsProps) {
   if (error)
     return (
       <ResultsContainer>
-        <p className="text-red-500">{error}</p>
+        <NotFound reason={error} />
       </ResultsContainer>
     );
   if (loading)
