@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 import App from '../App';
 import { getPrevQuery, useRequest } from '../api/utils';
 import {
-  getCharacters,
   type ApiResponse,
   type Character,
+  getCharacters,
   type Info,
 } from 'rickmortyapi';
 import { vi } from 'vitest';

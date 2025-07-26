@@ -3,7 +3,7 @@ import { getPrevQuery, setSearchQuery } from '../api/utils';
 import { SubmitButton } from './SubmitButton';
 import { ClearButton } from './ClearButton';
 import type { ControlsProps } from './types';
-import { MAX_SEARCH_LENGTH, FLEX_STYLE_ROUNDED } from '../constants';
+import { FLEX_STYLE_ROUNDED, MAX_SEARCH_LENGTH } from '../constants';
 
 export function Controls(props: ControlsProps) {
   const [query, setQuery] = useState(getPrevQuery());

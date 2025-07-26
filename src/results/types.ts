@@ -1,4 +1,4 @@
-import type { Info, Character } from 'rickmortyapi';
+import type { Character, Info } from 'rickmortyapi';
 
 export type ResultsProps = {
   data: Info<Character[]> | null;

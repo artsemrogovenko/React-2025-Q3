@@ -1,7 +1,13 @@
 import { useCallback, useState } from 'react';
-import { getCharacter, type ApiResponse, type Character } from 'rickmortyapi';
-import { SUCCESS, NOT_FOUND_MSG } from '../constants';
-import type { CharacterEpisode, RequestState } from '../types';
+import { type ApiResponse, type Character, getCharacter } from 'rickmortyapi';
+import { NOT_FOUND_MSG, SUCCESS } from '../constants';
+import type {
+  CalculatedPages,
+  CharacterEpisode,
+  InfoCharacter,
+  RequestState,
+} from '../types';
+import { useSearchParams } from 'react-router';
 
 export const getPrevQuery = (): string => {
   const stored = localStorage.getItem('previous');
@@ -32,7 +38,7 @@ export function useRequest<T>() {
           isLoading: true,
         }));
         const data = await arg();
-
+        console.log(data);
         if (data.status !== SUCCESS) {
           setState((prevState) => ({
             ...prevState,
@@ -88,4 +94,38 @@ export function showEpisodesNames(
       .join(', ');
   }
   return data.name;
+}
+
+export function calculatePages(info: InfoCharacter): CalculatedPages {
+  const pages: CalculatedPages = { pageNext: null, pagePrev: null };
+  console.log(info);
+  if (info) {
+    const { next, prev } = info;
+
+    if (next !== null) {
+      pages.pageNext = Number(next[next.length - 1]);
+    }
+    if (prev !== null) {
+      pages.pagePrev = Number(prev[prev.length - 1]);
+    }
+  }
+  return pages;
+}
+
+export function useUpdateLocation() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  let page: string | null = null;
+  let details: string | null = null;
+
+  const updateParam = useCallback((param: string, value: string) => {
+    const copyParams = new URLSearchParams(searchParams);
+    copyParams.set(param, value);
+    setSearchParams(copyParams);
+  }, []);
+  if (page !== searchParams.get('page')) page = searchParams.get('page');
+
+  if (details !== searchParams.get('details'))
+    details = searchParams.get('details');
+
+  return { searchParams, updateParam, page, details };
 }

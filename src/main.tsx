@@ -1,17 +1,20 @@
 import { StrictMode } from 'react';
-import { createRoot, type Container } from 'react-dom/client';
+import { type Container, createRoot } from 'react-dom/client';
 import './index.css';
-import App from './App.tsx';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 import { AppProvider } from './AppContext.tsx';
+import { BrowserRouter } from 'react-router';
+import { AppRoutes } from './routes/AppRoutes.tsx';
 
 const rootElement = document.getElementById('root') as Container;
 createRoot(rootElement).render(
   <StrictMode>
     <ErrorBoundary>
-      <AppProvider>
-        <App />
-      </AppProvider>
+      <BrowserRouter>
+        <AppProvider>
+          <AppRoutes />
+        </AppProvider>
+      </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>
 );

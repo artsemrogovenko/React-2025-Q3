@@ -1,26 +1,54 @@
 import './App.css';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Controls } from './controls/Controls';
 import { Results } from './results/Results';
 import { AppContext, FLEX_STYLE_ROUNDED } from './constants';
 import { AppTitle } from './components/AppTitle';
-import { getPrevQuery, useRequest } from './api/utils';
-import { Details } from './pages/Details';
+import {
+  calculatePages,
+  getCharacterDetails,
+  getPrevQuery,
+  useRequest,
+  useUpdateLocation,
+} from './api/utils';
 import { Pagination } from './components/Pagination';
-import { type Info, type Character, getCharacters } from 'rickmortyapi';
+import { type Character, getCharacters, type Info } from 'rickmortyapi';
+import { DetailsHandler } from './pages/DetailsHandler.tsx';
 
 function App() {
   const { results, isLoading, error, requestData } =
     useRequest<Info<Character[]>>();
   const context = useContext(AppContext);
-
-  useEffect(() => {
-    requestData(() => getCharacters({ name: getPrevQuery() }));
-  }, [requestData]);
+  const [fetchDetails, setFetchDetails] = useState<boolean>(false);
+  const { updateParam, page, details } = useUpdateLocation();
 
   const handleSubmit = async (query: string): Promise<void> => {
-    await requestData(() => getCharacters({ name: query }));
+    const res = await requestData(() =>
+      getCharacters({ name: query, page: Number(page ?? 1) })
+    );
+    const info = results?.data.info;
+    console.log(res);
+    context?.updatePages(calculatePages(info));
   };
+
+  const handleDetails = async (): Promise<void> => {
+    try {
+      setFetchDetails(true);
+      const detail = await getCharacterDetails(Number(details));
+      context?.updateCharacter(detail);
+      if (details) updateParam('details', details);
+    } finally {
+      setFetchDetails(false);
+    }
+  };
+
+  useEffect(() => {
+    handleSubmit(getPrevQuery());
+  }, []);
+
+  useEffect(() => {
+    if (details) handleDetails();
+  }, [details]);
 
   const visiblePagination =
     results !== null && Boolean(results.data.results?.length);
@@ -39,7 +67,9 @@ function App() {
           error={error}
           loading={isLoading}
         />
-        {characterView !== null && <Details character={characterView} />}
+        {characterView !== null && (
+          <DetailsHandler character={characterView} isLoading={fetchDetails} />
+        )}
       </div>
       <Pagination isVisible={visiblePagination} />
     </div>

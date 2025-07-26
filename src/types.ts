@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ApiResponse, Info, Character, Episode } from 'rickmortyapi';
+import type { ApiResponse, Character, Episode, Info } from 'rickmortyapi';
 
 export type RequestState<T> = {
   results: T | null;
@@ -23,10 +23,32 @@ export type RequestEpisodeState = RequestState<
 export type AppProviderProps = {
   children: ReactNode;
 };
+
 export type AppContextType = {
-  page: number;
+  currentPage: number;
   character: Character | undefined;
-  updatePage: (value: number) => void;
+  pages: CalculatedPages;
+  updateCurrentPage: (value: number) => void;
   updateCharacter: (value: Character | undefined) => void;
   closeDetails: () => void;
+  updatePages: (value: CalculatedPages) => void;
+};
+
+export type InfoCharacter =
+  | {
+      count: number;
+      pages: number;
+      next: string | null;
+      prev: string | null;
+    }
+  | undefined;
+
+export type CalculatedPages = {
+  pageNext: number | null;
+  pagePrev: number | null;
+};
+
+export type SearchObj = {
+  page: string | undefined;
+  description: string | undefined;
 };
