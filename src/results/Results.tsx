@@ -10,7 +10,7 @@ export function Results(props: ResultsProps) {
   if (error)
     return (
       <ResultsContainer>
-        <NotFound reason={error} />
+        <NotFound reason={error} hideButton={true} />
       </ResultsContainer>
     );
   if (loading)

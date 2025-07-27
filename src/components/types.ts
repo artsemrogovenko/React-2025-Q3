@@ -33,4 +33,5 @@ export type PaginationProps = {
 
 export type ToHomepageProps = {
   className?: string;
+  text?: string;
 };

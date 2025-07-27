@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { getPrevQuery, setSearchQuery } from '../api/utils';
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocalStorage } from '../api/utils';
 import { SubmitButton } from './SubmitButton';
 import { ClearButton } from './ClearButton';
 import type { ControlsProps } from './types';
@@ -10,14 +10,16 @@ import {
 } from '../constants';
 
 export function Controls(props: ControlsProps) {
-  const [query, setQuery] = useState(getPrevQuery());
-  const context = useContext(AppContext);
+  const { prevSearch } = useLocalStorage();
+  const [query, setQuery] = useState(prevSearch);
 
   const handleSearch = async (
-    e: React.FormEvent<HTMLFormElement>
+    event?: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
-    e.preventDefault();
-    setSearchQuery(query);
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     return props.onSubmit(query);
   };
 
@@ -25,15 +27,19 @@ export function Controls(props: ControlsProps) {
     setQuery(e.target.value);
   };
 
-  const resetInput = () => {
+  const resetInput = (
+    e?:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e?.stopPropagation();
     setQuery('');
-    setSearchQuery('');
-    context?.resetUrl();
+    props.onSubmit('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      resetInput();
+      resetInput(e);
     }
   };
 

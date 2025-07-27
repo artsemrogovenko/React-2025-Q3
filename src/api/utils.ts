@@ -9,14 +9,34 @@ import type {
 } from '../types';
 import { useSearchParams } from 'react-router';
 
-export const getPrevQuery = (): string => {
-  const stored = localStorage.getItem('previous');
-  return stored ?? '';
-};
+export function useLocalStorage() {
+  const [prevSearch, setPrevSearch] = useState<string>(
+    () => localStorage.getItem('prevSearch') ?? ''
+  );
+  const [prevPage, setPrevPage] = useState<string>(
+    () => localStorage.getItem('prevPage') ?? ''
+  );
 
-export const setSearchQuery = (text: string): void => {
-  localStorage.setItem('previous', text.trim());
-};
+  const updatePrevSearch = useCallback((text: string) => {
+    const value = text.trim();
+    setPrevSearch(() => {
+      localStorage.setItem('prevSearch', value);
+      return value;
+    });
+  }, []);
+  const updatePrevPage = useCallback((page: string | number) => {
+    let value: string = '';
+    if (typeof page === 'number') {
+      value = !isNaN(page) ? page.toString() : '';
+    } else value = page;
+
+    setPrevPage(() => {
+      localStorage.setItem('prevPage', value);
+      return value;
+    });
+  }, []);
+  return { prevSearch, prevPage, updatePrevPage, updatePrevSearch };
+}
 
 export function useRequest<T>() {
   const [state, setState] = useState<RequestState<ApiResponse<T>>>({
