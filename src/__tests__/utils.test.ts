@@ -2,6 +2,7 @@ import { assert, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   calculatePages,
   ejectEpisodesIds,
+  getCharacterDetails,
   showEpisodesNames,
   useLocalStorage,
 } from '../api/utils';
@@ -13,6 +14,16 @@ import {
   secondPageResponse,
 } from './__mock__/charatersData';
 import { episodesResponse } from './__mock__/episodeData';
+import { type ApiResponse, type Character, getCharacter } from 'rickmortyapi';
+import { SUCCESS } from '../constants';
+
+vi.mock('rickmortyapi');
+const character = charactersResponse.results?.[0] as Character;
+const mockCharacter: ApiResponse<Character> = {
+  status: SUCCESS,
+  data: character,
+  statusMessage: '',
+};
 
 describe('localStorage utils', () => {
   beforeEach(() => {
@@ -136,4 +147,11 @@ describe('pagination utils', () => {
     expect(firstPageObj.pagePrev).toBe(null);
     expect(firstPageObj.pageNext).toBe(null);
   });
+});
+
+test('get character by id', async () => {
+  vi.mocked(getCharacter).mockResolvedValue(mockCharacter);
+  const result = await getCharacterDetails(1);
+  expect(result).toEqual(mockCharacter.data);
+  expect(getCharacter).toHaveBeenCalledWith(1);
 });

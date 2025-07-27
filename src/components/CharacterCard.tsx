@@ -1,19 +1,22 @@
 import { useContext } from 'react';
 import type { CharacterCardProps } from './types';
 import { AppContext } from '../constants';
-import { getCharacterDetails } from '../api/utils';
+import { getCharacterDetails, stopEvent } from '../api/utils';
 
 export function CharacterCard(props: CharacterCardProps) {
   const { image, name, species, id } = props.character;
   const context = useContext(AppContext);
 
-  const getDetails = async () => {
+  const getDetails = async (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    stopEvent(e);
     context?.updateCharacter(await getCharacterDetails(id));
   };
 
   return (
     <div
-      onClick={getDetails}
+      onClick={(e) => getDetails(e)}
       data-testid="character-card"
       className="w-[230px] h-[310px] bg-white p-4 rounded-lg shadow-md hover:cursor-pointer hover:bg-amber-200"
     >

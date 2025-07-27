@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { type SyntheticEvent, useCallback, useState } from 'react';
 import { type ApiResponse, type Character, getCharacter } from 'rickmortyapi';
 import { NOT_FOUND_MSG, SUCCESS } from '../constants';
 import type {
@@ -157,4 +157,10 @@ export function useUpdateLocation() {
     details = searchParams.get('details');
 
   return { searchParams, updateParam, page, details, removeParam };
+}
+
+export function stopEvent<T extends Event | SyntheticEvent>(event: T): T {
+  event.preventDefault();
+  event.stopPropagation();
+  return event;
 }

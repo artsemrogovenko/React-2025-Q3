@@ -2,19 +2,10 @@ import { render, screen } from '@testing-library/react';
 import { Results } from '../results/Results';
 import '@testing-library/jest-dom';
 import { charactersResponse } from './__mock__/charatersData';
-import { ErrorBoundary } from '../components/ErrorBoundary';
-import type { ReactNode } from 'react';
-import { BrowserRouter } from 'react-router';
-import { AppProvider } from '../AppContext';
 import { NOT_FOUND_MSG } from '../constants';
-
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <ErrorBoundary>
-    <BrowserRouter>
-      <AppProvider>{children}</AppProvider>
-    </BrowserRouter>
-  </ErrorBoundary>
-);
+import { afterEach, vi } from 'vitest';
+import * as utils from '../api/utils';
+import { Wrapper } from './__mock__/wrapper';
 
 test('Show the message error', () => {
   render(
@@ -53,12 +44,36 @@ test('Display the right number of cards', () => {
   expect(characters).toHaveLength(countCards);
 });
 
-test('Display error message', () => {
-  render(
-    <Wrapper>
-      <Results data={null} loading={false} error={NOT_FOUND_MSG} />
-    </Wrapper>
-  );
-  const message = screen.getByText(NOT_FOUND_MSG);
-  expect(message).toBeVisible();
+describe('useUpdateLocation', () => {
+  beforeEach(() => {
+    vi.spyOn(utils, 'useUpdateLocation').mockReturnValue({
+      searchParams: new URLSearchParams(),
+      updateParam: vi.fn(),
+      page: '',
+      details: null,
+      removeParam: vi.fn(),
+    });
+  });
+  afterEach(() => vi.clearAllMocks());
+  test('Display error message and to home page button', () => {
+    render(
+      <Wrapper>
+        <Results data={null} loading={false} error={NOT_FOUND_MSG} />
+      </Wrapper>
+    );
+    const message = screen.getByText(NOT_FOUND_MSG);
+    expect(message).toBeVisible();
+  });
+
+  test('Display error message', () => {
+    render(
+      <Wrapper>
+        <Results data={null} loading={false} error={NOT_FOUND_MSG} />
+      </Wrapper>
+    );
+    const message = screen.getByText(NOT_FOUND_MSG);
+    const button = screen.getByTestId('go-homepage');
+    expect(button).toBeVisible();
+    expect(message).toBeVisible();
+  });
 });
