@@ -12,7 +12,7 @@ export function About() {
         <span className="text-2xl">Artsem Rogovenko</span>
       </div>
       <a
-        href="https://rs.school/"
+        href="https://rs.school/courses/reactjs"
         target="_blank"
         className="flex flex-col stre rounded-full size-[200px] bg-amber-200  text-3xl  "
         rel="noreferrer"

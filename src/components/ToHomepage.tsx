@@ -4,7 +4,6 @@ import type { ToHomepageProps } from './types';
 
 export const ToHomepage = (props: ToHomepageProps) => {
   const navigate = useNavigate();
-  // const context = useContext(AppContext);
 
   const handleClick = () => {
     navigate(APP_ROUTES.home, { replace: false });

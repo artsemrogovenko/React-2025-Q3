@@ -57,6 +57,7 @@ export function Controls(props: ControlsProps) {
           value={query}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
+          onClick={(e) => e.stopPropagation()}
         />
         {query && <ClearButton reset={resetInput} />}
       </div>

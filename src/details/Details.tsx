@@ -59,7 +59,7 @@ export function Details({ character }: { character: Character }) {
           DescriptionItem(
             'Episodes:',
             showEpisodesNames(results.data),
-            'text-lg'
+            'text-lg border-1 inline-block max-h-[30dvh] overflow-y-auto border-amber-300 p-1'
           )
         )}
       </div>

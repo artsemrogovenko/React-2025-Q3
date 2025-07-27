@@ -7,7 +7,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<App />} />
-      <Route index element={<App />} />
+      <Route index element={<App />} action />
 
       <Route path="about" element={<About />} />
       <Route path="*" element={<NotFound />} />
