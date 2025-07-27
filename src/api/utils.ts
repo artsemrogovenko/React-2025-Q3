@@ -86,6 +86,7 @@ export function useRequest<T>() {
     },
     []
   );
+
   return { ...state, requestData };
 }
 
@@ -137,11 +138,11 @@ export function useUpdateLocation() {
   let page: string | null = null;
   let details: string | null = null;
 
-  const updateParam = useCallback((param: string, value: string) => {
+  const updateParam = (param: string, value: string) => {
     const copyParams = new URLSearchParams(searchParams);
     copyParams.set(param, value);
     setSearchParams(copyParams);
-  }, []);
+  };
 
   const removeParam = useCallback((param: string) => {
     const copyParams = new URLSearchParams(searchParams);

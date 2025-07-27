@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
+
 import { useLocalStorage } from '../api/utils';
-import { SubmitButton } from './SubmitButton';
 import { ClearButton } from './ClearButton';
+import { SubmitButton } from './SubmitButton';
+
 import type { ControlsProps } from './types';
-import {
-  AppContext,
-  FLEX_STYLE_ROUNDED,
-  MAX_SEARCH_LENGTH,
-} from '../constants';
+import { FLEX_STYLE_ROUNDED, MAX_SEARCH_LENGTH } from '../constants';
 
 export function Controls(props: ControlsProps) {
   const { prevSearch } = useLocalStorage();

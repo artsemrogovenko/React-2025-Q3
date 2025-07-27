@@ -13,7 +13,7 @@ import {
 } from './api/utils';
 import { Pagination } from './components/Pagination';
 import { type Character, getCharacters, type Info } from 'rickmortyapi';
-import { DetailsHandler } from './pages/DetailsHandler.tsx';
+import { DetailsHandler } from './details/DetailsHandler.tsx';
 
 function App() {
   const { results, isLoading, error, requestData } =
@@ -25,7 +25,6 @@ function App() {
 
   const handleSubmit = async (query?: string): Promise<void> => {
     const searchObj = {};
-
     if (query !== undefined) {
       console.log(query);
       updatePrevSearch(query);
@@ -44,10 +43,7 @@ function App() {
         value: Number(page),
         enumerable: true,
       });
-    // const wishName = prevSearch ?? query ?? '';
-    // const wishPage = Number(page ?? 1);
     await requestData(() => getCharacters(searchObj));
-    // await requestData(() => getCharacters({ name: wishName, page: wishPage }));
   };
 
   const handleDetails = async (): Promise<void> => {
@@ -55,7 +51,6 @@ function App() {
       setFetchDetails(true);
       const detail = await getCharacterDetails(Number(details));
       context?.updateCharacter(detail);
-      if (details) updateParam('details', details);
     } finally {
       setFetchDetails(false);
     }
@@ -66,7 +61,10 @@ function App() {
   }, [page]);
 
   useEffect(() => {
-    if (details) handleDetails();
+    if (details) {
+      updateParam('details', details);
+      handleDetails();
+    }
   }, [details]);
 
   useEffect(() => {

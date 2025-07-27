@@ -15,7 +15,7 @@ export function CharacterCard(props: CharacterCardProps) {
     <div
       onClick={getDetails}
       data-testid="character-card"
-      className="bg-white p-4 rounded-lg shadow-md hover:cursor-pointer hover:bg-amber-200"
+      className="w-[230px] h-[310px] bg-white p-4 rounded-lg shadow-md hover:cursor-pointer hover:bg-amber-200"
     >
       <img
         src={image}
