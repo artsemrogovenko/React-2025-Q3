@@ -1,12 +1,12 @@
 import type { Character } from 'rickmortyapi';
-import type { MouseEvent } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 
 export type CharacterCardProps = {
   character: Character;
 };
 
 export type ErrorProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export type ErrorState = {

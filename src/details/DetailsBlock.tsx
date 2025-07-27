@@ -1,5 +1,5 @@
 import { FLEX_STYLE_ROUNDED } from '../constants.ts';
-import type { DetailsBlockType } from './types.ts';
+import type { DetailsBlockType } from '../pages/types.ts';
 
 export function DetailsBlock({ children }: DetailsBlockType) {
   return (

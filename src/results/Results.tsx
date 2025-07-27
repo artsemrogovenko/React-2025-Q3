@@ -3,16 +3,24 @@ import { MySpinner } from '../components/Loader';
 import type { ResultsProps } from './types';
 import { ResultsContainer } from './ResultsContainer';
 import { NotFound } from '../pages/NotFound';
+import { useUpdateLocation } from '../api/utils.ts';
+import { useContext } from 'react';
+import { AppContext } from '../constants.ts';
 
 export function Results(props: ResultsProps) {
+  const context = useContext(AppContext);
   const { data, loading, error } = props;
   const founded = Array.isArray(data?.results) && data?.results.length > 0;
-  if (error)
+  const { page } = useUpdateLocation();
+  const rightside = context?.character;
+  if (error) {
+    const hide = page !== null && page.length > 0;
     return (
       <ResultsContainer>
-        <NotFound reason={error} hideButton={true} />
+        <NotFound reason={error} hideButton={hide} />
       </ResultsContainer>
     );
+  }
   if (loading)
     return (
       <ResultsContainer>
@@ -21,7 +29,7 @@ export function Results(props: ResultsProps) {
     );
   if (founded)
     return (
-      <ResultsContainer>
+      <ResultsContainer style={rightside ? 'w-[340px] flex-col' : ''}>
         {founded &&
           data.results?.map((character) => (
             <CharacterCard key={character.id} character={character} />

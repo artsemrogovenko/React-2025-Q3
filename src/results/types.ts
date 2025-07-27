@@ -7,4 +7,5 @@ export type ResultsProps = {
 };
 export type CardsContainerProps = {
   children: React.ReactNode;
+  style?: string;
 };

@@ -20,8 +20,7 @@ test('Show animation when loading', () => {
 });
 
 test('Display the right number of cards', () => {
-  const response = charactersResponse;
-  const countCards = Number(response.results?.length);
+  const countCards = Number(charactersResponse.results?.length);
 
   render(<Results data={charactersResponse} loading={false} error={null} />);
   const characters = screen.getAllByTestId('character-card');

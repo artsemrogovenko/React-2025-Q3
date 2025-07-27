@@ -1,7 +1,8 @@
-import { FLEX_STYLE_ROUNDED } from '../constants';
 import type { CardsContainerProps } from './types';
+import { FLEX_STYLE_ROUNDED } from '../constants.ts';
 
-export function ResultsContainer({ children }: CardsContainerProps) {
+export function ResultsContainer(props: CardsContainerProps) {
+  const { children } = props;
   return (
     <div
       data-testid="search-results"

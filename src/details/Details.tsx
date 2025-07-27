@@ -1,21 +1,20 @@
 import { type Character, getEpisode } from 'rickmortyapi';
-import pagesStyles from './Pages.module.scss';
-import { DescriptionItem } from './DescriptionItem';
+import pagesStyles from '../pages/Pages.module.scss';
+import { DescriptionItem } from './DescriptionItem.tsx';
 import {
   ejectEpisodesIds,
   showEpisodesNames,
   useRequest,
   useUpdateLocation,
-} from '../api/utils';
-import { useContext, useEffect } from 'react';
-import { MySpinner } from '../components/Loader';
-import { AppContext, FLEX_STYLE_ROUNDED } from '../constants';
-import { MyButton } from '../components/MyButton';
-import type { CharacterEpisode } from '../types';
+} from '../api/utils.ts';
+import { useEffect } from 'react';
+import { MySpinner } from '../components/Loader.tsx';
+import { FLEX_STYLE_ROUNDED } from '../constants.ts';
+import type { CharacterEpisode } from '../types.ts';
+import { CloseDetail } from '../components/CloseDetail.tsx';
 
 export function Details({ character }: { character: Character }) {
-  const context = useContext(AppContext);
-  const { updateParam, removeParam } = useUpdateLocation();
+  const { updateParam } = useUpdateLocation();
 
   const { isLoading, requestData, results } = useRequest<
     CharacterEpisode | CharacterEpisode[]
@@ -30,10 +29,6 @@ export function Details({ character }: { character: Character }) {
     if (id) updateParam('details', id.toString());
   }, [requestData, episode, character, id]);
 
-  const handleClick = () => {
-    context?.closeDetails();
-    removeParam('details');
-  };
   return (
     <div className="flex flex-col  w-full">
       <div
@@ -68,7 +63,7 @@ export function Details({ character }: { character: Character }) {
           )
         )}
       </div>
-      <MyButton text="Close" onClick={handleClick} style={'font-bold'} />
+      <CloseDetail />
     </div>
   );
 }

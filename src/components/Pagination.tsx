@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { MyButton } from './MyButton';
 import type { PaginationProps } from './types';
 import { AppContext } from '../constants';
@@ -18,9 +18,12 @@ export function Pagination(props: PaginationProps) {
   const isDisabledPrev = pagePrev === null;
   const isDisabledNext = pagePrev === pageNext || pageNext === null;
 
-  const handleStep = (event: React.MouseEvent, action: 'Prev' | 'Next') => {
+  const handleStep = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    action: 'Prev' | 'Next'
+  ) => {
     event.preventDefault();
-    console.log(context?.pages);
+    event.stopPropagation();
     switch (action) {
       case 'Next':
         if (pageNext !== null) {

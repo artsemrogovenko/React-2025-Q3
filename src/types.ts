@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ApiResponse, Character, Episode, Info } from 'rickmortyapi';
+import type { Character, Episode } from 'rickmortyapi';
 
 export type RequestState<T> = {
   results: T | null;
@@ -13,12 +13,6 @@ export type CharacterEpisode = Episode & {
   url: string;
   created: string;
 };
-
-export type searchCharacterState = RequestState<ApiResponse<Info<Character[]>>>;
-
-export type RequestEpisodeState = RequestState<
-  ApiResponse<CharacterEpisode | CharacterEpisode[]>
->;
 
 export type AppProviderProps = {
   children: ReactNode;

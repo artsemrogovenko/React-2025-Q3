@@ -1,9 +1,10 @@
-import { NotFound } from './NotFound.tsx';
+import { NotFound } from '../pages/NotFound.tsx';
 import { NOT_FOUND_DETAIL } from '../constants.ts';
 import type { Character } from 'rickmortyapi';
 import { Details } from './Details.tsx';
 import { DetailsBlock } from './DetailsBlock.tsx';
 import { MySpinner } from '../components/Loader.tsx';
+import { CloseDetail } from '../components/CloseDetail.tsx';
 
 export function DetailsHandler({
   character,
@@ -21,7 +22,8 @@ export function DetailsHandler({
   if (Object.keys(character).length === 0) {
     return (
       <DetailsBlock>
-        <NotFound reason={NOT_FOUND_DETAIL} />
+        <NotFound reason={NOT_FOUND_DETAIL} hideButton={true} />
+        <CloseDetail />
       </DetailsBlock>
     );
   }
