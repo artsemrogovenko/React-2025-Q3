@@ -1,5 +1,23 @@
 import type { Character, Info } from 'rickmortyapi';
 
+export const secondPageResponse: Info<Character[]> = {
+  info: {
+    count: 826,
+    pages: 42,
+    next: 'https://rickandmortyapi.com/api/character/?page=3',
+    prev: 'https://rickandmortyapi.com/api/character/?page=1',
+  },
+};
+
+export const lastPageResponse: Info<Character[]> = {
+  info: {
+    count: 826,
+    pages: 42,
+    next: null,
+    prev: 'https://rickandmortyapi.com/api/character/?page=41',
+  },
+};
+
 export const charactersResponse: Info<Character[]> = {
   info: {
     count: 826,

@@ -98,9 +98,10 @@ export const getCharacterDetails = async (
 };
 
 export function ejectEpisodesIds(data: string[]): number[] {
-  return [...data].map((episodeUrl) =>
-    Number(episodeUrl.charAt(episodeUrl.length - 1))
-  );
+  return [...data].map((episodeUrl) => {
+    const indexSlash = episodeUrl.lastIndexOf('/');
+    return Number(episodeUrl.slice(indexSlash + 1));
+  });
 }
 
 export function showEpisodesNames(
