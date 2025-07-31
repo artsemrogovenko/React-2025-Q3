@@ -5,14 +5,15 @@ import type {
   CalculatedPages,
 } from './types';
 import type { Character } from 'rickmortyapi';
-import { APP_ROUTES, AppContext } from './constants';
+import { APP_ROUTES, AppContext, DEFAULT_PAGE } from './constants';
 import { useNavigate } from 'react-router';
 
 export function AppProvider(props: AppProviderProps) {
   const navigate = useNavigate();
 
+  const [isVisibleDetails, setIsVisibleDetails] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(DEFAULT_PAGE);
   const [character, setCharacter] = useState<Character | undefined>(undefined);
   const [pages, setPages] = useState<CalculatedPages>({
     pageNext: null,
@@ -21,11 +22,13 @@ export function AppProvider(props: AppProviderProps) {
 
   const closeDetails = useCallback(() => {
     setCharacter(undefined);
+    setIsVisibleDetails(false);
   }, []);
   const updateCurrentPage = useCallback((value: number) => {
     setCurrentPage(value);
   }, []);
   const updateCharacter = useCallback((value: Character | undefined) => {
+    setIsVisibleDetails(true);
     setCharacter(value);
   }, []);
   const updatePages = useCallback((value: CalculatedPages) => {
@@ -48,6 +51,7 @@ export function AppProvider(props: AppProviderProps) {
     resetUrl,
     query,
     updateQuery,
+    isVisibleDetails,
   };
   return (
     <AppContext.Provider value={values}>{props.children}</AppContext.Provider>

@@ -1,8 +1,8 @@
 import './App.css';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Controls } from './controls/Controls';
 import { Results } from './results/Results';
-import { AppContext, FLEX_STYLE_ROUNDED } from './constants';
+import { AppContext, DEFAULT_PAGE, FLEX_STYLE_ROUNDED } from './constants';
 import { Header } from './components/Header.tsx';
 import {
   calculatePages,
@@ -19,41 +19,23 @@ function App() {
   const { results, isLoading, error, requestData } =
     useRequest<Info<Character[]>>();
   const context = useContext(AppContext);
-  const [fetchDetails, setFetchDetails] = useState<boolean>(false);
+  const [isFetchDetails, setIsFetchDetails] = useState<boolean>(false);
   const { updateParam, page, details } = useUpdateLocation();
   const { prevSearch, updatePrevSearch } = useLocalStorage();
 
   const handleSubmit = async (query?: string): Promise<void> => {
-    const searchObj = {};
-    if (query !== undefined) {
-      console.log(query);
-      updatePrevSearch(query);
-      if (query)
-        Object.defineProperty(searchObj, 'name', {
-          value: query,
-          enumerable: true,
-        });
-    } else
-      Object.defineProperty(searchObj, 'name', {
-        value: prevSearch,
-        enumerable: true,
-      });
-    if (page)
-      Object.defineProperty(searchObj, 'page', {
-        value: Number(page),
-        enumerable: true,
-      });
+    const searchObj = { name: '', page: DEFAULT_PAGE };
+    if (query !== undefined) updatePrevSearch(query);
+    if (page) searchObj.page = Number(page);
+    searchObj.name = query || prevSearch;
     await requestData(() => getCharacters(searchObj));
   };
 
   const handleDetails = async (): Promise<void> => {
-    try {
-      setFetchDetails(true);
-      const detail = await getCharacterDetails(Number(details));
-      context?.updateCharacter(detail);
-    } finally {
-      setFetchDetails(false);
-    }
+    setIsFetchDetails(true);
+    const detailCharacter = await getCharacterDetails(details);
+    context?.updateCharacter(detailCharacter);
+    setIsFetchDetails(false);
   };
 
   useEffect(() => {
@@ -72,10 +54,15 @@ function App() {
     context?.updatePages(calculatePages(info));
   }, [results]);
 
-  const visiblePagination =
-    results?.data !== null && Boolean(results?.data.results?.length) && !error;
+  const visiblePagination = useMemo(
+    () =>
+      results?.data !== null &&
+      Boolean(results?.data.results?.length) &&
+      !error,
+    [error, results?.data]
+  );
 
-  const characterView = context?.character ?? null;
+  const characterView = context?.character ?? ({} as Character);
   return (
     <div
       className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-w-2xl mx-auto gap-[20px] items-center`}
@@ -89,8 +76,11 @@ function App() {
           error={error}
           loading={isLoading}
         />
-        {characterView !== null && (
-          <DetailsHandler character={characterView} isLoading={fetchDetails} />
+        {context?.isVisibleDetails && (
+          <DetailsHandler
+            character={characterView}
+            isLoading={isFetchDetails}
+          />
         )}
       </div>
       <Pagination isVisible={visiblePagination} />

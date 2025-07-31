@@ -45,17 +45,17 @@ test('Display the right number of cards', () => {
 });
 
 describe('useUpdateLocation', () => {
-  beforeEach(() => {
-    vi.spyOn(utils, 'useUpdateLocation').mockReturnValue({
+
+  afterEach(() => vi.clearAllMocks());
+  
+  test('Show error message and no button', () => {
+        vi.spyOn(utils, 'useUpdateLocation').mockReturnValue({
       searchParams: new URLSearchParams(),
       updateParam: vi.fn(),
       page: '',
       details: null,
       removeParam: vi.fn(),
     });
-  });
-  afterEach(() => vi.clearAllMocks());
-  test('Display error message and to home page button', () => {
     render(
       <Wrapper>
         <Results data={null} loading={false} error={NOT_FOUND_MSG} />
@@ -63,9 +63,17 @@ describe('useUpdateLocation', () => {
     );
     const message = screen.getByText(NOT_FOUND_MSG);
     expect(message).toBeVisible();
+    expect(() => screen.getByTestId('go-homepage')).toThrow();
   });
 
-  test('Display error message', () => {
+  test('Show error message and home page button if page is not first', () => {
+    vi.spyOn(utils, 'useUpdateLocation').mockReturnValue({
+      searchParams: new URLSearchParams(),
+      updateParam: vi.fn(),
+      page: '2',
+      details: null,
+      removeParam: vi.fn(),
+    });
     render(
       <Wrapper>
         <Results data={null} loading={false} error={NOT_FOUND_MSG} />

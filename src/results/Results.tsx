@@ -5,7 +5,7 @@ import { ResultsContainer } from './ResultsContainer';
 import { NotFound } from '../pages/NotFound';
 import { useUpdateLocation } from '../api/utils.ts';
 import { useContext } from 'react';
-import { AppContext } from '../constants.ts';
+import { AppContext, DEFAULT_PAGE } from '../constants.ts';
 
 export function Results(props: ResultsProps) {
   const context = useContext(AppContext);
@@ -14,7 +14,7 @@ export function Results(props: ResultsProps) {
   const { page } = useUpdateLocation();
   const rightside = context?.character;
   if (error) {
-    const hide = page !== null && page.length > 0;
+    const hide = Number(page) <= DEFAULT_PAGE;
     return (
       <ResultsContainer>
         <NotFound reason={error} hideButton={hide} />

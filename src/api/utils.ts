@@ -91,10 +91,20 @@ export function useRequest<T>() {
 }
 
 export const getCharacterDetails = async (
-  id: number
+  id: string | null
 ): Promise<Character | undefined> => {
-  const result = await getCharacter(id);
-  return result.data;
+  console.log(id);
+  const empty = undefined;
+  if (id !== null) {
+    try {
+      const idSearch = Number(id);
+      const result = await getCharacter(idSearch);
+      return result.data;
+    } catch {
+      return empty;
+    }
+  }
+  return empty;
 };
 
 export function ejectEpisodesIds(data: string[]): number[] {
@@ -119,17 +129,19 @@ export function showEpisodesNames(
 
 export function calculatePages(info: InfoCharacter): CalculatedPages {
   const pages: CalculatedPages = { pageNext: null, pagePrev: null };
+  const keyword = 'page=';
+  const delimiter = '&';
+  const getPage = (url: string) => {
+    const indexPageNumber = url.indexOf(keyword) + keyword.length;
+    const delimiterIndex = url.indexOf(delimiter);
+    return delimiterIndex < indexPageNumber
+      ? url.slice(indexPageNumber)
+      : url.slice(indexPageNumber, url.indexOf(delimiter));
+  };
   if (info) {
     const { next, prev } = info;
-
-    if (next !== null) {
-      const indexSlash = next.lastIndexOf('=');
-      pages.pageNext = Number(next.slice(indexSlash + 1));
-    }
-    if (prev !== null) {
-      const indexSlash = prev.lastIndexOf('=');
-      pages.pagePrev = Number(prev.slice(indexSlash + 1));
-    }
+    if (next !== null) pages.pageNext = Number(getPage(next));
+    if (prev !== null) pages.pagePrev = Number(getPage(prev));
   }
   return pages;
 }

@@ -18,6 +18,15 @@ export const lastPageResponse: Info<Character[]> = {
   },
 };
 
+export const pageWithSearch: Info<Character[]> = {
+  info: {
+    count: 477,
+    pages: 24,
+    next: 'https://rickandmortyapi.com/api/character/?page=21&name=o',
+    prev: null,
+  },
+};
+
 export const charactersResponse: Info<Character[]> = {
   info: {
     count: 826,

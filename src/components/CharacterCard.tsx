@@ -11,7 +11,7 @@ export function CharacterCard(props: CharacterCardProps) {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     stopEvent(e);
-    context?.updateCharacter(await getCharacterDetails(id));
+    context?.updateCharacter(await getCharacterDetails(id.toString()));
   };
 
   return (

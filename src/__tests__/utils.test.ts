@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import {
   charactersResponse,
   lastPageResponse,
+  pageWithSearch,
   secondPageResponse,
 } from './__mock__/charatersData';
 import { episodesResponse } from './__mock__/episodeData';
@@ -146,6 +147,11 @@ describe('pagination utils', () => {
     const firstPageObj = calculatePages(undefined);
     expect(firstPageObj.pagePrev).toBe(null);
     expect(firstPageObj.pageNext).toBe(null);
+  });
+  test('calculate page if search param name include', () => {
+    const lastPageObj = calculatePages(pageWithSearch.info);
+    expect(lastPageObj.pageNext).toBe(21);
+    expect(lastPageObj.pagePrev).toBe(null);
   });
 });
 

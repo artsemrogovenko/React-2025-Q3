@@ -29,6 +29,7 @@ export type AppContextType = {
   resetUrl: () => void;
   query: string;
   updateQuery: (value: string) => void;
+  isVisibleDetails: boolean;
 };
 
 export type InfoCharacter =
