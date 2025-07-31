@@ -1,7 +1,7 @@
 import { MyButton } from './MyButton.tsx';
 import { useContext } from 'react';
 import { AppContext } from '../constants.ts';
-import { useUpdateLocation } from '../api/utils.ts';
+import { useUpdateLocation } from '../hooks/hooks.ts';
 
 export const CloseDetail = () => {
   const context = useContext(AppContext);
@@ -10,5 +10,7 @@ export const CloseDetail = () => {
     context?.closeDetails();
     removeParam('details');
   };
-  return <MyButton text="Close" onClick={handleClick} style={'font-bold'} />;
+  return (
+    <MyButton text="Close" onClick={handleClick} additiveStyle={'font-bold'} />
+  );
 };

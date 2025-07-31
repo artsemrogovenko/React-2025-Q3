@@ -1,5 +1,5 @@
 import Picture from '../assets/404.svg';
-import { ToHomepage } from '../components/ToHomepage';
+import { ToHomepageButton } from '../components/ToHomepageButton';
 import type { NotFoundProps } from './types';
 
 export const NotFound = (props: NotFoundProps) => {
@@ -10,7 +10,7 @@ export const NotFound = (props: NotFoundProps) => {
       <h3 className="capitalize font-bold text-[3vw] break-words whitespace-normal">
         {reason ?? `page not found`}
       </h3>
-      {!hideButton && <ToHomepage />}
+      {!hideButton && <ToHomepageButton />}
     </div>
   );
 };

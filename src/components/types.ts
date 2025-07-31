@@ -1,5 +1,5 @@
 import type { Character } from 'rickmortyapi';
-import type { MouseEvent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export type CharacterCardProps = {
   character: Character;
@@ -20,11 +20,10 @@ export type MySpinnerProps = {
 
 export type MyButtonProps = {
   text: string;
-  onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   isDisabled?: boolean;
   isVisible?: boolean;
-  style?: string;
-};
+  additiveStyle?: string;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type PaginationProps = {
   isDisabled?: boolean;

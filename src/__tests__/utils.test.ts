@@ -4,7 +4,6 @@ import {
   ejectEpisodesIds,
   getCharacterDetails,
   showEpisodesNames,
-  useLocalStorage,
 } from '../api/utils';
 import { act, renderHook } from '@testing-library/react';
 import { useEffect } from 'react';
@@ -17,6 +16,7 @@ import {
 import { episodesResponse } from './__mock__/episodeData';
 import { type ApiResponse, type Character, getCharacter } from 'rickmortyapi';
 import { SUCCESS } from '../constants';
+import { useLocalStorage } from '../hooks/hooks';
 
 vi.mock('rickmortyapi');
 const character = charactersResponse.results?.[0] as Character;
@@ -85,7 +85,7 @@ describe('localStorage utils', () => {
         const hook = useLocalStorage();
         useEffect(() => {
           hook.updatePrevPage(number);
-        }, [number]);
+        }, [number, hook]);
         return hook;
       },
       { initialProps: { number: 1 } }
@@ -157,7 +157,7 @@ describe('pagination utils', () => {
 
 test('get character by id', async () => {
   vi.mocked(getCharacter).mockResolvedValue(mockCharacter);
-  const result = await getCharacterDetails(1);
+  const result = await getCharacterDetails('1');
   expect(result).toEqual(mockCharacter.data);
   expect(getCharacter).toHaveBeenCalledWith(1);
 });

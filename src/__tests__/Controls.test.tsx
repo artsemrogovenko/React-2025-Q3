@@ -2,15 +2,15 @@ import { render, renderHook, screen } from '@testing-library/react';
 import { beforeEach, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { Controls } from '../controls/Controls';
-import { useLocalStorage } from '../api/utils';
+import { useLocalStorage } from '../hooks/hooks';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react';
 
 const { result } = renderHook(() => useLocalStorage());
 
-const mockRequest = vi.fn(async (queryRequest: string) => {
+const mockRequest = vi.fn(async (query?: string) => {
   act(() => {
-    result.current.updatePrevSearch(queryRequest);
+    result.current.updatePrevSearch(query ?? '');
   });
 });
 

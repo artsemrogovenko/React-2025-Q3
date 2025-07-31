@@ -10,7 +10,7 @@ export function DetailsHandler({
   character,
   isLoading,
 }: {
-  character: Character;
+  character: Character | object;
   isLoading?: boolean;
 }) {
   if (isLoading)
@@ -19,7 +19,7 @@ export function DetailsHandler({
         <MySpinner />
       </DetailsBlock>
     );
-  if (Object.keys(character).length === 0) {
+  if (!Object.keys(character).length) {
     return (
       <DetailsBlock>
         <NotFound reason={NOT_FOUND_DETAIL} hideButton={true} />
@@ -29,7 +29,7 @@ export function DetailsHandler({
   }
   return (
     <DetailsBlock>
-      <Details character={character} />
+      <Details character={character as Character} />
     </DetailsBlock>
   );
 }

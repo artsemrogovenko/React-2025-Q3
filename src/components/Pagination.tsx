@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { MyButton } from './MyButton';
 import type { PaginationProps } from './types';
 import { AppContext } from '../constants';
-import { useLocalStorage, useUpdateLocation } from '../api/utils';
+import { stopEvent } from '../api/utils';
+import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
 
 export function Pagination(props: PaginationProps) {
   const { isVisible } = props;
@@ -22,8 +23,7 @@ export function Pagination(props: PaginationProps) {
     event: React.MouseEvent<HTMLButtonElement>,
     action: 'Prev' | 'Next'
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
+    stopEvent(event);
     switch (action) {
       case 'Next':
         if (pageNext !== null) {
@@ -49,13 +49,13 @@ export function Pagination(props: PaginationProps) {
       <MyButton
         text="Prev"
         isDisabled={isDisabledPrev}
-        style={isDisabledPrev ? 'opacity-50 cursor-not-allowed' : ''}
+        additiveStyle={isDisabledPrev ? 'opacity-50 cursor-not-allowed' : ''}
         onClick={(e) => handleStep(e, 'Prev')}
       />
       <MyButton
         text="Next"
         isDisabled={isDisabledNext}
-        style={isDisabledNext ? 'opacity-50 cursor-not-allowed' : ''}
+        additiveStyle={isDisabledNext ? 'opacity-50 cursor-not-allowed' : ''}
         onClick={(e) => handleStep(e, 'Next')}
       />
     </div>

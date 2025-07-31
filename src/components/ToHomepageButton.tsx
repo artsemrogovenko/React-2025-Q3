@@ -1,8 +1,9 @@
 import { APP_ROUTES } from '../constants';
 import { useNavigate } from 'react-router';
 import type { ToHomepageProps } from './types';
+import { MyButton } from './MyButton';
 
-export const ToHomepage = (props: ToHomepageProps) => {
+export const ToHomepageButton = (props: ToHomepageProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -10,12 +11,11 @@ export const ToHomepage = (props: ToHomepageProps) => {
   };
 
   return (
-    <button
+    <MyButton
+      text="back to homepage"
       data-testid="go-homepage"
       className={`${props.className}  bg-fuchsia-800 capitalize`}
       onClick={handleClick}
-    >
-      back to homepage
-    </button>
+    />
   );
 };

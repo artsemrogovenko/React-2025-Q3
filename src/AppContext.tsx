@@ -14,20 +14,20 @@ export function AppProvider(props: AppProviderProps) {
   const [isVisibleDetails, setIsVisibleDetails] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(DEFAULT_PAGE);
-  const [character, setCharacter] = useState<Character | undefined>(undefined);
+  const [character, setCharacter] = useState<Character | object>({});
   const [pages, setPages] = useState<CalculatedPages>({
     pageNext: null,
     pagePrev: null,
   });
 
   const closeDetails = useCallback(() => {
-    setCharacter(undefined);
+    setCharacter({});
     setIsVisibleDetails(false);
   }, []);
   const updateCurrentPage = useCallback((value: number) => {
     setCurrentPage(value);
   }, []);
-  const updateCharacter = useCallback((value: Character | undefined) => {
+  const updateCharacter = useCallback((value: Character | object) => {
     setIsVisibleDetails(true);
     setCharacter(value);
   }, []);
@@ -36,7 +36,7 @@ export function AppProvider(props: AppProviderProps) {
   }, []);
   const resetUrl = useCallback(() => {
     navigate(APP_ROUTES.home, { replace: false });
-  }, []);
+  }, [navigate]);
   const updateQuery = useCallback((value: string) => {
     setQuery(value);
   }, []);

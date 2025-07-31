@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { ToHomepage } from '../components/ToHomepage';
+import { ToHomepageButton } from '../components/ToHomepageButton';
 import { APP_ROUTES } from '../constants';
 import { Wrapper } from './__mock__/wrapper';
 import { vi } from 'vitest';
@@ -21,7 +21,7 @@ describe('ToHomepage button', () => {
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
     render(
       <Wrapper>
-        <ToHomepage className="custom-class" />
+        <ToHomepageButton className="custom-class" />
       </Wrapper>
     );
   });

@@ -20,10 +20,10 @@ export type AppProviderProps = {
 
 export type AppContextType = {
   currentPage: number;
-  character: Character | undefined;
+  character: Character | object;
   pages: CalculatedPages;
   updateCurrentPage: (value: number) => void;
-  updateCharacter: (value: Character | undefined) => void;
+  updateCharacter: (value: Character | object) => void;
   closeDetails: () => void;
   updatePages: (value: CalculatedPages) => void;
   resetUrl: () => void;

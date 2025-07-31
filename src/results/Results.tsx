@@ -3,14 +3,14 @@ import { MySpinner } from '../components/Loader';
 import type { ResultsProps } from './types';
 import { ResultsContainer } from './ResultsContainer';
 import { NotFound } from '../pages/NotFound';
-import { useUpdateLocation } from '../api/utils.ts';
 import { useContext } from 'react';
 import { AppContext, DEFAULT_PAGE } from '../constants.ts';
+import { useUpdateLocation } from '../hooks/hooks.ts';
 
 export function Results(props: ResultsProps) {
   const context = useContext(AppContext);
   const { data, loading, error } = props;
-  const founded = Array.isArray(data?.results) && data?.results.length > 0;
+  const founded = Array.isArray(data?.results) && data?.results.length;
   const { page } = useUpdateLocation();
   const rightside = context?.character;
   if (error) {

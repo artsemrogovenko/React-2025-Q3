@@ -1,17 +1,13 @@
 import { type Character, getEpisode } from 'rickmortyapi';
 import pagesStyles from '../pages/Pages.module.scss';
 import { DescriptionItem } from './DescriptionItem.tsx';
-import {
-  ejectEpisodesIds,
-  showEpisodesNames,
-  useRequest,
-  useUpdateLocation,
-} from '../api/utils.ts';
+import { ejectEpisodesIds, showEpisodesNames } from '../api/utils.ts';
 import { useEffect } from 'react';
 import { MySpinner } from '../components/Loader.tsx';
 import { FLEX_STYLE_ROUNDED } from '../constants.ts';
 import type { CharacterEpisode } from '../types.ts';
 import { CloseDetail } from '../components/CloseDetail.tsx';
+import { useUpdateLocation, useRequest } from '../hooks/hooks.ts';
 
 export function Details({ character }: { character: Character }) {
   const { updateParam } = useUpdateLocation();
@@ -26,8 +22,8 @@ export function Details({ character }: { character: Character }) {
   useEffect(() => {
     const episodesIds = ejectEpisodesIds(episode);
     requestData(() => getEpisode(episodesIds));
-    if (id) updateParam('details', id.toString());
-  }, [requestData, episode, character, id]);
+    updateParam('details', id.toString());
+  }, [episode]);
 
   return (
     <div className="flex flex-col  w-full">
@@ -55,7 +51,7 @@ export function Details({ character }: { character: Character }) {
         {isLoading ? (
           <MySpinner />
         ) : (
-          results !== null &&
+          results &&
           DescriptionItem(
             'Episodes:',
             showEpisodesNames(results.data),

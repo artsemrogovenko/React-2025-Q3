@@ -1,5 +1,5 @@
 import student from '../assets/rs-school.d8af85c6.webp';
-import { ToHomepage } from '../components/ToHomepage';
+import { ToHomepageButton } from '../components/ToHomepageButton';
 
 export function About() {
   return (
@@ -25,7 +25,7 @@ export function About() {
         />
         <span>React-2025-Q3</span>
       </a>
-      <ToHomepage className={'mt-[40px] relative top-5'} />
+      <ToHomepageButton className={'mt-[40px] relative top-5'} />
     </div>
   );
 }

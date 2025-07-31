@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { type SyntheticEvent, useState } from 'react';
 
-import { useLocalStorage } from '../api/utils';
+import { stopEvent } from '../api/utils';
 import { ClearButton } from './ClearButton';
 import { SubmitButton } from './SubmitButton';
 
 import type { ControlsProps } from './types';
 import { FLEX_STYLE_ROUNDED, MAX_SEARCH_LENGTH } from '../constants';
+import { useLocalStorage } from '../hooks/hooks';
 
 export function Controls(props: ControlsProps) {
   const { prevSearch } = useLocalStorage();
@@ -15,8 +16,7 @@ export function Controls(props: ControlsProps) {
     event?: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     if (event) {
-      event.preventDefault();
-      event.stopPropagation();
+      stopEvent(event);
     }
     return props.onSubmit(query);
   };
@@ -25,11 +25,7 @@ export function Controls(props: ControlsProps) {
     setQuery(e.target.value);
   };
 
-  const resetInput = (
-    e?:
-      | React.KeyboardEvent<HTMLInputElement>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const resetInput = <T extends Event | SyntheticEvent>(e?: T) => {
     e?.stopPropagation();
     setQuery('');
     props.onSubmit('');

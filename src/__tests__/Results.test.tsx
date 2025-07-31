@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { charactersResponse } from './__mock__/charatersData';
 import { NOT_FOUND_MSG } from '../constants';
 import { afterEach, vi } from 'vitest';
-import * as utils from '../api/utils';
+import * as hooks from '../hooks/hooks.ts';
 import { Wrapper } from './__mock__/wrapper';
 
 test('Show the message error', () => {
@@ -45,11 +45,10 @@ test('Display the right number of cards', () => {
 });
 
 describe('useUpdateLocation', () => {
-
   afterEach(() => vi.clearAllMocks());
-  
+
   test('Show error message and no button', () => {
-        vi.spyOn(utils, 'useUpdateLocation').mockReturnValue({
+    vi.spyOn(hooks, 'useUpdateLocation').mockReturnValue({
       searchParams: new URLSearchParams(),
       updateParam: vi.fn(),
       page: '',
@@ -67,7 +66,7 @@ describe('useUpdateLocation', () => {
   });
 
   test('Show error message and home page button if page is not first', () => {
-    vi.spyOn(utils, 'useUpdateLocation').mockReturnValue({
+    vi.spyOn(hooks, 'useUpdateLocation').mockReturnValue({
       searchParams: new URLSearchParams(),
       updateParam: vi.fn(),
       page: '2',
