@@ -66,3 +66,16 @@ export function stopEvent<T extends Event | SyntheticEvent>(event: T): T {
   event.stopPropagation();
   return event;
 }
+
+export function makeCsv(array: Character[]) {
+  const data = formatData(array);
+  return new Blob([data], { type: 'text/csv;charset=utf-8' });
+}
+
+export function formatData(characters: Character[]): string {
+  const header = Object.keys(characters[0]).join(',');
+  const rows = characters
+    .map((character) => Object.values(character).join(','))
+    .join('\n');
+  return `${header}\n${rows}`;
+}
