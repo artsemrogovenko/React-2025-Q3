@@ -23,7 +23,7 @@ export function Details({ character }: { character: Character }) {
   }, [episode, requestData]);
 
   return (
-    <div className="flex flex-col  w-full">
+    <div className="flex flex-col w-full">
       <div
         data-testid="character-details"
         className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-h-fit gap-y-4 `}

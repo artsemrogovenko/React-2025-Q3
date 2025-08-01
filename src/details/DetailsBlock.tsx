@@ -5,7 +5,7 @@ import type { DetailsBlockType } from '../pages/types.ts';
 export function DetailsBlock({ children }: DetailsBlockType) {
   return (
     <div
-      className="flex flex-col flex-1 w-full h-fit max-h-[70dvh] sticky top-0"
+      className="flex flex-col flex-1 w-full h-fit max-h-[70vh]   top-0"
       onClick={stopEvent}
     >
       <div

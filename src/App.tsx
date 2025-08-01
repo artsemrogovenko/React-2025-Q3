@@ -16,6 +16,7 @@ import {
   useUpdateLocation,
 } from './hooks/hooks.ts';
 import { updateDetail } from './store/detailsSlice.ts';
+import { FavoritesModal } from './components/FavoritesModal.tsx';
 
 function App() {
   const { results, isLoading, error, requestData } =
@@ -32,7 +33,7 @@ function App() {
       const searchObj = { name: '', page: DEFAULT_PAGE };
       if (query !== undefined) updatePrevSearch(query);
       if (page) searchObj.page = Number(page);
-      searchObj.name = query || prevSearch;
+      searchObj.name = query ?? prevSearch;
       await requestData(() => getCharacters(searchObj));
     },
     [page, requestData]
@@ -44,6 +45,10 @@ function App() {
     dispatch(updateDetail(detailCharacter));
     setIsFetchDetails(false);
   }, [details, dispatch]);
+
+  useEffect(() => {
+    handleSubmit(prevSearch);
+  }, []);
 
   useEffect(() => {
     handleSubmit();
@@ -71,27 +76,32 @@ function App() {
   const characterView = useAppSelector((state) => state.details.value);
 
   return (
-    <div
-      className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-w-2xl mx-auto gap-[20px] items-center`}
-    >
-      <Header />
-      <Controls onSubmit={handleSubmit} />
-      <Pagination isVisible={visiblePagination} />
-      <div className="flex justify-center w-full gap-x-[20px]">
-        <Results
-          data={results && results.data}
-          error={error}
-          loading={isLoading}
-        />
-        {context?.isVisibleDetails && (
-          <DetailsHandler
-            character={characterView}
-            isLoading={isFetchDetails}
-          />
-        )}
+    <>
+      <div id="App">
+        <div
+          className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-w-2xl mx-auto gap-[20px] items-center`}
+        >
+          <Header />
+          <Controls onSubmit={handleSubmit} />
+          <Pagination isVisible={visiblePagination} />
+          <div className="flex justify-center w-full gap-x-[20px]">
+            <Results
+              data={results && results.data}
+              error={error}
+              loading={isLoading}
+            />
+            {context?.isVisibleDetails && (
+              <DetailsHandler
+                character={characterView}
+                isLoading={isFetchDetails}
+              />
+            )}
+          </div>
+          <Pagination isVisible={visiblePagination} />
+        </div>
       </div>
-      <Pagination isVisible={visiblePagination} />
-    </div>
+      <FavoritesModal />
+    </>
   );
 }
 

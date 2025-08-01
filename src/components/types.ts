@@ -33,3 +33,8 @@ export type ToHomepageProps = {
   className?: string;
   text?: string;
 };
+
+export type CheckboxProps = {
+  onChange: () => void;
+  isChecked: boolean;
+};

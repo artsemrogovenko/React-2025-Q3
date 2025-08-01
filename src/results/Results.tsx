@@ -30,7 +30,11 @@ export function Results(props: ResultsProps) {
     );
   if (founded)
     return (
-      <ResultsContainer style={rightside ? 'w-[340px] flex-col' : ''}>
+      <ResultsContainer
+        style={
+          rightside ? 'w-[340px] flex-col' : 'h-fit flex-wrap justify-around'
+        }
+      >
         {founded &&
           data.results?.map((character) => (
             <CharacterCard key={character.id} character={character} />
