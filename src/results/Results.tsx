@@ -12,7 +12,8 @@ export function Results(props: ResultsProps) {
   const { data, loading, error } = props;
   const founded = Array.isArray(data?.results) && data?.results.length;
   const { page } = useUpdateLocation();
-  const rightside = context?.character;
+  const rightside = context?.isVisibleDetails;
+
   if (error) {
     const hide = Number(page) <= DEFAULT_PAGE;
     return (

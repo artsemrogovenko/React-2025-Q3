@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Character, Episode } from 'rickmortyapi';
+import type { Episode } from 'rickmortyapi';
 
 export type RequestState<T> = {
   results: T | null;
@@ -20,10 +20,9 @@ export type AppProviderProps = {
 
 export type AppContextType = {
   currentPage: number;
-  character: Character | object;
   pages: CalculatedPages;
   updateCurrentPage: (value: number) => void;
-  updateCharacter: (value: Character | object) => void;
+  showDetails: () => void;
   closeDetails: () => void;
   updatePages: (value: CalculatedPages) => void;
   resetUrl: () => void;

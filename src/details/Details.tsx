@@ -7,23 +7,20 @@ import { MySpinner } from '../components/Loader.tsx';
 import { FLEX_STYLE_ROUNDED } from '../constants.ts';
 import type { CharacterEpisode } from '../types.ts';
 import { CloseDetail } from '../components/CloseDetail.tsx';
-import { useUpdateLocation, useRequest } from '../hooks/hooks.ts';
+import { useRequest } from '../hooks/hooks.ts';
 
 export function Details({ character }: { character: Character }) {
-  const { updateParam } = useUpdateLocation();
-
   const { isLoading, requestData, results } = useRequest<
     CharacterEpisode | CharacterEpisode[]
   >();
 
-  const { episode, gender, image, location, name, species, status, type, id } =
+  const { episode, gender, image, location, name, species, status, type } =
     character;
 
   useEffect(() => {
     const episodesIds = ejectEpisodesIds(episode);
     requestData(() => getEpisode(episodesIds));
-    updateParam('details', id.toString());
-  }, [episode]);
+  }, [episode, requestData]);
 
   return (
     <div className="flex flex-col  w-full">

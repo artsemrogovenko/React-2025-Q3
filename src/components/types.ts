@@ -21,7 +21,6 @@ export type MySpinnerProps = {
 export type MyButtonProps = {
   text: string;
   isDisabled?: boolean;
-  isVisible?: boolean;
   additiveStyle?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 

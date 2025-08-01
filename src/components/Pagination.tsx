@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MyButton } from './MyButton';
 import type { PaginationProps } from './types';
-import { AppContext } from '../constants';
+import { AppContext, DEFAULT_PAGE } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
 
@@ -15,7 +15,6 @@ export function Pagination(props: PaginationProps) {
     pagePrev: null,
   };
   const { updateParam } = useUpdateLocation();
-
   const isDisabledPrev = pagePrev === null;
   const isDisabledNext = pagePrev === pageNext || pageNext === null;
 
@@ -28,16 +27,14 @@ export function Pagination(props: PaginationProps) {
       case 'Next':
         if (pageNext !== null) {
           updatePrevPage(pageNext);
-          context?.updateCurrentPage(pageNext);
         }
-        updateParam('page', pageNext?.toString() ?? '1');
+        updateParam('page', pageNext?.toString() || DEFAULT_PAGE.toString());
+
         break;
       case 'Prev':
         if (pagePrev !== null) {
           updatePrevPage(pagePrev);
-          context?.updateCurrentPage(pagePrev);
-
-          updateParam('page', pagePrev?.toString() ?? '1');
+          updateParam('page', pagePrev?.toString() || DEFAULT_PAGE.toString());
         }
         break;
       default:

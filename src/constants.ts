@@ -17,5 +17,5 @@ export const APP_ROUTES = {
   home: '/',
   about: 'about',
   page: 'page/:key',
-  details: 'details/:key',
+  details: 'details',
 };

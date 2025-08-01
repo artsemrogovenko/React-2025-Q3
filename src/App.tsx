@@ -9,15 +9,20 @@ import { Pagination } from './components/Pagination';
 import { type Character, getCharacters, type Info } from 'rickmortyapi';
 import { DetailsHandler } from './details/DetailsHandler.tsx';
 import {
+  useAppDispatch,
+  useAppSelector,
+  useLocalStorage,
   useRequest,
   useUpdateLocation,
-  useLocalStorage,
 } from './hooks/hooks.ts';
+import { updateDetail } from './store/detailsSlice.ts';
 
 function App() {
   const { results, isLoading, error, requestData } =
     useRequest<Info<Character[]>>();
   const context = useContext(AppContext);
+  const dispatch = useAppDispatch();
+
   const [isFetchDetails, setIsFetchDetails] = useState<boolean>(false);
   const { updateParam, page, details } = useUpdateLocation();
   const { prevSearch, updatePrevSearch } = useLocalStorage();
@@ -33,15 +38,12 @@ function App() {
     [page, requestData]
   );
 
-  const handleDetails = useCallback(
-    () => async (): Promise<void> => {
-      setIsFetchDetails(true);
-      const detailCharacter = await getCharacterDetails(details);
-      context?.updateCharacter(detailCharacter);
-      setIsFetchDetails(false);
-    },
-    [context, details]
-  );
+  const handleDetails = useCallback(async (): Promise<void> => {
+    setIsFetchDetails(true);
+    const detailCharacter = await getCharacterDetails(details || null);
+    dispatch(updateDetail(detailCharacter));
+    setIsFetchDetails(false);
+  }, [details, dispatch]);
 
   useEffect(() => {
     handleSubmit();
@@ -66,8 +68,8 @@ function App() {
       !error,
     [error, results?.data]
   );
+  const characterView = useAppSelector((state) => state.details.value);
 
-  const characterView = context?.character ?? {};
   return (
     <div
       className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-w-2xl mx-auto gap-[20px] items-center`}

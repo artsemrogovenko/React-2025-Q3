@@ -1,13 +1,18 @@
 import type { MyButtonProps } from './types';
 
-export const MyButton = (props: MyButtonProps) => {
+export const MyButton = ({
+  text,
+  isDisabled = false,
+  additiveStyle = '',
+  ...props
+}: MyButtonProps) => {
   return (
     <button
-      className={`mt-4 px-4 py-2 rounded ${props.additiveStyle}`}
-      disabled={props.isDisabled}
+      className={`mt-4 px-4 py-2 rounded ${additiveStyle}`}
+      disabled={isDisabled}
       {...props}
     >
-      {props.text}
+      {text}
     </button>
   );
 };

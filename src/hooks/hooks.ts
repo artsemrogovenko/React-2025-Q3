@@ -1,8 +1,17 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import type { ApiResponse } from 'rickmortyapi';
 import { NOT_FOUND_MSG, SUCCESS } from '../constants';
 import type { RequestState } from '../types';
+import {
+  type TypedUseSelectorHook,
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import type { AppDispatch, RootState } from '../store/store';
+
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export function useLocalStorage() {
   const [prevSearch, setPrevSearch] = useState<string>(
@@ -84,8 +93,14 @@ export function useRequest<T>() {
 
 export function useUpdateLocation() {
   const [searchParams, setSearchParams] = useSearchParams();
-  let page: string | null = null;
-  let details: string | null = null;
+  // let page: string | null =null;
+  // let details: string | null = null;
+  const params = useMemo(() => {
+    return {
+      page: searchParams.get('page') || null,
+      details: searchParams.get('details') || null,
+    };
+  }, [searchParams]);
 
   const updateParam = (param: string, value: string) => {
     const copyParams = new URLSearchParams(searchParams);
@@ -102,10 +117,16 @@ export function useUpdateLocation() {
     [searchParams, setSearchParams]
   );
 
-  if (page !== searchParams.get('page')) page = searchParams.get('page');
+  // if (page !== searchParams.get('page')) page = searchParams.get('page');
 
-  if (details !== searchParams.get('details'))
-    details = searchParams.get('details');
+  // if (details !== searchParams.get('details'))
+  //   details = searchParams.get('details');
 
-  return { searchParams, updateParam, page, details, removeParam };
+  return {
+    searchParams,
+    updateParam,
+    page: params.page,
+    details: params.details,
+    removeParam,
+  };
 }
