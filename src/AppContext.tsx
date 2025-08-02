@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 export function AppProvider(props: AppProviderProps) {
   const navigate = useNavigate();
 
+  const [isDefaultTheme, setIsDefaultTheme] = useState<boolean>(true);
   const [isVisibleDetails, setIsVisibleDetails] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(DEFAULT_PAGE);
@@ -36,6 +37,10 @@ export function AppProvider(props: AppProviderProps) {
   const updateQuery = useCallback((value: string) => {
     setQuery(value);
   }, []);
+  const toggleTheme = useCallback(() => {
+    setIsDefaultTheme((prev) => !prev);
+  }, []);
+
   const values: AppContextType = {
     currentPage,
     updateCurrentPage,
@@ -47,6 +52,8 @@ export function AppProvider(props: AppProviderProps) {
     query,
     updateQuery,
     isVisibleDetails,
+    toggleTheme,
+    isDefaultTheme,
   };
   return (
     <AppContext.Provider value={values}>{props.children}</AppContext.Provider>

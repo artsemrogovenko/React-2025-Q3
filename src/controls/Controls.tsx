@@ -1,14 +1,20 @@
-import React, { type SyntheticEvent, useState } from 'react';
-
+import React, { type SyntheticEvent, useContext, useState } from 'react';
 import { stopEvent } from '../api/utils';
 import { ClearButton } from './ClearButton';
 import { SubmitButton } from './SubmitButton';
-
 import type { ControlsProps } from './types';
-import { FLEX_STYLE_ROUNDED, MAX_SEARCH_LENGTH } from '../constants';
+import {
+  AppContext,
+  FLEX_STYLE_ROUNDED,
+  MAX_SEARCH_LENGTH,
+} from '../constants';
 import { useLocalStorage } from '../hooks/hooks';
 
 export function Controls(props: ControlsProps) {
+  const context = useContext(AppContext);
+  const isDefaultTheme = context.isDefaultTheme;
+  const themeStyle = !isDefaultTheme ? 'text-gray-300 font-bold' : '';
+
   const { prevSearch } = useLocalStorage();
   const [query, setQuery] = useState(prevSearch);
 
@@ -49,7 +55,7 @@ export function Controls(props: ControlsProps) {
           type="text"
           maxLength={MAX_SEARCH_LENGTH}
           placeholder="Search Input Field"
-          className="w-full border-2 rounded-l-sm h-[45px] px-4 pr-8"
+          className={`w-full border-2 rounded-l-sm h-[45px] px-4 pr-8 ${themeStyle}`}
           value={query}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}

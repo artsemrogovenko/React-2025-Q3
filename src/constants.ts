@@ -10,7 +10,24 @@ export const DEFAULT_PAGE = 1;
 
 export const FLEX_STYLE_ROUNDED = 'flex p-6 rounded-lg border-2';
 
-export const AppContext = createContext<AppContextType | null>(null);
+const DEFAULT_CONTEXT = {
+  currentPage: DEFAULT_PAGE,
+  pages: {
+    pageNext: null,
+    pagePrev: null,
+  },
+  updateCurrentPage: () => {},
+  showDetails: () => {},
+  closeDetails: () => {},
+  updatePages: () => {},
+  resetUrl: () => {},
+  query: '',
+  updateQuery: () => {},
+  isVisibleDetails: false,
+  toggleTheme: () => {},
+  isDefaultTheme: true,
+};
+export const AppContext = createContext<AppContextType>(DEFAULT_CONTEXT);
 
 export const APP_ROUTES = {
   notFound: '*',
@@ -19,3 +36,6 @@ export const APP_ROUTES = {
   page: 'page/:key',
   details: 'details',
 };
+
+export const BLACK = '#000000';
+export const WHITE = '#ffffff';

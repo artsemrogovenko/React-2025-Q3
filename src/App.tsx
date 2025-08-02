@@ -51,6 +51,15 @@ function App() {
   }, []);
 
   useEffect(() => {
+    console.log('chanfs');
+    if (context.isDefaultTheme) {
+      document.body.classList.add('light');
+    } else {
+      document.body.classList.remove('light');
+    }
+  }, [context.isDefaultTheme]);
+
+  useEffect(() => {
     handleSubmit();
   }, [page]);
 
@@ -90,7 +99,7 @@ function App() {
               error={error}
               loading={isLoading}
             />
-            {context?.isVisibleDetails && (
+            {context.isVisibleDetails && (
               <DetailsHandler
                 character={characterView}
                 isLoading={isFetchDetails}

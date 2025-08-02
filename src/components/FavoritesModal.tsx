@@ -2,9 +2,14 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { getFavorites, unselectAll } from '../store/favoritesSlice';
 import { MyButton } from './MyButton';
 import { makeCsv } from '../api/utils.ts';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
+import { AppContext } from '../constants.ts';
 
 export function FavoritesModal() {
+  const context = useContext(AppContext);
+  const isDefaultTheme = context.isDefaultTheme;
+  const themeStyle = !isDefaultTheme ? 'text-black' : '';
+
   const dispatch = useAppDispatch();
   const favorites = useAppSelector(getFavorites);
   const count = favorites.length;
@@ -29,7 +34,7 @@ export function FavoritesModal() {
 
   return (
     <div className="flex flex-col rounded-lg sticky border-2 bottom-8 right-2 z-2  p-2 self-end gap-2 bg-white">
-      <span className="text-xl">
+      <span className={`text-xl ${themeStyle}`}>
         {count} items
         <br /> selected
       </span>

@@ -12,7 +12,7 @@ export function Checkbox(props: CheckboxProps) {
       onClick={(e) => e.stopPropagation()}
     >
       <input
-        className=" size-5 items-center"
+        className="size-5 items-center opacity-50"
         data-testid="mark-favorite"
         type="checkbox"
         onChange={handler}

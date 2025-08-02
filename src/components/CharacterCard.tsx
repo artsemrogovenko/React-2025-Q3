@@ -16,7 +16,6 @@ export function CharacterCard(props: CharacterCardProps) {
   const dispatch = useAppDispatch();
 
   const handleToggle = () => {
-    console.log('clike');
     dispatch(toggle({ id: id, value: props.character }));
   };
 
@@ -26,11 +25,16 @@ export function CharacterCard(props: CharacterCardProps) {
     updateParam('details', id.toString());
   };
 
+  const isDefaultTheme = context.isDefaultTheme;
+  const themeStyle = isDefaultTheme
+    ? 'bg-white'
+    : 'bg-gray-800 text-amber-600 hover:text-black';
+
   return (
     <div
       onClick={getDetails}
       data-testid="character-card"
-      className="w-[230px] max-h-[350px] bg-white p-4 rounded-lg shadow-md hover:cursor-pointer hover:bg-amber-200"
+      className={`w-[230px] max-h-[350px] ${themeStyle} p-4 rounded-lg shadow-md hover:cursor-pointer hover:bg-amber-200`}
     >
       <img
         src={image}
@@ -42,15 +46,6 @@ export function CharacterCard(props: CharacterCardProps) {
         <p className="text-gray-600">{species}</p>
       </div>
       <Checkbox isChecked={isSelected} onChange={handleToggle} />
-      {/* <button
-      className="relative size-4 bottom-1 left-0 flex items-center  p-2"
-        data-testid="mark-favorite"
-        // type="checkbox"
-        type='button'
-        onClick={handleToggle}
-        disabled={isSelected}
-        title={isSelected ? 'in favorites' : 'to favorites'}
-      /> */}
     </div>
   );
 }

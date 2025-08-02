@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 import type { Episode } from 'rickmortyapi';
 
 export type RequestState<T> = {
@@ -29,6 +29,8 @@ export type AppContextType = {
   query: string;
   updateQuery: (value: string) => void;
   isVisibleDetails: boolean;
+  toggleTheme: () => void;
+  isDefaultTheme: boolean;
 };
 
 export type InfoCharacter =
@@ -48,4 +50,9 @@ export type CalculatedPages = {
 export type SearchObj = {
   page: string | undefined;
   description: string | undefined;
+};
+
+export type IconSvgProps = SVGProps<SVGSVGElement> & {
+  size?: number;
+  currentColor?: string;
 };
