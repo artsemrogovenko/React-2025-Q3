@@ -33,9 +33,9 @@ export const AppContext = createContext<AppContextType>(DEFAULT_CONTEXT);
 
 export const APP_ROUTES = {
   notFound: '*',
-  home: '/',
+  app: '/',
   about: 'about',
-  page: 'page/:key',
+  page: 'page',
   details: 'details',
 };
 

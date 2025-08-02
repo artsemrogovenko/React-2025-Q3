@@ -78,7 +78,7 @@ export function useRequest<T>() {
 }
 
 export function useUpdateLocation() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const params = useMemo(() => {
     return {
       page: searchParams.get('page') || null,
@@ -86,20 +86,17 @@ export function useUpdateLocation() {
     };
   }, [searchParams]);
 
-  const updateParam = (param: string, value: string) => {
+  const updateParam = (param: string, value: string): string => {
     const copyParams = new URLSearchParams(searchParams);
     copyParams.set(param, value);
-    setSearchParams(copyParams);
+    return `?${copyParams.toString()}`;
   };
 
-  const removeParam = useCallback(
-    (param: string) => {
-      const copyParams = new URLSearchParams(searchParams);
-      copyParams.delete(param);
-      setSearchParams(copyParams);
-    },
-    [searchParams, setSearchParams]
-  );
+  const removeParam = (param: string): string => {
+    const copyParams = new URLSearchParams(searchParams);
+    copyParams.delete(param);
+    return `?${copyParams.toString()}`;
+  };
 
   return {
     searchParams,

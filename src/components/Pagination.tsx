@@ -4,8 +4,10 @@ import type { PaginationProps } from './types';
 import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
+import { useNavigate } from 'react-router';
 
 export function Pagination(props: PaginationProps) {
+  const navigate = useNavigate();
   const { isVisible } = props;
   const context = useContext(AppContext);
   const { setStorageValue } = useLocalStorage();
@@ -25,23 +27,31 @@ export function Pagination(props: PaginationProps) {
     action: 'Prev' | 'Next'
   ) => {
     stopEvent(event);
+    let url: string = '';
     switch (action) {
       case 'Next':
         if (pageNext !== null) {
           updatePrevPage(pageNext.toString());
         }
-        updateParam('page', pageNext?.toString() || DEFAULT_PAGE.toString());
+        url = updateParam(
+          'page',
+          pageNext?.toString() || DEFAULT_PAGE.toString()
+        );
 
         break;
       case 'Prev':
         if (pagePrev !== null) {
           updatePrevPage(pagePrev.toString());
-          updateParam('page', pagePrev?.toString() || DEFAULT_PAGE.toString());
+          url = updateParam(
+            'page',
+            pagePrev?.toString() || DEFAULT_PAGE.toString()
+          );
         }
         break;
       default:
         break;
     }
+    navigate(url);
   };
   return (
     <div className={isVisible ? 'flex gap-2' : 'hidden'}>

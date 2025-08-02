@@ -7,8 +7,11 @@ import { hasSelected, toggle } from '../store/favoritesSlice.ts';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store.ts';
 import { Checkbox } from './Checkbox.tsx';
+import { useNavigate } from 'react-router';
 
 export function CharacterCard(props: CharacterCardProps) {
+  const navigate = useNavigate();
+
   const { updateParam } = useUpdateLocation();
   const { image, name, species, id } = props.character;
   const context = useContext(AppContext);
@@ -21,8 +24,9 @@ export function CharacterCard(props: CharacterCardProps) {
 
   const getDetails = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     stopEvent(e);
-    context?.showDetails();
-    updateParam('details', id.toString());
+    // context?.showDetails();
+    const url = updateParam('details', id.toString());
+    navigate(url, { replace: true });
   };
 
   const isDefaultTheme = context.isDefaultTheme;
