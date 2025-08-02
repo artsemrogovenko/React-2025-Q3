@@ -28,9 +28,9 @@ export function Details({ character }: { character: Character }) {
         data-testid="character-details"
         className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-h-fit gap-y-4 `}
       >
-        <div className="flex  gap-2">
-          <div className="flex size-1/2 size-max-[412px] rounded-2xl">
-            <img src={image} alt={name} className="size-full object-cover" />
+        <div className="flex gap-2">
+          <div className="flex rounded-2xl">
+            <img src={image} alt={name} className=" object-cover" />
           </div>
 
           <div className={`flex flex-col w-[50%]`}>
