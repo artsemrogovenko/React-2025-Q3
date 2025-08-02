@@ -4,13 +4,18 @@ import type { Character } from 'rickmortyapi';
 import { expect, test } from 'vitest';
 import '@testing-library/jest-dom';
 import { charactersResponse } from './__mock__/charatersData';
+import { Wrapper } from './__mock__/wrapper';
 
-const characterData: Character = charactersResponse.results?.pop() as Character;
+const characterData: Character = charactersResponse.results?.[0] as Character;
 
 test('Display the name and description of the character', () => {
-  render(<CharacterCard character={characterData} />);
+  render(
+    <Wrapper>
+      <CharacterCard character={characterData} />
+    </Wrapper>
+  );
 
-  const characterName = screen.getByText(/Ants in my Eyes Johnson/i);
+  const characterName = screen.getByText(/Rick Sanchez/i);
   const characterSpecies = screen.getByText(/Human/i);
 
   expect(characterName).toBeInTheDocument();

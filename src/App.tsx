@@ -2,7 +2,12 @@ import './App.css';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Controls } from './controls/Controls';
 import { Results } from './results/Results';
-import { AppContext, DEFAULT_PAGE, FLEX_STYLE_ROUNDED } from './constants';
+import {
+  AppContext,
+  DEFAULT_PAGE,
+  FLEX_STYLE_ROUNDED,
+  KEY_PREV_QUERY,
+} from './constants';
 import { Header } from './components/Header.tsx';
 import { calculatePages, getCharacterDetails } from './api/utils';
 import { Pagination } from './components/Pagination';
@@ -26,7 +31,11 @@ function App() {
 
   const [isFetchDetails, setIsFetchDetails] = useState<boolean>(false);
   const { updateParam, page, details } = useUpdateLocation();
-  const { prevSearch, updatePrevSearch } = useLocalStorage();
+  const { getStorageValue, setStorageValue } = useLocalStorage();
+
+  const prevSearch = getStorageValue(KEY_PREV_QUERY);
+  const updatePrevSearch = (value: string) =>
+    setStorageValue(KEY_PREV_QUERY, value);
 
   const handleSubmit = useCallback(
     async (query?: string): Promise<void> => {
@@ -51,7 +60,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log('chanfs');
     if (context.isDefaultTheme) {
       document.body.classList.add('light');
     } else {

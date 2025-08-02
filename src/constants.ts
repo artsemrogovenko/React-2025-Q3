@@ -9,6 +9,8 @@ export const MAX_SEARCH_LENGTH = 30;
 export const DEFAULT_PAGE = 1;
 
 export const FLEX_STYLE_ROUNDED = 'flex p-6 rounded-lg border-2';
+export const KEY_PREV_PAGE = 'prevPage';
+export const KEY_PREV_QUERY = 'prevSearch';
 
 const DEFAULT_CONTEXT = {
   currentPage: DEFAULT_PAGE,

@@ -5,8 +5,6 @@ import {
   getCharacterDetails,
   showEpisodesNames,
 } from '../api/utils';
-import { act, renderHook } from '@testing-library/react';
-import { useEffect } from 'react';
 import {
   charactersResponse,
   lastPageResponse,
@@ -15,7 +13,7 @@ import {
 } from './__mock__/charatersData';
 import { episodesResponse } from './__mock__/episodeData';
 import { type ApiResponse, type Character, getCharacter } from 'rickmortyapi';
-import { SUCCESS } from '../constants';
+import { KEY_PREV_PAGE, KEY_PREV_QUERY, SUCCESS } from '../constants';
 import { useLocalStorage } from '../hooks/hooks';
 
 vi.mock('rickmortyapi');
@@ -34,69 +32,48 @@ describe('localStorage utils', () => {
   });
 
   it('Initially, there are no value', () => {
-    const { result } = renderHook(() => useLocalStorage());
-    expect(result.current.prevSearch).toBe('');
-    expect(result.current.prevPage).toBe('');
+    const { getStorageValue } = useLocalStorage();
+    expect(getStorageValue(KEY_PREV_PAGE)).toBe('');
+    expect(getStorageValue(KEY_PREV_QUERY)).toBe('');
+    expect(localStorage.length).toBe(0);
+  });
+
+  it('Delete key in storage', () => {
+    const { deleteStorageValue } = useLocalStorage();
+    localStorage.setItem(KEY_PREV_PAGE, '5');
+    expect(localStorage.length).toBe(1);
+    deleteStorageValue(KEY_PREV_PAGE);
+    expect(localStorage.length).toBe(0);
+  });
+
+  it('Clear localstorage', () => {
+    localStorage.setItem('prevSearch', 'Rick');
+    localStorage.setItem('prevPage', '5');
+    const { clearStorageValues } = useLocalStorage();
+    clearStorageValues();
+    expect(localStorage.getItem('prevSearch')).toBe(null);
+    expect(localStorage.getItem('prevPage')).toBe(null);
   });
 
   it('Verification of successful conservation of a request', () => {
     localStorage.setItem('prevSearch', 'Rick');
     localStorage.setItem('prevPage', '5');
-    const { result } = renderHook(() => useLocalStorage());
+    const { getStorageValue } = useLocalStorage();
+    expect(getStorageValue(KEY_PREV_QUERY)).toBe('Rick');
+    expect(getStorageValue(KEY_PREV_PAGE)).toBe('5');
     expect(localStorage.getItem).toHaveBeenCalledWith('prevSearch');
     expect(localStorage.getItem).toHaveBeenCalledWith('prevPage');
-    expect(result.current.prevSearch).toBe('Rick');
-    expect(result.current.prevPage).toBe('5');
   });
 
   it('The old value is successfully overwritten', () => {
-    const { result } = renderHook(() => useLocalStorage());
-    act(() => {
-      result.current.updatePrevSearch('Gobo');
-    });
+    const { setStorageValue, getStorageValue } = useLocalStorage();
+    setStorageValue(KEY_PREV_QUERY, 'Gobo');
     expect(localStorage.getItem('prevSearch')).toBe('Gobo');
-
-    act(() => {
-      result.current.updatePrevSearch('Dark');
-    });
+    setStorageValue(KEY_PREV_QUERY, 'Dark');
     expect(localStorage.setItem).toHaveBeenCalledWith('prevSearch', 'Dark');
-    expect(result.current.prevSearch).toBe('Dark');
+    expect(getStorageValue(KEY_PREV_QUERY)).toBe('Dark');
     expect(localStorage.getItem('prevSearch')).not.toBe('Gobo');
     expect(localStorage.getItem('prevSearch')).toBe('Dark');
-  });
-
-  test('should handle NaN values correctly', () => {
-    const { result } = renderHook(() => useLocalStorage());
-    act(() => {
-      result.current.updatePrevPage(5);
-    });
-    expect(localStorage.getItem('prevPage')).toBe('5');
-
-    act(() => {
-      result.current.updatePrevPage(NaN);
-    });
-    expect(result.current.prevPage).toBe('');
-    expect(localStorage.getItem('prevPage')).toBe('');
-  });
-
-  test('should reset to new value after rerender', () => {
-    const { result, rerender } = renderHook(
-      ({ number }) => {
-        const hook = useLocalStorage();
-        useEffect(() => {
-          hook.updatePrevPage(number);
-        }, [number, hook]);
-        return hook;
-      },
-      { initialProps: { number: 1 } }
-    );
-    expect(result.current.prevPage).toBe('1');
-    expect(localStorage.getItem('prevPage')).toBe('1');
-
-    rerender({ number: 10 });
-
-    expect(result.current.prevPage).toBe('10');
-    expect(localStorage.getItem('prevPage')).toBe('10');
   });
 });
 

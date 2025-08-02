@@ -6,6 +6,7 @@ import type { ControlsProps } from './types';
 import {
   AppContext,
   FLEX_STYLE_ROUNDED,
+  KEY_PREV_QUERY,
   MAX_SEARCH_LENGTH,
 } from '../constants';
 import { useLocalStorage } from '../hooks/hooks';
@@ -15,7 +16,8 @@ export function Controls(props: ControlsProps) {
   const isDefaultTheme = context.isDefaultTheme;
   const themeStyle = !isDefaultTheme ? 'text-gray-300 font-bold' : '';
 
-  const { prevSearch } = useLocalStorage();
+  const { getStorageValue } = useLocalStorage();
+  const prevSearch = getStorageValue(KEY_PREV_QUERY);
   const [query, setQuery] = useState(prevSearch);
 
   const handleSearch = async (

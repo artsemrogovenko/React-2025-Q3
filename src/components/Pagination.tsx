@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import { MyButton } from './MyButton';
 import type { PaginationProps } from './types';
-import { AppContext, DEFAULT_PAGE } from '../constants';
+import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
 
 export function Pagination(props: PaginationProps) {
   const { isVisible } = props;
   const context = useContext(AppContext);
-  const { updatePrevPage } = useLocalStorage();
+  const { setStorageValue } = useLocalStorage();
+  const updatePrevPage = (value: string) =>
+    setStorageValue(KEY_PREV_PAGE, value);
 
   const { pagePrev, pageNext } = context?.pages ?? {
     pageNext: null,
@@ -26,14 +28,14 @@ export function Pagination(props: PaginationProps) {
     switch (action) {
       case 'Next':
         if (pageNext !== null) {
-          updatePrevPage(pageNext);
+          updatePrevPage(pageNext.toString());
         }
         updateParam('page', pageNext?.toString() || DEFAULT_PAGE.toString());
 
         break;
       case 'Prev':
         if (pagePrev !== null) {
-          updatePrevPage(pagePrev);
+          updatePrevPage(pagePrev.toString());
           updateParam('page', pagePrev?.toString() || DEFAULT_PAGE.toString());
         }
         break;

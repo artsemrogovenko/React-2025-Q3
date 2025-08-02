@@ -4,14 +4,12 @@ import '@testing-library/jest-dom';
 import { Controls } from '../controls/Controls';
 import { useLocalStorage } from '../hooks/hooks';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react';
+import { KEY_PREV_QUERY } from '../constants';
 
 const { result } = renderHook(() => useLocalStorage());
 
 const mockRequest = vi.fn(async (query?: string) => {
-  act(() => {
-    result.current.updatePrevSearch(query ?? '');
-  });
+  result.current.setStorageValue(KEY_PREV_QUERY, query || '');
 });
 
 describe('Rendering Tests', () => {
@@ -49,7 +47,6 @@ describe('Rendering Tests', () => {
     await userEvent.click(reset);
 
     expect(input.value).toBe('');
-    expect(result.current.prevSearch).toBe('');
     expect(localStorage.getItem('prevSearch')).toBe('');
   });
 });
