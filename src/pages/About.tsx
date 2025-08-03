@@ -4,7 +4,7 @@ import { ToHomepageButton } from '../components/ToHomepageButton';
 export function About() {
   return (
     <div
-      className={`flex flex-col size-min-[300px] gap-y-[20px] items-center content-center font-bold  h-[50dvh]`}
+      className={`flex flex-col size-min-[300px] gap-y-[20px] items-center content-center font-bold  h-[80vh]`}
       data-testid="about-page"
     >
       <div>

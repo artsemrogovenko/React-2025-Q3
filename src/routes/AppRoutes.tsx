@@ -9,15 +9,15 @@ import { Home } from '../Home';
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path={APP_ROUTES.app} element={<App />}>
+      <Route element={<App />}>
         <Route index element={<Home />} />
         <Route path={APP_ROUTES.about} element={<About />} />
-        <Route
-          path={`${APP_ROUTES.page}/${APP_ROUTES.details}`}
-          element={<DetailsHandler />}
-        />
-        <Route path={APP_ROUTES.page} element={<Home />}>
+        <Route path={APP_ROUTES.home} element={<Home />}>
           <Route path={APP_ROUTES.details} element={<DetailsHandler />} />
+          <Route
+            path={`${APP_ROUTES.page}/${APP_ROUTES.details}`}
+            element={<DetailsHandler />}
+          />
         </Route>
 
         <Route path={APP_ROUTES.notFound} element={<NotFound />} />

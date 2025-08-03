@@ -7,7 +7,7 @@ import { MySpinner } from '../components/Loader.tsx';
 import { CloseDetail } from '../components/CloseDetail.tsx';
 import { useCallback, useEffect, useState } from 'react';
 import { getCharacterDetails } from '../api/utils.ts';
-import { updateDetail } from '../store/detailsSlice.ts';
+import { hideDetail, updateDetail } from '../store/detailsSlice.ts';
 import {
   useAppDispatch,
   useAppSelector,
@@ -16,7 +16,6 @@ import {
 
 export function DetailsHandler() {
   const { details } = useUpdateLocation();
-
   const [isFetchDetails, setIsFetchDetails] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
@@ -33,9 +32,11 @@ export function DetailsHandler() {
     }
   }, [details]);
 
-  // useEffect(() => {
-  //   handleDetails();
-  // }, []);
+  useEffect(() => {
+    return () => {
+      dispatch(hideDetail());
+    };
+  }, []);
   const character = useAppSelector((state) => state.details.value);
 
   if (isFetchDetails)

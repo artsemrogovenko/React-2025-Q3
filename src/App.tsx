@@ -1,21 +1,23 @@
 import './App.css';
 import { useContext, useEffect } from 'react';
-import { AppContext, FLEX_STYLE_ROUNDED } from './constants';
+import { APP_ROUTES, AppContext, FLEX_STYLE_ROUNDED } from './constants';
 import { Header } from './components/Header.tsx';
 import { FavoritesModal } from './components/FavoritesModal.tsx';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 
 function App() {
-  const context = useContext(AppContext);
+  const { pathname } = useLocation();
 
+  const context = useContext(AppContext);
   useEffect(() => {
     if (context.isDefaultTheme) {
-      document.body.classList.add('light');
+      document.body.classList.remove('dark');
     } else {
-      document.body.classList.remove('light');
+      document.body.classList.add('dark');
     }
   }, [context.isDefaultTheme]);
 
+  const isAbout = pathname.includes(APP_ROUTES.about);
   return (
     <>
       <div id="App">
@@ -26,7 +28,7 @@ function App() {
           <Outlet />
         </div>
       </div>
-      <FavoritesModal />
+      {!isAbout && <FavoritesModal />}
     </>
   );
 }

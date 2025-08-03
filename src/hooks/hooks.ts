@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import type { ApiResponse } from 'rickmortyapi';
 import { NOT_FOUND_MSG, SUCCESS } from '../constants';
 import type { RequestState } from '../types';
@@ -78,6 +78,7 @@ export function useRequest<T>() {
 }
 
 export function useUpdateLocation() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const params = useMemo(() => {
     return {
@@ -98,11 +99,17 @@ export function useUpdateLocation() {
     return `?${copyParams.toString()}`;
   };
 
+  const deleteDetails = () => {
+    navigate(removeParam('details'));
+  };
+
   return {
     searchParams,
     updateParam,
     page: params.page,
     details: params.details,
     removeParam,
+    navigate,
+    deleteDetails,
   };
 }

@@ -17,7 +17,7 @@ export const detailsSlice = createSlice({
   reducers: {
     updateDetail: (state, action: PayloadAction<Character | object>) => {
       state.value = action.payload;
-      state.isVisible = true;
+      state.isVisible = !!action.payload;
     },
     hideDetail: (state) => {
       state.isVisible = false;

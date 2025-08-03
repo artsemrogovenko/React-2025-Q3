@@ -32,7 +32,7 @@ export function AppProvider(props: AppProviderProps) {
     setPages((prev) => ({ ...prev, ...value }));
   }, []);
   const resetUrl = useCallback(() => {
-    navigate(APP_ROUTES.app, { replace: false });
+    navigate(APP_ROUTES.home, { replace: false });
   }, [navigate]);
   const updateQuery = useCallback((value: string) => {
     setQuery(value);

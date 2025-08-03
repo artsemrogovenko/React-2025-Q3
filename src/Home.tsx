@@ -32,16 +32,6 @@ export function Home() {
   );
 
   useEffect(() => {
-    const rootElement = document.getElementById('root');
-    const handleClick = () => {
-      context.closeDetails();
-    };
-    rootElement?.addEventListener('click', handleClick);
-    handleSubmit(prevSearch);
-    return () => rootElement?.removeEventListener('click', handleClick);
-  }, []);
-
-  useEffect(() => {
     handleSubmit();
   }, [page]);
 
