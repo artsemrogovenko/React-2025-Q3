@@ -14,14 +14,15 @@ export function ThemeSwitch() {
   };
   return (
     <div
+      aria-label="toggle-theme"
       className="flex size-fit hover:cursor-pointer gap-2"
       onClick={(e) => handler(e)}
     >
       <span className="uppercase">switch theme</span>
       {isDefaultTheme ? (
-        <MoonIcon currentColor={color} />
+        <MoonIcon data-testid="moon-icon" currentColor={color} />
       ) : (
-        <SunIcon currentColor={color} />
+        <SunIcon data-testid="sun-icon" currentColor={color} />
       )}
     </div>
   );

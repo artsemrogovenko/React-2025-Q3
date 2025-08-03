@@ -26,7 +26,7 @@ export function Controls(props: ControlsProps) {
     if (event) {
       stopEvent(event);
     }
-    return props.onSubmit(query);
+    return props.onSubmit(query.trim());
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

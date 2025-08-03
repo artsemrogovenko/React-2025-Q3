@@ -50,10 +50,12 @@ describe('useUpdateLocation', () => {
   test('Show error message and no button', () => {
     vi.spyOn(hooks, 'useUpdateLocation').mockReturnValue({
       searchParams: new URLSearchParams(),
-      updateParam: vi.fn(),
+      updateParam: vi.fn((_: string, value: string) => value),
       page: '',
       details: null,
-      removeParam: vi.fn(),
+      removeParam: vi.fn((param: string) => param),
+      navigate: vi.fn(),
+      deleteDetails: vi.fn(),
     });
     render(
       <Wrapper>
@@ -68,10 +70,12 @@ describe('useUpdateLocation', () => {
   test('Show error message and home page button if page is not first', () => {
     vi.spyOn(hooks, 'useUpdateLocation').mockReturnValue({
       searchParams: new URLSearchParams(),
-      updateParam: vi.fn(),
+      updateParam: vi.fn((_: string, value: string) => value),
       page: '2',
       details: null,
-      removeParam: vi.fn(),
+      removeParam: vi.fn((param: string) => param),
+      navigate: vi.fn(),
+      deleteDetails: vi.fn(),
     });
     render(
       <Wrapper>

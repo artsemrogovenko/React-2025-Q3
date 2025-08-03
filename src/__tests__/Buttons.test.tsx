@@ -36,8 +36,6 @@ describe('ToHomepage button', () => {
     await userEvent.click(button);
 
     expect(mockNavigate).toHaveBeenCalledTimes(1);
-    expect(mockNavigate).toHaveBeenCalledWith(APP_ROUTES.home, {
-      replace: false,
-    });
+    expect(mockNavigate).toHaveBeenCalledWith(APP_ROUTES.home);
   });
 });
