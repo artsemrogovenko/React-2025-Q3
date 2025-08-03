@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
   type ApiResponse,
@@ -17,14 +17,22 @@ import {
 } from '../constants';
 import { charactersResponse } from './__mock__/charatersData';
 import { AppWrapper } from './__mock__/wrapper';
+import { Home } from '../Home';
+import { DetailsHandler } from '../details/DetailsHandler';
 
 vi.mock('rickmortyapi');
 vi.mock('../hooks/useRequest');
+
 vi.spyOn(console, 'error').mockImplementation(() => {});
 
 const mockResponse: ApiResponse<Info<Character[]>> = {
   status: SUCCESS,
   data: charactersResponse,
+  statusMessage: '',
+};
+const characterResponse: ApiResponse<Character> = {
+  status: SUCCESS,
+  data: charactersResponse.results?.[0] as Character,
   statusMessage: '',
 };
 
@@ -33,6 +41,29 @@ const errorResponse: ApiResponse<Info<Character[]>> = {
   data: {},
   statusMessage: '',
 };
+
+const homeMock = {
+  results: mockResponse,
+  isLoading: false,
+  error: null,
+  requestData: vi.fn().mockResolvedValue(mockResponse),
+};
+
+const detailsMock = {
+  results: characterResponse,
+  isLoading: false,
+  error: null,
+  requestData: vi.fn().mockResolvedValue(characterResponse),
+};
+
+vi.mock('../hooks/useRequest', () => ({
+  __esModule: true,
+  default: vi.fn((component) => {
+    if (component.type === Home) return homeMock;
+    if (component.type === DetailsHandler) return detailsMock;
+    return {};
+  }),
+}));
 
 describe('App initiation', () => {
   const errorMessage = 'Fetch failed';
@@ -77,6 +108,9 @@ describe('App interaction', () => {
       render(<AppWrapper basename={APP_ROUTES.home} />);
     });
   });
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
   test('Message for a negative request', () => {
     expect(screen.getByText(NOT_FOUND_MSG)).toBeInTheDocument();
@@ -91,4 +125,40 @@ test('Accept data with a successful request', async () => {
     render(<AppWrapper basename={APP_ROUTES.home} />);
   });
   expect(screen.getAllByTestId('character-card').length).toBe(countCards);
+});
+
+describe('checking general functionality', () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  beforeEach(async () => {
+    vi.clearAllMocks();
+    localStorage.setItem(KEY_PREV_QUERY, 'rick');
+    vi.mocked(getCharacters).mockResolvedValue(mockResponse);
+    await act(async () => {
+      render(<AppWrapper basename={APP_ROUTES.home} />);
+    });
+  });
+
+  test('test checkboxes and modal', async () => {
+    vi.mocked(getCharacters).mockReturnValue(Promise.resolve(mockResponse));
+    const countCards = Number(mockResponse.data.results?.length).valueOf();
+    let checkboxes: HTMLInputElement[] = [];
+    await waitFor(() => {
+      checkboxes = screen.getAllByTestId('mark-favorite') as HTMLInputElement[];
+    });
+    expect(checkboxes.every((c) => c.checked)).toBe(false);
+    expect(checkboxes.length).toBe(countCards);
+
+    expect(screen.queryByTestId('favorites-modal')).not.toBeInTheDocument();
+
+    await waitFor(() => {
+      checkboxes.forEach((c) => c.click());
+    });
+
+    expect(screen.queryByTestId('favorites-modal')).toBeInTheDocument();
+    const modal = screen.queryByTestId('favorites-modal') as HTMLDivElement;
+    expect(modal).toHaveTextContent(`${countCards} items selected`);
+  });
 });

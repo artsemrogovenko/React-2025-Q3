@@ -73,6 +73,7 @@ describe('User Interaction Tests', () => {
     vi.clearAllMocks();
   });
 
+  // TODO:
   // test('Saves search term to localStorage, trims whitespace before saving', async () => {
   //   expect(input.value).toBe('');
   //   const submit = screen.getByRole('button', {

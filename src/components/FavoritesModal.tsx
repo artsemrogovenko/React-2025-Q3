@@ -33,7 +33,10 @@ export function FavoritesModal() {
   if (!favorites.length) return null;
 
   return (
-    <div className="flex flex-col rounded-lg sticky border-2 bottom-8 right-2 z-2  p-2 self-end gap-2 bg-white">
+    <div
+      data-testid="favorites-modal"
+      className="flex flex-col rounded-lg sticky border-2 bottom-8 right-2 z-2  p-2 self-end gap-2 bg-white"
+    >
       <span className={`text-xl ${themeStyle}`}>
         {count} items
         <br /> selected
