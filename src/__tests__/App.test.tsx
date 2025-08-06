@@ -2,18 +2,18 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
   type ApiResponse,
-  type Info,
   type Character,
   getCharacters,
+  type Info,
 } from 'rickmortyapi';
 import { vi } from 'vitest';
 import {
-  SUCCESS,
+  APP_ROUTES,
+  DEFAULT_PAGE,
+  KEY_PREV_QUERY,
   NOT_FOUND,
   NOT_FOUND_MSG,
-  APP_ROUTES,
-  KEY_PREV_QUERY,
-  DEFAULT_PAGE,
+  SUCCESS,
 } from '../constants';
 import { charactersResponse } from './__mock__/charatersData';
 import { AppWrapper } from './__mock__/wrapper';

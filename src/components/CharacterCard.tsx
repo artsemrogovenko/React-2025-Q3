@@ -24,7 +24,6 @@ export function CharacterCard(props: CharacterCardProps) {
 
   const getDetails = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     stopEvent(e);
-    // context?.showDetails();
     const url = updateParam('details', id.toString());
     navigate(url, { replace: true });
   };
