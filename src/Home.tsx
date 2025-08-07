@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { calculatePages } from './api/utils';
+import { calculatePages, getErrorMessage } from './api/utils';
 import { Pagination } from './components/Pagination';
 import { AppContext, DEFAULT_PAGE, KEY_PREV_QUERY } from './constants';
 import { Controls } from './controls/Controls';
@@ -55,7 +55,7 @@ export function Home() {
       !error,
     [error, results?.data]
   );
-
+  const errorMsg = getErrorMessage(error);
   return (
     <>
       <Controls onSubmit={handleSubmit} />
@@ -63,7 +63,7 @@ export function Home() {
       <div className="flex justify-center w-full gap-x-[20px]">
         <Results
           data={results ? results.data : null}
-          error={null}
+          error={errorMsg}
           loading={isFetching}
         />
         {details && <DetailsHandler />}

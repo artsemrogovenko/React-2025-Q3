@@ -7,22 +7,40 @@ import {
   getEpisode,
   type Info,
 } from 'rickmortyapi';
-import { fakeBaseQuery } from '@reduxjs/toolkit/query';
-import { getCharacterDetails } from '../api/utils.ts';
+import {
+  fakeBaseQuery,
+  type FetchBaseQueryError,
+} from '@reduxjs/toolkit/query';
+import { getCharacterDetails, getErrorMessage } from '../api/utils.ts';
 import type { CharacterEpisode } from '../types.ts';
+import { NOT_FOUND_MSG, SUCCESS } from '../constants.ts';
 
 export const rickMortyApi = createApi({
   reducerPath: 'rickMortyApi',
   baseQuery: fakeBaseQuery(),
-  tagTypes: ['Get'],
   endpoints: (builder) => ({
     getCharacters: builder.query<
-      ApiResponse<Info<Character[]>>,
-      CharacterFilter | undefined
+      ApiResponse<Info<Character[]>> | undefined,
+      CharacterFilter
     >({
-      queryFn: async (filters: CharacterFilter | undefined) => {
-        const response = await getCharacters(filters);
-        return { data: response };
+      queryFn: async (filters?: CharacterFilter) => {
+        try {
+          const response = await getCharacters(filters);
+          if (response.status !== SUCCESS) {
+            throw {
+              status: response.status,
+              data: NOT_FOUND_MSG,
+            } as FetchBaseQueryError;
+          }
+          return { data: response };
+        } catch (error) {
+          return {
+            error: {
+              status: 'FETCH_ERROR',
+              error: getErrorMessage(error),
+            },
+          };
+        }
       },
     }),
     getCharacterById: builder.query<Character | object, string | null>({

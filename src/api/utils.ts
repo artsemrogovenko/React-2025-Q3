@@ -5,21 +5,23 @@ import type {
   CharacterEpisode,
   InfoCharacter,
 } from '../types';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { SerializedError } from '@reduxjs/toolkit';
+import { EMPTY_OBJECT } from '../constants.ts';
 
 export const getCharacterDetails = async (
   id: string | null
 ): Promise<Character | object> => {
-  const fakeObject = {};
   if (id !== null) {
     try {
       const idSearch = Number(id);
       const result = await getCharacter(idSearch);
       return result.data;
     } catch {
-      return fakeObject;
+      return EMPTY_OBJECT;
     }
   }
-  return fakeObject;
+  return EMPTY_OBJECT;
 };
 
 export function ejectEpisodesIds(data: string[]): number[] {
@@ -78,4 +80,29 @@ export function formatData(characters: Character[]): string {
     .map((character) => Object.values(character).join(','))
     .join('\n');
   return `${header}\n${rows}`;
+}
+
+export function getErrorMessage(error: unknown): string | null {
+  if (error === null) return null;
+  if (typeof error === 'string') return error;
+  if (typeof error === 'object' && 'error' in error)
+    return error?.error as string;
+  if (error instanceof Error) return error.message;
+
+  if (typeof error === 'object') {
+    if ('status' in error && 'data' in error) {
+      const fetchError = error as FetchBaseQueryError;
+      if (typeof fetchError.data === 'string') return fetchError.data;
+      if (typeof fetchError.data === 'object' && fetchError.data !== null) {
+        return (
+          (fetchError.data as { message?: string }).message || 'Unknown error'
+        );
+      }
+      return `${fetchError.status}`;
+    }
+    if ('message' in error) {
+      return (error as SerializedError).message || 'Unknown error';
+    }
+  }
+  return null;
 }
