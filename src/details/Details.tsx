@@ -1,26 +1,17 @@
-import { type Character, getEpisode } from 'rickmortyapi';
+import { type Character } from 'rickmortyapi';
 import pagesStyles from '../pages/Pages.module.scss';
 import { DescriptionItem } from './DescriptionItem.tsx';
 import { ejectEpisodesIds, showEpisodesNames } from '../api/utils.ts';
-import { useEffect } from 'react';
 import { MySpinner } from '../components/Loader.tsx';
 import { FLEX_STYLE_ROUNDED } from '../constants.ts';
-import type { CharacterEpisode } from '../types.ts';
 import { CloseDetail } from '../components/CloseDetail.tsx';
-import { useRequest } from '../hooks/hooks.ts';
+import { useGetEpisodesNamesQuery } from '../services/rickMorty.ts';
 
 export function Details({ character }: { character: Character }) {
-  const { isLoading, requestData, results } = useRequest<
-    CharacterEpisode | CharacterEpisode[]
-  >();
-
   const { episode, gender, image, location, name, species, status, type } =
     character;
-
-  useEffect(() => {
-    const episodesIds = ejectEpisodesIds(episode);
-    requestData(() => getEpisode(episodesIds));
-  }, [episode, requestData]);
+  const episodesIds = ejectEpisodesIds(episode);
+  const { data: results, isFetching } = useGetEpisodesNamesQuery(episodesIds);
 
   return (
     <div className="flex flex-col w-full">
@@ -45,7 +36,7 @@ export function Details({ character }: { character: Character }) {
             </div>
           </div>
         </div>
-        {isLoading ? (
+        {isFetching ? (
           <MySpinner />
         ) : (
           results &&

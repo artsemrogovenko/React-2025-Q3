@@ -9,17 +9,17 @@ import type {
 export const getCharacterDetails = async (
   id: string | null
 ): Promise<Character | object> => {
-  const empty = {};
+  const fakeObject = {};
   if (id !== null) {
     try {
       const idSearch = Number(id);
       const result = await getCharacter(idSearch);
       return result.data;
     } catch {
-      return empty;
+      return fakeObject;
     }
   }
-  return empty;
+  return fakeObject;
 };
 
 export function ejectEpisodesIds(data: string[]): number[] {
