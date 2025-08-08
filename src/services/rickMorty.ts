@@ -18,10 +18,11 @@ import { NOT_FOUND_MSG, SUCCESS } from '../constants.ts';
 export const rickMortyApi = createApi({
   reducerPath: 'rickMortyApi',
   baseQuery: fakeBaseQuery(),
+  tagTypes: ['Characters', 'Details', 'Episodes'],
   endpoints: (builder) => ({
     getCharacters: builder.query<
-      ApiResponse<Info<Character[]>> | undefined,
-      CharacterFilter
+      ApiResponse<Info<Character[]>>,
+      CharacterFilter | undefined
     >({
       queryFn: async (filters?: CharacterFilter) => {
         try {
@@ -42,12 +43,18 @@ export const rickMortyApi = createApi({
           };
         }
       },
+      providesTags: (_result, _error, arg) => [
+        { type: 'Characters', id: JSON.stringify(arg) },
+        'Characters',
+      ],
     }),
     getCharacterById: builder.query<Character | object, string | null>({
       queryFn: async (id: string | null) => {
         const response = await getCharacterDetails(id);
         return { data: response };
       },
+      providesTags: (_result, _error, arg) =>
+        arg ? [{ type: 'Details', id: arg }, 'Details'] : ['Details'],
     }),
     getEpisodesNames: builder.query<
       ApiResponse<CharacterEpisode | CharacterEpisode[]> | null,
@@ -57,6 +64,16 @@ export const rickMortyApi = createApi({
         const response = await getEpisode(numbers);
         return { data: response };
       },
+      providesTags: (_result, _error, arg) =>
+        arg
+          ? [
+              {
+                type: 'Episodes',
+                id: arg.map((id) => String(id)).join(','),
+              },
+              'Episodes',
+            ]
+          : ['Episodes'],
     }),
   }),
 });

@@ -65,6 +65,7 @@ export function Home() {
           data={results ? results.data : null}
           error={errorMsg}
           loading={isFetching}
+          searchParams={searchParams}
         />
         {details && <DetailsHandler />}
       </div>

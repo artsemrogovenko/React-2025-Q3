@@ -6,15 +6,17 @@ import { MySpinner } from '../components/Loader.tsx';
 import { FLEX_STYLE_ROUNDED } from '../constants.ts';
 import { CloseDetail } from '../components/CloseDetail.tsx';
 import { useGetEpisodesNamesQuery } from '../services/rickMorty.ts';
+import { RefreshDetails } from '../components/RefreshDetails.tsx';
 
 export function Details({ character }: { character: Character }) {
-  const { episode, gender, image, location, name, species, status, type } =
+  const { episode, gender, image, location, name, species, status, type, id } =
     character;
   const episodesIds = ejectEpisodesIds(episode);
   const { data: results, isFetching } = useGetEpisodesNamesQuery(episodesIds);
 
   return (
     <div className="flex flex-col w-full">
+      <RefreshDetails characterId={id} episodesIds={episodesIds} />
       <div
         data-testid="character-details"
         className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-h-fit gap-y-4 `}
