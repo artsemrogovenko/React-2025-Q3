@@ -1,10 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import detailsSlice from './detailsSlice';
 import favoritesSlice from './favoritesSlice';
-import { enableMapSet } from 'immer';
 import { rickMortyApi } from '../services/rickMorty';
-
-enableMapSet();
 
 export const store = configureStore({
   reducer: {

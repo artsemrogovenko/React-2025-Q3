@@ -7,11 +7,8 @@ import {
   getEpisode,
   type Info,
 } from 'rickmortyapi';
-import {
-  fakeBaseQuery,
-  type FetchBaseQueryError,
-} from '@reduxjs/toolkit/query';
-import { getCharacterDetails, getErrorMessage } from '../api/utils.ts';
+import { fakeBaseQuery } from '@reduxjs/toolkit/query';
+import { getCharacterDetails } from '../api/utils.ts';
 import type { CharacterEpisode } from '../types.ts';
 import { NOT_FOUND_MSG, SUCCESS } from '../constants.ts';
 
@@ -25,23 +22,13 @@ export const rickMortyApi = createApi({
       CharacterFilter | undefined
     >({
       queryFn: async (filters?: CharacterFilter) => {
-        try {
-          const response = await getCharacters(filters);
-          if (response.status !== SUCCESS) {
-            throw {
-              status: response.status,
-              data: NOT_FOUND_MSG,
-            } as FetchBaseQueryError;
-          }
-          return { data: response };
-        } catch (error) {
+        const response = await getCharacters(filters);
+        if (response.status !== SUCCESS) {
           return {
-            error: {
-              status: 'FETCH_ERROR',
-              error: getErrorMessage(error),
-            },
+            error: { status: response.status, message: NOT_FOUND_MSG },
           };
         }
+        return { data: response };
       },
       providesTags: (_result, _error, arg) => [
         { type: 'Characters', id: JSON.stringify(arg) },

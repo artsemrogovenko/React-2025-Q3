@@ -17,8 +17,8 @@ import {
 } from '../constants';
 import { charactersResponse } from './__mock__/charatersData';
 import { AppWrapper } from './__mock__/wrapper';
-import { Home } from '../Home';
-import { DetailsHandler } from '../details/DetailsHandler';
+import { store } from '../store/store';
+import { rickMortyApi } from '../services/rickMorty';
 
 vi.mock('rickmortyapi');
 vi.mock('../hooks/useRequest');
@@ -30,11 +30,6 @@ const mockResponse: ApiResponse<Info<Character[]>> = {
   data: charactersResponse,
   statusMessage: '',
 };
-const characterResponse: ApiResponse<Character> = {
-  status: SUCCESS,
-  data: charactersResponse.results?.[0] as Character,
-  statusMessage: '',
-};
 
 const errorResponse: ApiResponse<Info<Character[]>> = {
   status: NOT_FOUND,
@@ -42,38 +37,23 @@ const errorResponse: ApiResponse<Info<Character[]>> = {
   statusMessage: '',
 };
 
-const homeMock = {
-  results: mockResponse,
-  isLoading: false,
-  error: null,
-  requestData: vi.fn().mockResolvedValue(mockResponse),
+const mockSearchParams = {
+  name: 'rick',
+  page: DEFAULT_PAGE,
 };
-
-const detailsMock = {
-  results: characterResponse,
-  isLoading: false,
-  error: null,
-  requestData: vi.fn().mockResolvedValue(characterResponse),
-};
-
-vi.mock('../hooks/useRequest', () => ({
-  __esModule: true,
-  default: vi.fn((component) => {
-    if (component.type === Home) return homeMock;
-    if (component.type === DetailsHandler) return detailsMock;
-    return {};
-  }),
-}));
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe('App initiation', () => {
   const errorMessage = 'Fetch failed';
+
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   beforeEach(async () => {
-    vi.clearAllMocks();
-    localStorage.setItem(KEY_PREV_QUERY, 'rick');
+    localStorage.setItem(KEY_PREV_QUERY, mockSearchParams.name);
     vi.mocked(getCharacters).mockRejectedValue(new Error(errorMessage));
 
     await act(async () => {
@@ -88,10 +68,7 @@ describe('App initiation', () => {
     expect(results).toBeInTheDocument();
   });
   test('Request for mounting', async () => {
-    await expect(getCharacters).toHaveBeenCalledWith({
-      name: 'rick',
-      page: DEFAULT_PAGE,
-    });
+    await expect(getCharacters).toHaveBeenCalledWith(mockSearchParams);
   });
 
   test('Network error response', async () => {
@@ -112,8 +89,10 @@ describe('App interaction', () => {
     vi.clearAllMocks();
   });
 
-  test('Message for a negative request', () => {
-    expect(screen.getByText(NOT_FOUND_MSG)).toBeInTheDocument();
+  test('Message for a negative request', async () => {
+    await waitFor(() => {
+      expect(screen.getByText(NOT_FOUND_MSG)).toBeInTheDocument();
+    });
   });
 });
 
@@ -124,18 +103,20 @@ test('Accept data with a successful request', async () => {
   await act(async () => {
     render(<AppWrapper basename={APP_ROUTES.home} />);
   });
-  expect(screen.getAllByTestId('character-card').length).toBe(countCards);
+  await waitFor(() => {
+    expect(screen.getAllByTestId('character-card').length).toBe(countCards);
+  });
 });
 
-describe('checking general functionality', () => {
+describe('Checking general functionality', () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   beforeEach(async () => {
-    vi.clearAllMocks();
-    localStorage.setItem(KEY_PREV_QUERY, 'rick');
+    localStorage.setItem(KEY_PREV_QUERY, mockSearchParams.name);
     vi.mocked(getCharacters).mockResolvedValue(mockResponse);
+    store.dispatch(rickMortyApi.util.resetApiState());
     await act(async () => {
       render(<AppWrapper basename={APP_ROUTES.home} />);
     });
@@ -160,5 +141,21 @@ describe('checking general functionality', () => {
     expect(screen.queryByTestId('favorites-modal')).toBeInTheDocument();
     const modal = screen.queryByTestId('favorites-modal') as HTMLDivElement;
     expect(modal).toHaveTextContent(`${countCards} items selected`);
+  });
+
+  test('Test refresh button', async () => {
+    const dispatchSpy = vi.spyOn(store, 'dispatch');
+    await waitFor(() => {});
+    const reloadPage = screen.getAllByRole('button', {
+      name: /Refresh page/i,
+    })[0];
+
+    act(() => reloadPage.click());
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      rickMortyApi.util.invalidateTags([
+        { type: 'Characters', id: JSON.stringify(mockSearchParams) },
+      ])
+    );
+    expect(getCharacters).toHaveBeenCalledTimes(2);
   });
 });

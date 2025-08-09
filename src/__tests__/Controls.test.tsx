@@ -20,7 +20,7 @@ describe('Rendering Tests', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    localStorage.setItem('prevSearch', 'Dark');
+    localStorage.setItem('prevSearch', 'gobo');
     render(<Controls onSubmit={mockRequest} />);
     input = screen.getByTestId('character-search-input') as HTMLInputElement;
   });
@@ -37,15 +37,15 @@ describe('Rendering Tests', () => {
 
     expect(input).toBeInTheDocument();
     expect(submit).toBeInTheDocument();
-    expect(input.value).toBe('Dark');
+    expect(input.value).toBe('gobo');
   });
 
   test('Resetting the input field and Localstorage', async () => {
     const reset = screen.getByLabelText('Clear input') as HTMLButtonElement;
 
     expect(reset).toBeInTheDocument();
-    expect(input.value).toBe('Dark');
-    expect(localStorage.getItem('prevSearch')).toBe('Dark');
+    expect(input.value).toBe('gobo');
+    expect(localStorage.getItem('prevSearch')).toBe('gobo');
     await userEvent.click(reset);
 
     expect(input.value).toBe('');
