@@ -2,10 +2,7 @@ import { useContext } from 'react';
 import type { CharacterCardProps } from './types';
 import { AppContext } from '../constants';
 import { stopEvent } from '../api/utils';
-import { useAppDispatch, useUpdateLocation } from '../hooks/hooks';
-import { hasSelected, toggle } from '../store/favoritesSlice.ts';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../store/store.ts';
+import { useUpdateLocation } from '../hooks/hooks';
 import { Checkbox } from './Checkbox.tsx';
 import { useNavigate } from 'react-router';
 
@@ -15,12 +12,6 @@ export function CharacterCard(props: CharacterCardProps) {
   const { updateParam } = useUpdateLocation();
   const { image, name, species, id } = props.character;
   const context = useContext(AppContext);
-  const isSelected = useSelector((state: RootState) => hasSelected(state)(id));
-  const dispatch = useAppDispatch();
-
-  const handleToggle = () => {
-    dispatch(toggle({ id: id, value: props.character }));
-  };
 
   const getDetails = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     stopEvent(e);
@@ -48,7 +39,7 @@ export function CharacterCard(props: CharacterCardProps) {
         <h3 className="text-lg font-bold">{name}</h3>
         <p className="text-gray-600">{species}</p>
       </div>
-      <Checkbox isChecked={isSelected} onChange={handleToggle} />
+      <Checkbox character={props.character} />
     </div>
   );
 }

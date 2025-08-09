@@ -59,7 +59,7 @@ export function Home() {
   return (
     <>
       <Controls onSubmit={handleSubmit} />
-      <Pagination isVisible={visiblePagination} />
+      <Pagination isVisible={visiblePagination} searchParams={searchParams} />
       <div className="flex justify-center w-full gap-x-[20px]">
         <Results
           data={results ? results.data : null}
@@ -69,7 +69,7 @@ export function Home() {
         />
         {details && <DetailsHandler />}
       </div>
-      <Pagination isVisible={visiblePagination} />
+      <Pagination isVisible={visiblePagination} searchParams={searchParams} />
     </>
   );
 }

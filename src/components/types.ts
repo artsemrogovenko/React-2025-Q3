@@ -27,6 +27,7 @@ export type MyButtonProps = {
 export type PaginationProps = {
   isDisabled?: boolean;
   isVisible: boolean;
+  searchParams?: { name: string; page: number };
 };
 
 export type ToHomepageProps = {

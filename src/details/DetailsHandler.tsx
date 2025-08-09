@@ -1,5 +1,5 @@
 import { NotFound } from '../pages/NotFound.tsx';
-import { NOT_FOUND_DETAIL } from '../constants.ts';
+import { EMPTY_OBJECT, NOT_FOUND_DETAIL } from '../constants.ts';
 import type { Character } from 'rickmortyapi';
 import { Details } from './Details.tsx';
 import { DetailsBlock } from './DetailsBlock.tsx';
@@ -16,7 +16,7 @@ export function DetailsHandler() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(updateDetail(data ?? {}));
+    dispatch(updateDetail(data ?? EMPTY_OBJECT));
   }, [data]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export function DetailsHandler() {
         <MySpinner />
       </DetailsBlock>
     );
-  if (!Object.keys(data ?? {}).length) {
+  if (!Object.keys(data ?? EMPTY_OBJECT).length) {
     return (
       <DetailsBlock>
         <NotFound reason={NOT_FOUND_DETAIL} hideButton={true} />

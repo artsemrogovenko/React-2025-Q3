@@ -20,8 +20,8 @@ export function Controls(props: ControlsProps) {
   const prevSearch = getStorageValue(KEY_PREV_QUERY);
   const [query, setQuery] = useState(prevSearch);
 
-  const handleSearch = async (
-    event?: React.FormEvent<HTMLFormElement>
+  const handleSearch = async <T extends Event | SyntheticEvent>(
+    event?: T
   ): Promise<void> => {
     if (event) {
       stopEvent(event);
@@ -65,7 +65,7 @@ export function Controls(props: ControlsProps) {
         />
         {query && <ClearButton reset={resetInput} />}
       </div>
-      <SubmitButton />
+      <SubmitButton onClick={handleSearch} />
     </form>
   );
 }

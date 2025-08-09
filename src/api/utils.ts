@@ -76,11 +76,41 @@ export function makeCsv(array: Character[]) {
 
 export function formatData(characters: Character[]): string {
   const header = Object.keys(characters[0]).join(',');
-  const rows = characters
+  const clonedArray = characters.map((obj) => JSON.parse(JSON.stringify(obj)));
+  const rows = clonedArray
+    .map((character) => {
+      const copy = { ...character };
+      if ('episode' in copy) {
+        Object.defineProperty(copy, 'episode', {
+          value: `[${ejectEpisodesIds(copy.episode)}]`,
+        });
+      }
+      if ('location' in copy)
+        Object.defineProperty(copy, 'location', { value: copy.location.name });
+      if ('origin' in copy)
+        Object.defineProperty(copy, 'origin', { value: copy.origin.name });
+      return copy;
+    })
     .map((character) => Object.values(character).join(','))
     .join('\n');
   return `${header}\n${rows}`;
 }
+
+export const downloadCsv = (
+  link: React.RefObject<HTMLAnchorElement | null>,
+  favorites: Character[],
+  count: number
+) => {
+  const blob = makeCsv(favorites);
+  const url = URL.createObjectURL(blob);
+
+  if (link.current) {
+    link.current.href = url;
+    link.current.download = `${count}_items.csv`;
+    link.current.click();
+  }
+  URL.revokeObjectURL(url);
+};
 
 export function getErrorMessage(error: unknown): string | null {
   if (error === null) return null;

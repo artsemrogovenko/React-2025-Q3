@@ -1,6 +1,11 @@
 import './App.css';
 import { useContext, useEffect } from 'react';
-import { APP_ROUTES, AppContext, FLEX_STYLE_ROUNDED } from './constants';
+import {
+  APP_ROUTES,
+  AppContext,
+  CLASSNAME_DARK,
+  FLEX_STYLE_ROUNDED,
+} from './constants';
 import { Header } from './components/Header.tsx';
 import { FavoritesModal } from './components/FavoritesModal.tsx';
 import { Outlet, useLocation } from 'react-router';
@@ -11,9 +16,9 @@ function App() {
   const context = useContext(AppContext);
   useEffect(() => {
     if (context.isDefaultTheme) {
-      document.body.classList.remove('dark');
+      document.body.classList.remove(CLASSNAME_DARK);
     } else {
-      document.body.classList.add('dark');
+      document.body.classList.add(CLASSNAME_DARK);
     }
   }, [context.isDefaultTheme]);
 
