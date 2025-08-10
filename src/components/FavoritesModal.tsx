@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { getFavorites, unselectAll } from '../store/favoritesSlice';
 import { MyButton } from './MyButton';
-import { makeCsv } from '../api/utils.ts';
+import { downloadCsv } from '../api/utils.ts';
 import { useContext, useRef } from 'react';
 import { AppContext } from '../constants.ts';
 
@@ -19,17 +19,6 @@ export function FavoritesModal() {
     dispatch(unselectAll());
   };
 
-  const download = () => {
-    const blob = makeCsv(favorites);
-    const url = URL.createObjectURL(blob);
-
-    if (link.current) {
-      link.current.href = url;
-      link.current.download = `${count}_items.csv`;
-      link.current.click();
-    }
-    URL.revokeObjectURL(url);
-  };
   if (!favorites.length) return null;
 
   return (
@@ -42,7 +31,11 @@ export function FavoritesModal() {
         <br /> selected
       </span>
       <MyButton text="Unselect all" onClick={unselect} className="m-0" />
-      <MyButton text="Download" onClick={download} className="m-0" />
+      <MyButton
+        text="Download"
+        onClick={() => downloadCsv(link, favorites, count)}
+        className="m-0"
+      />
       <a ref={link} target={'_blank'} className="hidden" />
     </div>
   );

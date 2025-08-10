@@ -1,51 +1,36 @@
 import { NotFound } from '../pages/NotFound.tsx';
-import { NOT_FOUND_DETAIL } from '../constants.ts';
+import { EMPTY_OBJECT, NOT_FOUND_DETAIL } from '../constants.ts';
 import type { Character } from 'rickmortyapi';
 import { Details } from './Details.tsx';
 import { DetailsBlock } from './DetailsBlock.tsx';
 import { MySpinner } from '../components/Loader.tsx';
 import { CloseDetail } from '../components/CloseDetail.tsx';
-import { useCallback, useEffect, useState } from 'react';
-import { getCharacterDetails } from '../api/utils.ts';
+import { useEffect } from 'react';
 import { hideDetail, updateDetail } from '../store/detailsSlice.ts';
-import {
-  useAppDispatch,
-  useAppSelector,
-  useUpdateLocation,
-} from '../hooks/hooks.ts';
+import { useAppDispatch, useUpdateLocation } from '../hooks/hooks.ts';
+import { useGetCharacterByIdQuery } from '../services/rickMorty.ts';
 
 export function DetailsHandler() {
   const { details } = useUpdateLocation();
-  const [isFetchDetails, setIsFetchDetails] = useState<boolean>(false);
+  const { data, isFetching } = useGetCharacterByIdQuery(details);
   const dispatch = useAppDispatch();
 
-  const handleDetails = useCallback(async (): Promise<void> => {
-    setIsFetchDetails(true);
-    const detailCharacter = await getCharacterDetails(details || null);
-    dispatch(updateDetail(detailCharacter));
-    setIsFetchDetails(false);
-  }, [details, dispatch]);
-
   useEffect(() => {
-    if (details) {
-      handleDetails();
-    }
-  }, [details]);
+    dispatch(updateDetail(data ?? EMPTY_OBJECT));
+  }, [data]);
 
   useEffect(() => {
     return () => {
       dispatch(hideDetail());
     };
   }, []);
-  const character = useAppSelector((state) => state.details.value);
-
-  if (isFetchDetails)
+  if (isFetching)
     return (
       <DetailsBlock>
         <MySpinner />
       </DetailsBlock>
     );
-  if (!Object.keys(character).length) {
+  if (!Object.keys(data ?? EMPTY_OBJECT).length) {
     return (
       <DetailsBlock>
         <NotFound reason={NOT_FOUND_DETAIL} hideButton={true} />
@@ -55,7 +40,7 @@ export function DetailsHandler() {
   }
   return (
     <DetailsBlock>
-      <Details character={character as Character} />
+      <Details character={data as Character} />
     </DetailsBlock>
   );
 }

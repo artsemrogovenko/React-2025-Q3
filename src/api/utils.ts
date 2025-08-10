@@ -5,21 +5,23 @@ import type {
   CharacterEpisode,
   InfoCharacter,
 } from '../types';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { SerializedError } from '@reduxjs/toolkit';
+import { EMPTY_OBJECT } from '../constants.ts';
 
 export const getCharacterDetails = async (
   id: string | null
 ): Promise<Character | object> => {
-  const empty = {};
   if (id !== null) {
     try {
       const idSearch = Number(id);
       const result = await getCharacter(idSearch);
       return result.data;
     } catch {
-      return empty;
+      return EMPTY_OBJECT;
     }
   }
-  return empty;
+  return EMPTY_OBJECT;
 };
 
 export function ejectEpisodesIds(data: string[]): number[] {
@@ -74,8 +76,63 @@ export function makeCsv(array: Character[]) {
 
 export function formatData(characters: Character[]): string {
   const header = Object.keys(characters[0]).join(',');
-  const rows = characters
+  const clonedArray = characters.map((obj) => JSON.parse(JSON.stringify(obj)));
+  const rows = clonedArray
+    .map((character) => {
+      const copy = { ...character };
+      if ('episode' in copy) {
+        Object.defineProperty(copy, 'episode', {
+          value: `[${ejectEpisodesIds(copy.episode)}]`,
+        });
+      }
+      if ('location' in copy)
+        Object.defineProperty(copy, 'location', { value: copy.location.name });
+      if ('origin' in copy)
+        Object.defineProperty(copy, 'origin', { value: copy.origin.name });
+      return copy;
+    })
     .map((character) => Object.values(character).join(','))
     .join('\n');
   return `${header}\n${rows}`;
+}
+
+export const downloadCsv = (
+  link: React.RefObject<HTMLAnchorElement | null>,
+  favorites: Character[],
+  count: number
+) => {
+  const blob = makeCsv(favorites);
+  const url = URL.createObjectURL(blob);
+
+  if (link.current) {
+    link.current.href = url;
+    link.current.download = `${count}_items.csv`;
+    link.current.click();
+  }
+  URL.revokeObjectURL(url);
+};
+
+export function getErrorMessage(error: unknown): string | null {
+  if (error === null) return null;
+  if (typeof error === 'string') return error;
+  if (typeof error === 'object' && 'error' in error)
+    return error?.error as string;
+  if (error instanceof Error) return error.message;
+
+  if (typeof error === 'object') {
+    if ('status' in error && 'data' in error) {
+      const fetchError = error as FetchBaseQueryError;
+      if (typeof fetchError.data === 'string') return fetchError.data;
+      if (typeof fetchError.data === 'object' && fetchError.data !== null) {
+        return (
+          (fetchError.data as { message?: string }).message || 'Unknown error'
+        );
+      }
+      return `${fetchError.status}`;
+    }
+    if ('message' in error) {
+      return (error as SerializedError).message || 'Unknown error';
+    }
+  }
+  return null;
 }

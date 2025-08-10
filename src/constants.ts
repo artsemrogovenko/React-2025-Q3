@@ -7,6 +7,8 @@ export const NOT_FOUND_MSG = 'No characters found';
 export const NOT_FOUND_DETAIL = 'Failed to get character more details';
 export const MAX_SEARCH_LENGTH = 30;
 export const DEFAULT_PAGE = 1;
+export const EMPTY_OBJECT = {};
+export const CLASSNAME_DARK = 'dark';
 
 export const FLEX_STYLE_ROUNDED = 'flex p-6 rounded-lg border-2';
 export const KEY_PREV_PAGE = 'prevPage';

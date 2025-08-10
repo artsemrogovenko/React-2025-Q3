@@ -1,22 +1,27 @@
-import { useCallback, useContext, useEffect, useMemo } from 'react';
-import { type Character, getCharacters, type Info } from 'rickmortyapi';
-import { calculatePages } from './api/utils';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { calculatePages, getErrorMessage } from './api/utils';
 import { Pagination } from './components/Pagination';
 import { AppContext, DEFAULT_PAGE, KEY_PREV_QUERY } from './constants';
 import { Controls } from './controls/Controls';
 import { DetailsHandler } from './details/DetailsHandler';
-import { useLocalStorage, useRequest, useUpdateLocation } from './hooks/hooks';
+import { useLocalStorage, useUpdateLocation } from './hooks/hooks';
 import { Results } from './results/Results';
+import { useGetCharactersQuery } from './services/rickMorty.ts';
 
 export function Home() {
-  const { results, isLoading, error, requestData } =
-    useRequest<Info<Character[]>>();
-
   const context = useContext(AppContext);
   const { page, details } = useUpdateLocation();
   const { getStorageValue, setStorageValue } = useLocalStorage();
   const prevSearch = getStorageValue(KEY_PREV_QUERY);
-
+  const [searchParams, setSearchParams] = useState({
+    name: prevSearch,
+    page: DEFAULT_PAGE,
+  });
+  const {
+    data: results,
+    isFetching,
+    error,
+  } = useGetCharactersQuery(searchParams);
   const updatePrevSearch = (value: string) =>
     setStorageValue(KEY_PREV_QUERY, value);
 
@@ -26,9 +31,9 @@ export function Home() {
       if (query !== undefined) updatePrevSearch(query);
       if (page) searchObj.page = Number(page);
       searchObj.name = query ?? prevSearch;
-      await requestData(() => getCharacters(searchObj));
+      setSearchParams((prev) => ({ ...prev, ...searchObj }));
     },
-    [page, requestData]
+    [page]
   );
 
   useEffect(() => {
@@ -47,20 +52,20 @@ export function Home() {
       !error,
     [error, results?.data]
   );
-
+  const errorMsg = getErrorMessage(error);
   return (
     <>
       <Controls onSubmit={handleSubmit} />
-      <Pagination isVisible={visiblePagination} />
+      <Pagination isVisible={visiblePagination} searchParams={searchParams} />
       <div className="flex justify-center w-full gap-x-[20px]">
         <Results
-          data={results && results.data}
-          error={error}
-          loading={isLoading}
+          data={results ? results.data : null}
+          error={errorMsg}
+          loading={isFetching}
         />
         {details && <DetailsHandler />}
       </div>
-      <Pagination isVisible={visiblePagination} />
+      <Pagination isVisible={visiblePagination} searchParams={searchParams} />
     </>
   );
 }

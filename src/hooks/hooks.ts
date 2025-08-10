@@ -1,8 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import type { ApiResponse } from 'rickmortyapi';
-import { NOT_FOUND_MSG, SUCCESS } from '../constants';
-import type { RequestState } from '../types';
 import {
   type TypedUseSelectorHook,
   useDispatch,
@@ -26,55 +23,6 @@ export function useLocalStorage() {
     clearStorageValues,
     deleteStorageValue,
   };
-}
-
-export function useRequest<T>() {
-  const [state, setState] = useState<RequestState<ApiResponse<T>>>({
-    results: null,
-    isLoading: false,
-    error: null,
-  });
-
-  const updateState = useCallback(
-    (values: Partial<RequestState<ApiResponse<T>>>) => {
-      setState((prevState) => ({
-        ...prevState,
-        ...values,
-      }));
-    },
-    []
-  );
-
-  const requestData = useCallback(
-    async (handlerData: () => Promise<ApiResponse<T>>): Promise<void> => {
-      updateState({ error: '' });
-
-      try {
-        updateState({ isLoading: true });
-
-        const data = await handlerData();
-        if (data.status !== SUCCESS) {
-          updateState({ error: NOT_FOUND_MSG });
-          return;
-        }
-        updateState({
-          results: data,
-          error: null,
-        });
-      } catch (error) {
-        if (error instanceof Error)
-          updateState({
-            error: error.message,
-            isLoading: false,
-          });
-      } finally {
-        updateState({ isLoading: false });
-      }
-    },
-    [updateState]
-  );
-
-  return { ...state, requestData };
 }
 
 export function useUpdateLocation() {

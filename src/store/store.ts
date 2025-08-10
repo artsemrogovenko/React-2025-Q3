@@ -1,12 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import detailsSlice from './detailsSlice';
 import favoritesSlice from './favoritesSlice';
-import { enableMapSet } from 'immer';
-
-enableMapSet();
+import { rickMortyApi } from '../services/rickMorty';
 
 export const store = configureStore({
-  reducer: { details: detailsSlice, favorites: favoritesSlice },
+  reducer: {
+    details: detailsSlice,
+    favorites: favoritesSlice,
+    [rickMortyApi.reducerPath]: rickMortyApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(rickMortyApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

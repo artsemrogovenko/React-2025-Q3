@@ -5,14 +5,25 @@ import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { rickMortyApi } from '../services/rickMorty.ts';
 
 export function Pagination(props: PaginationProps) {
   const navigate = useNavigate();
-  const { isVisible } = props;
+  const { isVisible, searchParams } = props;
   const context = useContext(AppContext);
   const { setStorageValue } = useLocalStorage();
   const updatePrevPage = (value: string) =>
     setStorageValue(KEY_PREV_PAGE, value);
+
+  const dispatch = useDispatch();
+  const handleUpdate = () => {
+    dispatch(
+      rickMortyApi.util.invalidateTags([
+        { type: 'Characters', id: JSON.stringify(searchParams) },
+      ])
+    );
+  };
 
   const { pagePrev, pageNext } = context?.pages ?? {
     pageNext: null,
@@ -55,6 +66,7 @@ export function Pagination(props: PaginationProps) {
   };
   return (
     <div className={isVisible ? 'flex gap-2' : 'hidden'}>
+      <MyButton text="Refresh page" onClick={handleUpdate} />
       <MyButton
         text="Prev"
         isDisabled={isDisabledPrev}

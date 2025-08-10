@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { Character } from 'rickmortyapi';
+import { EMPTY_OBJECT } from '../constants.ts';
 
 interface DetailsState {
   value: Character | object;
@@ -7,7 +8,7 @@ interface DetailsState {
 }
 
 const initialState: DetailsState = {
-  value: {},
+  value: EMPTY_OBJECT,
   isVisible: false,
 };
 
