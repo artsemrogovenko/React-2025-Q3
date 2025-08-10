@@ -19,14 +19,12 @@ describe('Rendering Tests', () => {
   let input: HTMLInputElement;
 
   beforeEach(() => {
-    vi.clearAllMocks();
     localStorage.setItem('prevSearch', 'gobo');
     render(<Controls onSubmit={mockRequest} />);
     input = screen.getByTestId('character-search-input') as HTMLInputElement;
   });
 
   afterEach(() => {
-    localStorage.clear();
     vi.clearAllMocks();
   });
 
@@ -55,7 +53,6 @@ describe('Rendering Tests', () => {
 });
 
 describe('User Interaction Tests', () => {
-  const mockRequest = vi.fn();
   const user = userEvent.setup();
   let input: HTMLInputElement;
 
@@ -73,23 +70,20 @@ describe('User Interaction Tests', () => {
     vi.clearAllMocks();
   });
 
-  // TODO:
-  // test('Saves search term to localStorage, trims whitespace before saving', async () => {
-  //   expect(input.value).toBe('');
-  //   const submit = screen.getByRole('button', {
-  //     name: /Search/i,
-  //   }) as HTMLButtonElement;
-  //   await user.type(input, 'Test whitespaces  ');
-  //   await user.click(submit);
+  test('Saves search term to localStorage, trims whitespace before saving', async () => {
+    expect(input.value).toBe('');
+    const submit = screen.getByRole('button', {
+      name: /Search/i,
+    }) as HTMLButtonElement;
+    await user.type(input, 'Test whitespaces  ');
+    await user.click(submit);
 
-  //   expect(setStorageSpy).toHaveBeenCalledWith(
-  //     KEY_PREV_QUERY,
-  //     'Test whitespaces'
-  //   );
-  //   expect(localStorage.getItem( KEY_PREV_QUERY)).toBe (
-  //     'Test whitespaces'
-  //   );
-  // });
+    expect(setStorageSpy).toHaveBeenCalledWith(
+      KEY_PREV_QUERY,
+      'Test whitespaces'
+    );
+    expect(localStorage.getItem(KEY_PREV_QUERY)).toBe('Test whitespaces');
+  });
 
   test('Clear input', async () => {
     expect(input.value).toBe('');

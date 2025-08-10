@@ -9,9 +9,6 @@ import { Results } from './results/Results';
 import { useGetCharactersQuery } from './services/rickMorty.ts';
 
 export function Home() {
-  // const { results, isLoading, error, requestData } =
-  //   useRequest<Info<Character[]>>();
-
   const context = useContext(AppContext);
   const { page, details } = useUpdateLocation();
   const { getStorageValue, setStorageValue } = useLocalStorage();
@@ -65,7 +62,6 @@ export function Home() {
           data={results ? results.data : null}
           error={errorMsg}
           loading={isFetching}
-          searchParams={searchParams}
         />
         {details && <DetailsHandler />}
       </div>
