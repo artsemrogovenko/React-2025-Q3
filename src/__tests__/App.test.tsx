@@ -125,6 +125,7 @@ describe('Checking general functionality', () => {
   test('test checkboxes and modal', async () => {
     vi.mocked(getCharacters).mockReturnValue(Promise.resolve(mockResponse));
     const countCards = Number(mockResponse.data.results?.length).valueOf();
+
     let checkboxes: HTMLInputElement[] = [];
     await waitFor(() => {
       checkboxes = screen.getAllByTestId('mark-favorite') as HTMLInputElement[];
@@ -141,6 +142,10 @@ describe('Checking general functionality', () => {
     expect(screen.queryByTestId('favorites-modal')).toBeInTheDocument();
     const modal = screen.queryByTestId('favorites-modal') as HTMLDivElement;
     expect(modal).toHaveTextContent(`${countCards} items selected`);
+
+    const unselect = screen.getByRole('button', { name: /Unselect all/i });
+    act(() => unselect.click());
+    expect(modal).not.toBeInTheDocument();
   });
 
   test('Test refresh button', async () => {
