@@ -5,6 +5,7 @@ import { stopEvent } from '../api/utils';
 import { useUpdateLocation } from '../hooks/hooks';
 import { Checkbox } from './Checkbox.tsx';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export function CharacterCard(props: CharacterCardProps) {
   const navigate = useRouter();
@@ -30,7 +31,7 @@ export function CharacterCard(props: CharacterCardProps) {
       data-testid="character-card"
       className={`w-[230px] max-h-[350px] ${themeStyle} p-4 rounded-lg shadow-md hover:cursor-pointer hover:bg-amber-200`}
     >
-      <img
+      <Image
         src={image}
         alt={name}
         className="w-full h-48 object-cover rounded-t-lg"

@@ -7,6 +7,7 @@ import { FLEX_STYLE_ROUNDED } from '../constants.ts';
 import { CloseDetail } from '../components/CloseDetail.tsx';
 import { useGetEpisodesNamesQuery } from '../services/rickMorty.ts';
 import { RefreshDetails } from '../components/RefreshDetails.tsx';
+import Image from 'next/image';
 
 export function Details({ character }: { character: Character }) {
   const { episode, gender, image, location, name, species, status, type, id } =
@@ -23,7 +24,7 @@ export function Details({ character }: { character: Character }) {
       >
         <div className="flex gap-2">
           <div className="flex rounded-2xl">
-            <img src={image} alt={name} className=" object-cover" />
+            <Image src={image} alt={name} className=" object-cover" />
           </div>
 
           <div className={`flex flex-col w-[50%]`}>

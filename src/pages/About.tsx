@@ -23,8 +23,6 @@ export function About() {
           alt="student"
           className="size-full size-min-[40px]"
           data-testid="student-img"
-          width={200}
-          height={200}
         />
         <span>React-2025-Q3</span>
       </a>
