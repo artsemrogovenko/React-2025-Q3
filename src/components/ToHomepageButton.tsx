@@ -7,7 +7,7 @@ export const ToHomepageButton = (props: ToHomepageProps) => {
   const navigate = useRouter();
 
   const handleClick = () => {
-    navigate(APP_ROUTES.home);
+    navigate.push(APP_ROUTES.home);
   };
 
   return (

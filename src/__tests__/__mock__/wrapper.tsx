@@ -1,4 +1,4 @@
-import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { Error } from '../../app/[[...slug]]/error.tsx';
 import { BrowserRouter } from 'react-router';
 import { AppProvider } from '../../AppContext';
 import type { ReactNode } from 'react';
@@ -7,17 +7,17 @@ import { store } from '../../store/store';
 import { AppRoutes } from '../../routes/AppRoutes';
 
 export const Wrapper = ({ children }: { children: ReactNode }) => (
-  <ErrorBoundary>
+  <Error>
     <BrowserRouter>
       <Provider store={store}>
         <AppProvider>{children}</AppProvider>
       </Provider>
     </BrowserRouter>
-  </ErrorBoundary>
+  </Error>
 );
 
 export const AppWrapper = ({ basename = '' }: { basename?: string }) => (
-  <ErrorBoundary>
+  <Error>
     <BrowserRouter basename={basename}>
       <AppProvider>
         <Provider store={store}>
@@ -25,5 +25,5 @@ export const AppWrapper = ({ basename = '' }: { basename?: string }) => (
         </Provider>
       </AppProvider>
     </BrowserRouter>
-  </ErrorBoundary>
+  </Error>
 );

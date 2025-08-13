@@ -1,5 +1,6 @@
-import student from '../assets/rs-school.d8af85c6.webp';
+import student from '../../public/rs-school.d8af85c6.webp';
 import { ToHomepageButton } from '../components/ToHomepageButton';
+import Image from 'next/image';
 
 export function About() {
   return (
@@ -17,11 +18,13 @@ export function About() {
         className="flex flex-col stre rounded-full size-[200px] bg-amber-200  text-3xl  "
         rel="noreferrer"
       >
-        <img
+        <Image
           src={student}
           alt="student"
           className="size-full size-min-[40px]"
           data-testid="student-img"
+          width={200}
+          height={200}
         />
         <span>React-2025-Q3</span>
       </a>

@@ -15,6 +15,10 @@ const nextConfig = {
     };
     return config;
   },
-  };
+  experimental: {
+    globalNotFound: true,
+  },
+  images: { unoptimized: true },
+};
 
 export default nextConfig;

@@ -16,13 +16,13 @@ test('Show the message error', () => {
   expect(screen.getByText('not found')).toBeVisible();
 });
 
-test('Show animation when loading', () => {
+test('Show animation when loading.tsx', () => {
   const { rerender } = render(
     <Wrapper>
       <Results data={null} loading={true} error={''} />
     </Wrapper>
   );
-  const spinner = screen.getByTestId('loading-spinner');
+  const spinner = screen.getByTestId('loading.tsx-spinner');
 
   expect(spinner).toBeVisible();
   rerender(

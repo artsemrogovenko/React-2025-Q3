@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { ErrorBoundary } from '../components/ErrorBoundary';
+import { Error } from '../app/[[...slug]]/error.tsx';
 import { MySpinner } from '../components/Loader';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
@@ -10,18 +10,18 @@ vi.spyOn(console, 'error').mockImplementation(() => {});
 
 test('The component display if there is no error', () => {
   render(
-    <ErrorBoundary>
+    <Error>
       <MySpinner />
-    </ErrorBoundary>
+    </Error>
   );
-  expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+  expect(screen.getByTestId('loading.tsx-spinner')).toBeInTheDocument();
 });
 
 test('Display of the spare component, and the possibility of resetting', async () => {
   render(
-    <ErrorBoundary>
+    <Error>
       <SimulateError simulate={true} />
-    </ErrorBoundary>
+    </Error>
   );
 
   const component = screen.getByTestId('error-component');

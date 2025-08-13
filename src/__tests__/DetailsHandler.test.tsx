@@ -57,7 +57,7 @@ describe('DetailsHandler', () => {
       </Provider>
     );
 
-    expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+    expect(screen.getByTestId('loading.tsx-spinner')).toBeInTheDocument();
     expect(screen.queryByTestId('details')).not.toBeInTheDocument();
   });
 
@@ -81,7 +81,7 @@ describe('DetailsHandler', () => {
     });
   });
 
-  test('renders Details, not loading', async () => {
+  test('renders Details, not loading.tsx', async () => {
     vi.spyOn(utils, 'getCharacterDetails').mockResolvedValue(mockCharacter);
 
     await act(async () => {

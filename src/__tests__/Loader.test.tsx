@@ -6,7 +6,7 @@ import { MySpinner } from '../components/Loader';
 test('Display image and text, default size', () => {
   render(<MySpinner />);
 
-  const spinner = screen.getByTestId('loading-spinner');
+  const spinner = screen.getByTestId('loading.tsx-spinner');
   const description = screen.getByText(/Loading.../i);
 
   expect(spinner).toBeInTheDocument();
@@ -19,7 +19,7 @@ test('Display image and text, default size', () => {
 test('The size of the spine is correctly set', () => {
   render(<MySpinner size={100} />);
 
-  const spinner = screen.getByTestId('loading-spinner');
+  const spinner = screen.getByTestId('loading.tsx-spinner');
   expect(spinner).toHaveAttribute('width', '100');
   expect(spinner).toHaveAttribute('height', '100');
 });

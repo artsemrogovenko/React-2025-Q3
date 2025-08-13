@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { StrictMode } from 'react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { AppProvider } from '../../AppContext.tsx';
 import { StoreProvider } from '../StoreProvider.tsx';
 import { MySpinner } from '../../components/Loader.tsx';
 import App from '../../App.tsx';
+import { ErrorBoundary } from '../../components/ErrorBoundary.tsx';
 
 const Home = dynamic(() => import('../../Home').then((mod) => mod.Home), {
   ssr: false,
@@ -46,12 +47,16 @@ function Children() {
 
 export function ClientOnly() {
   return (
-    <AppProvider>
-      <StoreProvider>
-        <App>
-          <Children />
-        </App>
-      </StoreProvider>
-    </AppProvider>
+    <StrictMode>
+      <ErrorBoundary>
+        <AppProvider>
+          <StoreProvider>
+            <App>
+              <Children />
+            </App>
+          </StoreProvider>
+        </AppProvider>
+      </ErrorBoundary>
+    </StrictMode>
   );
 }
