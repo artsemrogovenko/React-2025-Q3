@@ -1,10 +1,10 @@
 import { APP_ROUTES } from '../constants';
-import { useNavigate } from 'react-router';
+import { useRouter } from 'next/navigation';
 import type { ToHomepageProps } from './types';
 import { MyButton } from './MyButton';
 
 export const ToHomepageButton = (props: ToHomepageProps) => {
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   const handleClick = () => {
     navigate(APP_ROUTES.home);

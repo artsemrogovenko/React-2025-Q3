@@ -40,6 +40,9 @@ export default tseslint.config(
       react: {
         version: 'detect',
       },
+      next: {
+        rootDir: 'src/app',
+      },
     },
   }
 );

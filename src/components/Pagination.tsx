@@ -4,12 +4,12 @@ import type { PaginationProps } from './types';
 import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
-import { useNavigate } from 'react-router';
+import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { rickMortyApi } from '../services/rickMorty.ts';
 
 export function Pagination(props: PaginationProps) {
-  const navigate = useNavigate();
+  const navigate = useRouter();
   const { isVisible, searchParams } = props;
   const context = useContext(AppContext);
   const { setStorageValue } = useLocalStorage();
@@ -62,7 +62,7 @@ export function Pagination(props: PaginationProps) {
       default:
         break;
     }
-    navigate(url);
+    navigate.push(url);
   };
   return (
     <div className={isVisible ? 'flex gap-2' : 'hidden'}>

@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router';
+import Link from 'next/link';
 import { ThemeSwitch } from './ThemeSwitch';
+import { APP_ROUTES } from '../constants.ts';
 
 export function Header() {
   return (
@@ -11,9 +12,9 @@ export function Header() {
         Rick and Morty App
       </h2>
       <ThemeSwitch />
-      <NavLink to="/about" className="uppercase text-2xl  ">
+      <Link href={`${APP_ROUTES.about}`} className="uppercase text-2xl  ">
         about
-      </NavLink>
+      </Link>
     </div>
   );
 }

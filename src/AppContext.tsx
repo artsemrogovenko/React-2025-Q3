@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useState } from 'react';
 import type {
   AppContextType,
@@ -5,10 +6,10 @@ import type {
   CalculatedPages,
 } from './types';
 import { APP_ROUTES, AppContext, DEFAULT_PAGE } from './constants';
-import { useNavigate } from 'react-router';
+import { useRouter } from 'next/navigation';
 
 export function AppProvider(props: AppProviderProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [isDefaultTheme, setIsDefaultTheme] = useState<boolean>(true);
   const [isVisibleDetails, setIsVisibleDetails] = useState<boolean>(false);
@@ -32,8 +33,8 @@ export function AppProvider(props: AppProviderProps) {
     setPages((prev) => ({ ...prev, ...value }));
   }, []);
   const resetUrl = useCallback(() => {
-    navigate(APP_ROUTES.home, { replace: false });
-  }, [navigate]);
+    router.replace(APP_ROUTES.home);
+  }, [router]);
   const updateQuery = useCallback((value: string) => {
     setQuery(value);
   }, []);

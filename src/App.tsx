@@ -1,3 +1,4 @@
+'use client';
 import './App.css';
 import { useContext, useEffect } from 'react';
 import {
@@ -8,10 +9,10 @@ import {
 } from './constants';
 import { Header } from './components/Header.tsx';
 import { FavoritesModal } from './components/FavoritesModal.tsx';
-import { Outlet, useLocation } from 'react-router';
+import { usePathname } from 'next/navigation';
 
-function App() {
-  const { pathname } = useLocation();
+function App({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
 
   const context = useContext(AppContext);
   useEffect(() => {
@@ -22,7 +23,7 @@ function App() {
     }
   }, [context.isDefaultTheme]);
 
-  const isAbout = pathname.includes(APP_ROUTES.about);
+  const isAbout = pathname?.includes(APP_ROUTES.about);
   return (
     <>
       <div id="App">
@@ -30,7 +31,7 @@ function App() {
           className={`${FLEX_STYLE_ROUNDED} flex-col w-full min-w-2xl mx-auto gap-[20px] items-center`}
         >
           <Header />
-          <Outlet />
+          {children}
         </div>
       </div>
       {!isAbout && <FavoritesModal />}

@@ -4,10 +4,10 @@ import { AppContext } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useUpdateLocation } from '../hooks/hooks';
 import { Checkbox } from './Checkbox.tsx';
-import { useNavigate } from 'react-router';
+import { useRouter } from 'next/navigation';
 
 export function CharacterCard(props: CharacterCardProps) {
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   const { updateParam } = useUpdateLocation();
   const { image, name, species, id } = props.character;
@@ -16,7 +16,7 @@ export function CharacterCard(props: CharacterCardProps) {
   const getDetails = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     stopEvent(e);
     const url = updateParam('details', id.toString());
-    navigate(url, { replace: true });
+    navigate.push(url);
   };
 
   const isDefaultTheme = context.isDefaultTheme;
