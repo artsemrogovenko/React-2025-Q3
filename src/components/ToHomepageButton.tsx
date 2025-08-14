@@ -1,21 +1,17 @@
-import { APP_ROUTES } from '../constants';
-import { useRouter } from 'next/navigation';
 import type { ToHomepageProps } from './types';
-import { MyButton } from './MyButton';
+import { Link } from '../i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 export const ToHomepageButton = (props: ToHomepageProps) => {
-  const navigate = useRouter();
-
-  const handleClick = () => {
-    navigate.push(APP_ROUTES.home);
-  };
+  const t = useTranslations('ToHomepage');
 
   return (
-    <MyButton
-      text="back to homepage"
+    <Link
       data-testid="go-homepage"
-      className={`${props.className}  bg-fuchsia-800 capitalize`}
-      onClick={handleClick}
-    />
+      className={`${props.className} border-2 text-black capitalize p-2`}
+      href="/"
+    >
+      {t('message')}
+    </Link>
   );
 };

@@ -1,3 +1,4 @@
+'use client';
 import { createContext } from 'react';
 import type { AppContextType } from './types';
 
@@ -43,3 +44,4 @@ export const APP_ROUTES = {
 
 export const BLACK = '#000000';
 export const WHITE = '#ffffff';
+export const SIZE_IMG = 500;

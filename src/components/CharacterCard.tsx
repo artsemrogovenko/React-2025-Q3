@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import type { CharacterCardProps } from './types';
-import { AppContext } from '../constants';
+import { AppContext, SIZE_IMG } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useUpdateLocation } from '../hooks/hooks';
 import { Checkbox } from './Checkbox.tsx';
@@ -35,6 +35,8 @@ export function CharacterCard(props: CharacterCardProps) {
         src={image}
         alt={name}
         className="w-full h-48 object-cover rounded-t-lg"
+        width={SIZE_IMG}
+        height={SIZE_IMG}
       />
       <div className="p-4">
         <h3 className="text-lg font-bold">{name}</h3>

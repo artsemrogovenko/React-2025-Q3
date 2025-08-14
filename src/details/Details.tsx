@@ -3,7 +3,7 @@ import pagesStyles from '../pages/Pages.module.scss';
 import { DescriptionItem } from './DescriptionItem.tsx';
 import { ejectEpisodesIds, showEpisodesNames } from '../api/utils.ts';
 import { MySpinner } from '../components/Loader.tsx';
-import { FLEX_STYLE_ROUNDED } from '../constants.ts';
+import { FLEX_STYLE_ROUNDED, SIZE_IMG } from '../constants.ts';
 import { CloseDetail } from '../components/CloseDetail.tsx';
 import { useGetEpisodesNamesQuery } from '../services/rickMorty.ts';
 import { RefreshDetails } from '../components/RefreshDetails.tsx';
@@ -24,7 +24,14 @@ export function Details({ character }: { character: Character }) {
       >
         <div className="flex gap-2">
           <div className="flex rounded-2xl">
-            <Image src={image} alt={name} className=" object-cover" />
+            <Image
+              src={image}
+              alt={name}
+              className=" object-cover"
+              loading="lazy"
+              width={SIZE_IMG}
+              height={SIZE_IMG}
+            />
           </div>
 
           <div className={`flex flex-col w-[50%]`}>

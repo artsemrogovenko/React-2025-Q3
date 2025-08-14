@@ -1,6 +1,8 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export',
   distDir: './dist',
   webpack: (config) => {
     config.watchOptions = {
@@ -21,4 +23,5 @@ const nextConfig = {
   images: { unoptimized: true },
 };
 
-export default nextConfig;
+const withNextIntl = createNextIntlPlugin();
+export default withNextIntl(nextConfig);

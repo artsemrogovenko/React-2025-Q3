@@ -4,6 +4,7 @@ import type {
   AppContextType,
   AppProviderProps,
   CalculatedPages,
+  Locales,
 } from './types';
 import { APP_ROUTES, AppContext, DEFAULT_PAGE } from './constants';
 import { useRouter } from 'next/navigation';
@@ -11,6 +12,7 @@ import { useRouter } from 'next/navigation';
 export function AppProvider(props: AppProviderProps) {
   const router = useRouter();
 
+  const [locale, setLocale] = useState<Locales>('EN');
   const [isDefaultTheme, setIsDefaultTheme] = useState<boolean>(true);
   const [isVisibleDetails, setIsVisibleDetails] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
@@ -55,6 +57,8 @@ export function AppProvider(props: AppProviderProps) {
     isVisibleDetails,
     toggleTheme,
     isDefaultTheme,
+    locale,
+    setLocale,
   };
   return (
     <AppContext.Provider value={values}>{props.children}</AppContext.Provider>

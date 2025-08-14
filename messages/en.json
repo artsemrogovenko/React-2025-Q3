@@ -1,0 +1,13 @@
+{
+  "AboutPage": {
+    "title": "Author:",
+    "author": "Artsem Rogovenko"
+  },
+
+  "ToHomepage": {
+    "message": "back to homepage"
+  },
+  "Header": {
+    "message": "switch theme"
+  }
+}
