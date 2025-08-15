@@ -1,4 +1,4 @@
-import React, { useContext  } from 'react';
+import React, { useContext } from 'react';
 import { MyButton } from './MyButton';
 import type { PaginationProps } from './types';
 import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants';

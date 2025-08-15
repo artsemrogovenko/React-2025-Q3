@@ -39,3 +39,8 @@ export type CheckboxProps = {
   onChange: () => void;
   isChecked: boolean;
 };
+
+export type RefreshDetailsProps = {
+  characterId: number;
+  episodesIds: number[];
+};

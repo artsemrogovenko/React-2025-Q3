@@ -36,5 +36,6 @@
     "next": "След.",
     "prev": "Пред.",
     "refresh-page": "Обновить кэш"
-  }
+  },
+  "NotFoundPage": { "title": "Ошибка" }
 }

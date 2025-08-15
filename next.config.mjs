@@ -17,9 +17,9 @@ const nextConfig = {
     };
     return config;
   },
-  experimental: {
-    globalNotFound: true,
-  },
+  // experimental: {
+  //   globalNotFound: true,
+  // },
   images: { unoptimized: true },
 };
 

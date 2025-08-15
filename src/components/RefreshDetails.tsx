@@ -2,14 +2,12 @@ import { useDispatch } from 'react-redux';
 import { rickMortyApi } from '../services/rickMorty';
 import { MyButton } from './MyButton';
 import { useTranslations } from 'next-intl';
+import type { RefreshDetailsProps } from './types';
 
 export function RefreshDetails({
   characterId,
   episodesIds,
-}: {
-  characterId: number;
-  episodesIds: number[];
-}) {
+}: RefreshDetailsProps) {
   const dispatch = useDispatch();
 
   const handleDetails = () => {

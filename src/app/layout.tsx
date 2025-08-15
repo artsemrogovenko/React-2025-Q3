@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import App from '../../App.tsx';
-import { AppProvider } from '../../AppContext.tsx';
-import { StoreProvider } from './StoreProvider.tsx';
-import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { notFound } from 'next/navigation';
-import { routing } from '../../i18n/routing.ts';
+import App from '../App.tsx';
+import { AppProvider } from '../AppContext.tsx';
+import { StoreProvider } from './[locale]/StoreProvider.tsx';
+import { NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
+import '../index.css';
+import '../App.css';
 
 export const metadata: Metadata = {
   title: 'Rick and Morty',
@@ -23,9 +23,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
+
   setRequestLocale(locale);
   return (
     <html lang={locale}>
@@ -34,7 +32,7 @@ export default async function RootLayout({
           <StoreProvider>
             <div id="root">
               <NextIntlClientProvider>
-                <App>{children} </App>
+                <App locale={locale}>{children} </App>
               </NextIntlClientProvider>
             </div>
           </StoreProvider>

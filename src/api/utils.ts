@@ -116,14 +116,14 @@ export function getErrorMessage(error: unknown): string | null {
   if (error === null) return null;
   if (typeof error === 'string') return error;
   if (typeof error === 'object' && 'error' in error)
-    return error?.error as string;
+    return error.error as string;
   if (error instanceof Error) return error.message;
 
   if (typeof error === 'object') {
     if ('status' in error && 'data' in error) {
       const fetchError = error as FetchBaseQueryError;
       if (typeof fetchError.data === 'string') return fetchError.data;
-      if (typeof fetchError.data === 'object' && fetchError.data !== null) {
+      if (typeof fetchError.data === 'object' && !!fetchError.data) {
         return (
           (fetchError.data as { message?: string }).message || 'Unknown error'
         );

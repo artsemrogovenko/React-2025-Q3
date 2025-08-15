@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Error } from '../app/[[...slug]]/error.tsx';
+import { Error } from '../app/[@slug]/error.tsx';
 import { MySpinner } from '../components/Loader';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
