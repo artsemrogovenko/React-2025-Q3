@@ -1,4 +1,4 @@
-import type { Dispatch, ReactNode, SetStateAction, SVGProps } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 import type { Episode } from 'rickmortyapi';
 
 export type RequestState<T> = {
@@ -31,8 +31,6 @@ export type AppContextType = {
   isVisibleDetails: boolean;
   toggleTheme: () => void;
   isDefaultTheme: boolean;
-  locale: Locales;
-  setLocale: Dispatch<SetStateAction<Locales>>;
 };
 
 export type InfoCharacter =

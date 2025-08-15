@@ -3,11 +3,38 @@
     "title": "Автор:",
     "author": "Артем Роговенко"
   },
-
   "ToHomepage": {
     "message": "вернуться на главную страницу"
   },
   "Header": {
-    "message": "сменить тему"
+    "message": "сменить тему",
+    "about": "о приложении"
+  },
+  "Details": {
+    "type": "Тип",
+    "seen-in": "Замечен в:",
+    "episodes": "Эпизоды:",
+    "close": "Закрыть",
+    "refresh-details": "Обновить детали",
+    "refresh-episodes": "Обновить эпизоды"
+  },
+  "Checkbox": {
+    "in-favorites": "в избранном",
+    "add-to-favorites": "в избранное"
+  },
+  "Favorites": {
+    "items": "элемент(ов)",
+    "selected": "выбран(о)",
+    "download": "Cкачать",
+    "unselect": "Отменить выбор"
+  },
+  "Search": {
+    "search-input-field": "Введите имя персонажа здесь..",
+    "submit": "Поиск"
+  },
+  "Pagination": {
+    "next": "След.",
+    "prev": "Пред.",
+    "refresh-page": "Обновить кэш"
   }
 }

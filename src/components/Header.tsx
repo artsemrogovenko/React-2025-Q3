@@ -1,9 +1,14 @@
-import Link from 'next/link';
+'use client';
+import { Link, usePathname } from '../i18n/navigation.ts';
 import { ThemeSwitch } from './ThemeSwitch';
 import { APP_ROUTES } from '../constants.ts';
 import { LangSwitch } from './LangSwitch.tsx';
+import { useTranslations } from 'next-intl';
 
 export function Header() {
+  const pathname = usePathname();
+  const isAbout = pathname?.includes(APP_ROUTES.about);
+  const t = useTranslations('Header');
   return (
     <div
       className="flex w-full items-baseline justify-between"
@@ -14,9 +19,11 @@ export function Header() {
       </h2>
       <LangSwitch />
       <ThemeSwitch />
-      <Link href={`${APP_ROUTES.about}`} className="uppercase text-2xl  ">
-        about
-      </Link>
+      {!isAbout && (
+        <Link href={`${APP_ROUTES.about}`} className="uppercase text-2xl  ">
+          {t('about')}
+        </Link>
+      )}
     </div>
   );
 }

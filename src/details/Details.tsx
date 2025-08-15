@@ -8,12 +8,15 @@ import { CloseDetail } from '../components/CloseDetail.tsx';
 import { useGetEpisodesNamesQuery } from '../services/rickMorty.ts';
 import { RefreshDetails } from '../components/RefreshDetails.tsx';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export function Details({ character }: { character: Character }) {
   const { episode, gender, image, location, name, species, status, type, id } =
     character;
   const episodesIds = ejectEpisodesIds(episode);
   const { data: results, isFetching } = useGetEpisodesNamesQuery(episodesIds);
+
+  const t = useTranslations('Details');
 
   return (
     <div className="flex flex-col w-full">
@@ -41,8 +44,12 @@ export function Details({ character }: { character: Character }) {
                 className={`size-[20px] rounded-full p-0 ${pagesStyles[status?.toLowerCase() ?? 'unknown']}`}
               ></span>
               <span className="text-lg">{`${status} - ${species}, ${gender}`}</span>
-              {type && DescriptionItem('Type', type, 'text-lg')}
-              {DescriptionItem('Seen in:', location.name, 'text-[1.5vw]')}
+              {type && DescriptionItem(String(t('type')), type, 'text-lg')}
+              {DescriptionItem(
+                String(t('seen-in')),
+                location.name,
+                'text-[1.5vw]'
+              )}
             </div>
           </div>
         </div>
@@ -51,7 +58,7 @@ export function Details({ character }: { character: Character }) {
         ) : (
           results &&
           DescriptionItem(
-            'Episodes:',
+            String(t('episodes')),
             showEpisodesNames(results.data),
             'text-lg border-1 inline-block max-h-[30dvh] overflow-y-auto  p-1'
           )

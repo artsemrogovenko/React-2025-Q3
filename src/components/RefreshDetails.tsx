@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { rickMortyApi } from '../services/rickMorty';
 import { MyButton } from './MyButton';
+import { useTranslations } from 'next-intl';
 
 export function RefreshDetails({
   characterId,
@@ -23,16 +24,17 @@ export function RefreshDetails({
       ])
     );
   };
+  const t = useTranslations('Details');
 
   return (
     <div className="flex gap-2">
       <MyButton
-        text={'Refresh Details'}
+        text={t('refresh-details')}
         onClick={handleDetails}
         className="w-fit"
       />
       <MyButton
-        text={'Refresh episodes'}
+        text={t('refresh-episodes')}
         onClick={handleEpisodes}
         className="w-fit"
       />

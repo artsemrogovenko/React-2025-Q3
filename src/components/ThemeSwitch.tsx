@@ -1,17 +1,23 @@
-import { useContext } from 'react';
-import { AppContext, BLACK, WHITE } from '../constants';
+'use client';
+
+import { useContext, useEffect } from 'react';
+import { AppContext, BLACK, CLASSNAME_DARK, WHITE } from '../constants';
 import { MoonIcon, SunIcon } from './Icons';
 import { stopEvent } from '../api/utils';
-import { setRequestLocale } from 'next-intl/server';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 
 export function ThemeSwitch() {
-  const locale = useLocale();
-  setRequestLocale(locale);
-
   const t = useTranslations('Header');
 
   const context = useContext(AppContext);
+  useEffect(() => {
+    if (context.isDefaultTheme) {
+      document.body.classList.remove(CLASSNAME_DARK);
+    } else {
+      document.body.classList.add(CLASSNAME_DARK);
+    }
+  }, [context.isDefaultTheme]);
+
   const isDefaultTheme = context.isDefaultTheme;
   const color = isDefaultTheme ? BLACK : WHITE;
 

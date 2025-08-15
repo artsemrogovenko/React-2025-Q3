@@ -1,27 +1,12 @@
 'use client';
 import './App.css';
-import { useContext, useEffect } from 'react';
-import {
-  APP_ROUTES,
-  AppContext,
-  CLASSNAME_DARK,
-  FLEX_STYLE_ROUNDED,
-} from './constants';
+import { APP_ROUTES, FLEX_STYLE_ROUNDED } from './constants';
 import { Header } from './components/Header.tsx';
 import { FavoritesModal } from './components/FavoritesModal.tsx';
 import { usePathname } from 'next/navigation';
 
 function App({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-
-  const context = useContext(AppContext);
-  useEffect(() => {
-    if (context.isDefaultTheme) {
-      document.body.classList.remove(CLASSNAME_DARK);
-    } else {
-      document.body.classList.add(CLASSNAME_DARK);
-    }
-  }, [context.isDefaultTheme]);
 
   const isAbout = pathname?.includes(APP_ROUTES.about);
   return (

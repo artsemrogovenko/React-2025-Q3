@@ -29,7 +29,7 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "typeRoots": ["./node_modules/@types", "./src"],
-    "types": ["next/navigation"]
+    "types": ["next", "next/navigation"]
   },
   "include": ["src", "./dist/types/**/*.ts", "./next-env.d.ts"],
   "exclude": ["./node_modules"]

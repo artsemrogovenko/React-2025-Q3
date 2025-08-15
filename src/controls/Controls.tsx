@@ -10,6 +10,7 @@ import {
   MAX_SEARCH_LENGTH,
 } from '../constants';
 import { useLocalStorage } from '../hooks/hooks';
+import { useTranslations } from 'next-intl';
 
 export function Controls(props: ControlsProps) {
   const context = useContext(AppContext);
@@ -44,7 +45,7 @@ export function Controls(props: ControlsProps) {
       resetInput(e);
     }
   };
-
+  const t = useTranslations('Search');
   return (
     <form
       data-testid="character-search-form"
@@ -56,7 +57,7 @@ export function Controls(props: ControlsProps) {
           data-testid="character-search-input"
           type="text"
           maxLength={MAX_SEARCH_LENGTH}
-          placeholder="Search Input Field"
+          placeholder={t('search-input-field')}
           className={`w-full border-2 rounded-l-sm h-[45px] px-4 pr-8 ${themeStyle}`}
           value={query}
           onChange={handleInputChange}

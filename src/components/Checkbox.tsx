@@ -3,6 +3,7 @@ import { useAppDispatch } from '../hooks/hooks';
 import { hasSelected, toggle } from '../store/favoritesSlice';
 import type { CharacterCardProps } from './types';
 import type { RootState } from '../store/store.ts';
+import { useTranslations } from 'next-intl';
 
 export function Checkbox(props: CharacterCardProps) {
   const { id } = props.character;
@@ -11,6 +12,7 @@ export function Checkbox(props: CharacterCardProps) {
   const handleToggle = () => {
     dispatch(toggle({ id: id, value: props.character }));
   };
+  const t = useTranslations('Checkbox');
 
   return (
     <div
@@ -24,7 +26,7 @@ export function Checkbox(props: CharacterCardProps) {
         onChange={handleToggle}
         checked={isSelected}
       />
-      {isSelected ? 'in favorites' : 'add to favorites'}
+      {isSelected ? t('in-favorites') : t('add-to-favorites')}
     </div>
   );
 }

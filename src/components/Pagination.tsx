@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext  } from 'react';
 import { MyButton } from './MyButton';
 import type { PaginationProps } from './types';
 import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants';
 import { stopEvent } from '../api/utils';
 import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '../i18n/navigation.ts';
 import { useDispatch } from 'react-redux';
 import { rickMortyApi } from '../services/rickMorty.ts';
+import { useTranslations } from 'next-intl';
 
 export function Pagination(props: PaginationProps) {
   const navigate = useRouter();
@@ -64,17 +65,19 @@ export function Pagination(props: PaginationProps) {
     }
     navigate.push(url);
   };
+
+  const t = useTranslations('Pagination');
   return (
     <div className={isVisible ? 'flex gap-2' : 'hidden'}>
-      <MyButton text="Refresh page" onClick={handleUpdate} />
+      <MyButton text={t('refresh-page')} onClick={handleUpdate} />
       <MyButton
-        text="Prev"
+        text={t('prev')}
         isDisabled={isDisabledPrev}
         additiveStyle={isDisabledPrev ? 'opacity-50 cursor-not-allowed' : ''}
         onClick={(e) => handleStep(e, 'Prev')}
       />
       <MyButton
-        text="Next"
+        text={t('next')}
         isDisabled={isDisabledNext}
         additiveStyle={isDisabledNext ? 'opacity-50 cursor-not-allowed' : ''}
         onClick={(e) => handleStep(e, 'Next')}

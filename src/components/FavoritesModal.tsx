@@ -1,9 +1,11 @@
+'use client';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { getFavorites, unselectAll } from '../store/favoritesSlice';
 import { MyButton } from './MyButton';
 import { downloadCsv } from '../api/utils.ts';
 import { useContext, useRef } from 'react';
 import { AppContext } from '../constants.ts';
+import { useTranslations } from 'next-intl';
 
 export function FavoritesModal() {
   const context = useContext(AppContext);
@@ -15,6 +17,7 @@ export function FavoritesModal() {
   const count = favorites.length;
   const link = useRef<HTMLAnchorElement>(null);
 
+  const t = useTranslations('Favorites');
   const unselect = () => {
     dispatch(unselectAll());
   };
@@ -27,12 +30,12 @@ export function FavoritesModal() {
       className="flex flex-col rounded-lg sticky border-2 bottom-8 right-2 z-2  p-2 self-end gap-2 bg-white"
     >
       <span className={`text-xl ${themeStyle}`}>
-        {count} items
-        <br /> selected
+        {count} {t('items')}
+        <br /> {t('selected')}
       </span>
-      <MyButton text="Unselect all" onClick={unselect} className="m-0" />
+      <MyButton text={t('unselect')} onClick={unselect} className="m-0" />
       <MyButton
-        text="Download"
+        text={t('download')}
         onClick={() => downloadCsv(link, favorites, count)}
         className="m-0"
       />
