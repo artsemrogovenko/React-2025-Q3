@@ -2,7 +2,7 @@ import '../../../components/index.css';
 import { use } from 'react';
 import { setRequestLocale } from 'next-intl/server';
 import { useTranslations } from 'next-intl';
-import student from '/public/rs-school.d8af85c6.webp';
+import student from '/rs-school.d8af85c6.webp';
 import { ToHomepageButton } from '../../../components/components/ToHomepageButton.tsx';
 import Image from 'next/image';
 import { SIZE_IMG } from '../../../components/constants.ts';
