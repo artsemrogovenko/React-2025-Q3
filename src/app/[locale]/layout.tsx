@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
-import App from '../../App.tsx';
-import { AppProvider } from '../../AppContext.tsx';
+import App from '../../components/App.tsx';
+import { AppProvider } from '../../components/AppContext.tsx';
 import { StoreProvider } from './StoreProvider.tsx';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
-import '../../index.css';
-import '../../App.css';
+import '../../components/index.css';
+import '../../components/App.css';
 import { notFound } from 'next/navigation';
-import { routing } from '../../i18n/routing';
-import { ErrorBoundary } from '../../components/ErrorBoundary.tsx';
+import { routing } from '../../i18n/routing.ts';
+import { ErrorBoundary } from '../../components/components/ErrorBoundary.tsx';
 
 export const metadata: Metadata = {
   title: 'Rick and Morty',

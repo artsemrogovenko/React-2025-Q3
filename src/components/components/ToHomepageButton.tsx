@@ -1,5 +1,5 @@
 import type { ToHomepageProps } from './types';
-import { Link } from '../i18n/navigation';
+import { Link } from '../../i18n/navigation';
 import { useTranslations } from 'next-intl';
 
 export const ToHomepageButton = (props: ToHomepageProps) => {

@@ -1,10 +1,10 @@
 import { useContext } from 'react';
-import type { CharacterCardProps } from './types';
-import { AppContext, SIZE_IMG } from '../constants';
-import { stopEvent } from '../api/utils';
-import { useUpdateLocation } from '../hooks/hooks';
+import type { CharacterCardProps } from './types.ts';
+import { AppContext, SIZE_IMG } from '../constants.ts';
+import { stopEvent } from '../api/utils.ts';
+import { useUpdateLocation } from '../hooks/hooks.ts';
 import { Checkbox } from './Checkbox.tsx';
-import { useRouter } from '../i18n/navigation.ts';
+import { useRouter } from '../../i18n/navigation.ts';
 import Image from 'next/image';
 
 export function CharacterCard(props: CharacterCardProps) {

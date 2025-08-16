@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { MyButton } from './MyButton';
-import type { PaginationProps } from './types';
-import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants';
-import { stopEvent } from '../api/utils';
-import { useLocalStorage, useUpdateLocation } from '../hooks/hooks';
-import { useRouter } from '../i18n/navigation.ts';
+import { MyButton } from './MyButton.tsx';
+import type { PaginationProps } from './types.ts';
+import { AppContext, DEFAULT_PAGE, KEY_PREV_PAGE } from '../constants.ts';
+import { stopEvent } from '../api/utils.ts';
+import { useLocalStorage, useUpdateLocation } from '../hooks/hooks.ts';
+import { useRouter } from '../../i18n/navigation.ts';
 import { useDispatch } from 'react-redux';
 import { rickMortyApi } from '../services/rickMorty.ts';
 import { useTranslations } from 'next-intl';

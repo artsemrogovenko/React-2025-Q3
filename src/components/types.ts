@@ -1,46 +1,59 @@
-import type { Character } from 'rickmortyapi';
-import type { ReactNode } from 'react';
+import type { ReactNode, SVGProps } from 'react';
+import type { Episode } from 'rickmortyapi';
 
-export type CharacterCardProps = {
-  character: Character;
+export type RequestState<T> = {
+  results: T | null;
+  isLoading: boolean;
+  error: string | null;
 };
 
-export type ErrorProps = {
+export type CharacterEpisode = Episode & {
+  id: number;
+  name: string;
+  url: string;
+  created: string;
+};
+
+export type AppProviderProps = {
   children: ReactNode;
 };
 
-export type ErrorState = {
-  errorMessage: string;
+export type AppContextType = {
+  currentPage: number;
+  pages: CalculatedPages;
+  updateCurrentPage: (value: number) => void;
+  showDetails: () => void;
+  closeDetails: () => void;
+  updatePages: (value: CalculatedPages) => void;
+  query: string;
+  updateQuery: (value: string) => void;
+  isVisibleDetails: boolean;
+  toggleTheme: () => void;
+  isDefaultTheme: boolean;
 };
 
-export type MySpinnerProps = {
+export type InfoCharacter =
+  | {
+      count: number;
+      pages: number;
+      next: string | null;
+      prev: string | null;
+    }
+  | undefined;
+
+export type CalculatedPages = {
+  pageNext: number | null;
+  pagePrev: number | null;
+};
+
+export type SearchObj = {
+  page: string | undefined;
+  description: string | undefined;
+};
+
+export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
-  color?: string;
+  currentColor?: string;
 };
 
-export type MyButtonProps = {
-  text: string;
-  isDisabled?: boolean;
-  additiveStyle?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-export type PaginationProps = {
-  isDisabled?: boolean;
-  isVisible: boolean;
-  searchParams?: { name: string; page: number };
-};
-
-export type ToHomepageProps = {
-  className?: string;
-  text?: string;
-};
-
-export type CheckboxProps = {
-  onChange: () => void;
-  isChecked: boolean;
-};
-
-export type RefreshDetailsProps = {
-  characterId: number;
-  episodesIds: number[];
-};
+export type Locales = 'EN' | 'RU';

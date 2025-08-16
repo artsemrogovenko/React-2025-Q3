@@ -1,4 +1,4 @@
-import { MySpinner } from '../../components/Loader.tsx';
+import { MySpinner } from '../../components/components/Loader.tsx';
 
 export default function Loading() {
   return <MySpinner />;

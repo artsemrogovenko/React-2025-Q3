@@ -1,4 +1,4 @@
-import '../../index.css';
+import '../../components/index.css';
 import { ClientOnly } from './client.tsx';
 
 export default function Page() {

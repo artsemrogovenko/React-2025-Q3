@@ -1,6 +1,6 @@
 'use client';
-import { Link, usePathname } from '../i18n/navigation.ts';
-import { ThemeSwitch } from './ThemeSwitch';
+import { Link, usePathname } from '../../i18n/navigation.ts';
+import { ThemeSwitch } from './ThemeSwitch.tsx';
 import { APP_ROUTES } from '../constants.ts';
 import { LangSwitch } from './LangSwitch.tsx';
 import { useTranslations } from 'next-intl';
