@@ -37,13 +37,15 @@ export function Details({ character }: { character: Character }) {
             />
           </div>
 
-          <div className={`flex flex-col w-[50%]`}>
+          <div className={`flex flex-col w-[50%]  `}>
             <h3 className="text-[3vw] font-bold ">{name}</h3>
             <div className="flex flex-col ">
-              <span
-                className={`size-[20px] rounded-full p-0 ${pagesStyles[status?.toLowerCase() ?? 'unknown']}`}
-              ></span>
-              <span className="text-lg">{`${status} - ${species}, ${gender}`}</span>
+              <div className="flex items-center self-center ">
+                <span
+                  className={`size-[20px] border-2 rounded-full ${pagesStyles[status?.toLowerCase() ?? 'unknown']}`}
+                ></span>
+                <span className="text-lg">{`${status} - ${species}, ${gender}`}</span>
+              </div>
               {type && DescriptionItem(String(t('type')), type, 'text-lg')}
               {DescriptionItem(
                 String(t('seen-in')),

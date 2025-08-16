@@ -23,8 +23,8 @@
     "add-to-favorites": "в избранное"
   },
   "Favorites": {
-    "items": "элемент(ов)",
-    "selected": "выбран(о)",
+    "items": "элемента",
+    "selected": "выбрано",
     "download": "Cкачать",
     "unselect": "Отменить выбор"
   },
@@ -37,5 +37,10 @@
     "prev": "Пред.",
     "refresh-page": "Обновить кэш"
   },
-  "NotFoundPage": { "title": "Ошибка" }
+  "NotFound": {
+    "default_reason": "страница не найдена",
+    "details": "Не удалось получить информацию",
+    "characters": "Персонажи не найдены",
+    "fetch": "Ошибка сети"
+  }
 }

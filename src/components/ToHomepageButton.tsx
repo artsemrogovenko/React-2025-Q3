@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 
 export const ToHomepageButton = (props: ToHomepageProps) => {
   const t = useTranslations('ToHomepage');
-
   return (
     <Link
       data-testid="go-homepage"

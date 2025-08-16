@@ -37,5 +37,10 @@
     "prev": "Prev",
     "refresh-page": "Refresh cache"
   },
-  "NotFoundPage": { "title": "Error" }
+  "NotFound": {
+    "default_reason": "page not found",
+    "details": "Failed to get character more details",
+    "characters": "No characters found",
+    "fetch": "Network error"
+  }
 }

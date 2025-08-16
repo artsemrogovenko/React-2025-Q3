@@ -10,7 +10,7 @@ import {
 import { fakeBaseQuery } from '@reduxjs/toolkit/query';
 import { getCharacterDetails } from '../api/utils.ts';
 import type { CharacterEpisode } from '../types.ts';
-import { NOT_FOUND_MSG, SUCCESS } from '../constants.ts';
+import { NOT_FOUND, NOT_FOUND_DETAIL, NOT_FOUND_MSG } from '../constants.ts';
 
 export const rickMortyApi = createApi({
   reducerPath: 'rickMortyApi',
@@ -23,7 +23,7 @@ export const rickMortyApi = createApi({
     >({
       queryFn: async (filters?: CharacterFilter) => {
         const response = await getCharacters(filters);
-        if (response.status !== SUCCESS) {
+        if (response.status === NOT_FOUND) {
           return {
             error: { status: response.status, message: NOT_FOUND_MSG },
           };
@@ -38,6 +38,14 @@ export const rickMortyApi = createApi({
     getCharacterById: builder.query<Character | object, string | null>({
       queryFn: async (id: string | null) => {
         const response = await getCharacterDetails(id);
+        if ('status' in response) {
+          if (response.status === NOT_FOUND) {
+            return {
+              error: { status: response.status, message: NOT_FOUND_DETAIL },
+            };
+          }
+          return { data: response.result };
+        }
         return { data: response };
       },
       providesTags: (_result, _error, arg) =>

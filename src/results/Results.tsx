@@ -3,8 +3,10 @@ import { MySpinner } from '../components/Loader';
 import type { ResultsProps } from './types';
 import { ResultsContainer } from './ResultsContainer';
 import { NotFound } from '../pages/NotFound';
-import { DEFAULT_PAGE } from '../constants.ts';
+import { DEFAULT_PAGE, NETWORK_ERROR, NOT_FOUND_MSG } from '../constants.ts';
 import { useAppSelector, useUpdateLocation } from '../hooks/hooks.ts';
+import { useTranslations } from 'next-intl';
+import { getErrorMessage } from '../api/utils.ts';
 
 export function Results(props: ResultsProps) {
   const { data, loading, error } = props;
@@ -12,11 +14,18 @@ export function Results(props: ResultsProps) {
   const { page } = useUpdateLocation();
   const rightside = useAppSelector((state) => state.details.isVisible);
 
+  const t = useTranslations('NotFound');
+  const translateError = (): string => {
+    const message = getErrorMessage(error);
+    if (message?.toLowerCase() === NETWORK_ERROR) return t('fetch');
+    return message === NOT_FOUND_MSG ? t('characters') : message || '';
+  };
+
   if (error) {
     const hide = Number(page) <= DEFAULT_PAGE;
     return (
       <ResultsContainer>
-        <NotFound reason={error} hideButton={hide} />
+        <NotFound reason={translateError()} hideButton={hide} />
       </ResultsContainer>
     );
   }

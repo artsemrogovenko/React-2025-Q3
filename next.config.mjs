@@ -4,19 +4,19 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig = {
   // output: 'export',
   distDir: './dist',
-  webpack: (config) => {
-    config.watchOptions = {
-      ignored: [
-        '**/.*',
-        '**/node_modules/**',
-        '**/System Volume Information/**',
-        '**/pagefile.sys',
-        '**/DumpStack.log.tmp',
-        '**/swapfile.sys',
-      ],
-    };
-    return config;
-  },
+  // webpack: (config) => {
+  //   config.watchOptions = {
+  //     ignored: [
+  //       '**/.*',
+  //       '**/node_modules/**',
+  //       '**/System Volume Information/**',
+  //       '**/pagefile.sys',
+  //       '**/DumpStack.log.tmp',
+  //       '**/swapfile.sys',
+  //     ],
+  //   };
+  //   return config;
+  // },
   // experimental: {
   //   globalNotFound: true,
   // },

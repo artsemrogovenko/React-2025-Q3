@@ -8,17 +8,19 @@ import type {
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { SerializedError } from '@reduxjs/toolkit';
 import { EMPTY_OBJECT } from '../constants.ts';
+import type { DetailsResponse } from './types.ts';
 
 export const getCharacterDetails = async (
   id: string | null
-): Promise<Character | object> => {
+): Promise<DetailsResponse | typeof EMPTY_OBJECT> => {
   if (id !== null) {
     try {
       const idSearch = Number(id);
-      const result = await getCharacter(idSearch);
-      return result.data;
-    } catch {
-      return EMPTY_OBJECT;
+      const { data, status } = await getCharacter(idSearch);
+      return { result: data, status: status };
+    } catch (error) {
+      if (error instanceof Error)
+        return { result: EMPTY_OBJECT, status: error.message };
     }
   }
   return EMPTY_OBJECT;
