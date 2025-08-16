@@ -5,12 +5,9 @@ import type {
   AppProviderProps,
   CalculatedPages,
 } from './types';
-import { APP_ROUTES, AppContext, DEFAULT_PAGE } from './constants';
-import { useRouter } from 'next/navigation';
+import { AppContext, DEFAULT_PAGE } from './constants';
 
 export function AppProvider(props: AppProviderProps) {
-  const router = useRouter();
-
   const [isDefaultTheme, setIsDefaultTheme] = useState<boolean>(true);
   const [isVisibleDetails, setIsVisibleDetails] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
@@ -32,9 +29,6 @@ export function AppProvider(props: AppProviderProps) {
   const updatePages = useCallback((value: CalculatedPages) => {
     setPages((prev) => ({ ...prev, ...value }));
   }, []);
-  const resetUrl = useCallback(() => {
-    router.replace(APP_ROUTES.home);
-  }, [router]);
   const updateQuery = useCallback((value: string) => {
     setQuery(value);
   }, []);
@@ -49,7 +43,6 @@ export function AppProvider(props: AppProviderProps) {
     closeDetails,
     pages,
     updatePages,
-    resetUrl,
     query,
     updateQuery,
     isVisibleDetails,

@@ -25,7 +25,6 @@ export type AppContextType = {
   showDetails: () => void;
   closeDetails: () => void;
   updatePages: (value: CalculatedPages) => void;
-  resetUrl: () => void;
   query: string;
   updateQuery: (value: string) => void;
   isVisibleDetails: boolean;
