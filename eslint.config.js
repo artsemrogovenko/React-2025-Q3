@@ -6,14 +6,22 @@ import react from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import reactCompiler from 'eslint-plugin-react-compiler';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { FlatCompat } from '@eslint/eslintrc';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'node_modules'] },
+  { ignores: ['dist', 'coverage', 'node_modules', '.next/types/*'] },
   {
     extends: [
       js.configs.recommended,
       ...tseslint.configs.strict,
       eslintPluginPrettier,
+      ...compat.extends('next/core-web-vitals', 'next/typescript'),
     ],
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -41,7 +49,7 @@ export default tseslint.config(
         version: 'detect',
       },
       next: {
-        rootDir: 'src/app',
+        rootDir: 'src/',
       },
     },
   }

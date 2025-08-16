@@ -3,7 +3,7 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "esnext"],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -28,7 +28,7 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "typeRoots": ["./node_modules/@types", "./src"],
+    "typeRoots": ["./node_modules/@types", "./src/**/*"],
     "types": ["next"],
     "paths": {
       "next-intl/navigation": ["./node_modules/next-intl/navigation.js"]
@@ -38,7 +38,9 @@
     "./dist/types/**/*.ts",
     "./next-env.d.ts",
     "./src",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ],
   "exclude": ["./node_modules"]
 }
