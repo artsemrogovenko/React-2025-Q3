@@ -13,9 +13,7 @@
     "preview": "next start",
     "prepare": "husky",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "test": "vitest run",
-    "coverage": "vitest run --coverage"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",

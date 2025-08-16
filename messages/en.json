@@ -42,5 +42,9 @@
     "details": "Failed to get character more details",
     "characters": "No characters found",
     "fetch": "Network error"
+  },
+  "Error": {
+    "title": "Error:",
+    "retry": "Retry"
   }
 }
