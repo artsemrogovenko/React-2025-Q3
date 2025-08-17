@@ -8,7 +8,8 @@
   },
   "Header": {
     "message": "switch theme",
-    "about": "about"
+    "about": "about",
+    "title": "Rick and Morty App"
   },
   "Details": {
     "type": "Type",

@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+import { type RefObject } from 'react';
 import { downloadCsv } from '../../../components/api/utils';
 import type { CsvResponse } from '../types.ts';
 

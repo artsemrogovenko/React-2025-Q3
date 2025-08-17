@@ -14,9 +14,7 @@ export function Header() {
       className="flex w-full items-baseline justify-between"
       data-testid="header"
     >
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
-        Rick and Morty App
-      </h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('title')}</h2>
       <LangSwitch />
       <ThemeSwitch />
       {!isAbout && (

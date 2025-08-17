@@ -8,7 +8,7 @@ import type {
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { SerializedError } from '@reduxjs/toolkit';
 import { EMPTY_OBJECT } from '../constants.ts';
-import type { DetailsResponse } from './types.ts';
+import type { CsvCharacter, DetailsResponse } from './types.ts';
 
 export const getCharacterDetails = async (
   id: string | null
@@ -81,16 +81,11 @@ export function formatData(characters: Character[]): string {
   const clonedArray = characters.map((obj) => JSON.parse(JSON.stringify(obj)));
   const rows = clonedArray
     .map((character) => {
-      const copy = { ...character };
-      if ('episode' in copy) {
-        Object.defineProperty(copy, 'episode', {
-          value: `[${ejectEpisodesIds(copy.episode)}]`,
-        });
-      }
-      if ('location' in copy)
-        Object.defineProperty(copy, 'location', { value: copy.location.name });
-      if ('origin' in copy)
-        Object.defineProperty(copy, 'origin', { value: copy.origin.name });
+      const copy = { ...character } as CsvCharacter;
+      if ('episode' in copy)
+        (copy.episode as string) = `[${ejectEpisodesIds(copy.episode)}]`;
+      if ('location' in copy) (copy.location as string) = copy.location.name;
+      if ('origin' in copy) (copy.origin as string) = copy.origin.name;
       return copy;
     })
     .map((character) => Object.values(character).join(','))
