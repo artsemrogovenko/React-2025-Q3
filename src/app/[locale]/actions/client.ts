@@ -9,15 +9,16 @@ export async function sendFavorites(
   const requestObj = { id: favorites };
   const response = await fetch('/api/server', {
     method: 'POST',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(requestObj),
   });
   if (isCsvResponse(response)) {
-    const { blob, error } = response;
-    if (!error && !!blob) {
-      const blob = await response.blob();
+    const { error } = response;
+    const blob = await response.blob();
+    if (!error && blob) {
       downloadCsv(link, favorites.length, blob);
     }
   }
@@ -28,7 +29,6 @@ function isCsvResponse(obj: object): obj is CsvResponse {
     typeof obj === 'object' &&
     obj !== null &&
     'blob' in obj &&
-    (obj.blob === null || obj.blob instanceof Blob) &&
     (!('error' in obj) || typeof obj.error === 'string')
   );
 }
