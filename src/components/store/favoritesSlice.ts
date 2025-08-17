@@ -1,4 +1,8 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSelector,
+  createSlice,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
 import type { Character } from 'rickmortyapi';
 
 type Favorite = { id: number; value: Character };
@@ -35,9 +39,13 @@ export const favoritesSlice = createSlice({
     hasSelected: (state) => (id: number) =>
       state.values.some((c) => c.id === id),
     getFavorites: (state) => state.values,
+    getIds: createSelector(
+      [(state: FavoritesState) => state.values],
+      (values) => values.map((favorite) => favorite.id)
+    ),
   },
 });
 
 export const { toggle, unselectAll } = favoritesSlice.actions;
-export const { hasSelected, getFavorites } = favoritesSlice.selectors;
+export const { hasSelected, getFavorites, getIds } = favoritesSlice.selectors;
 export default favoritesSlice.reducer;

@@ -1,11 +1,11 @@
 'use client';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { getFavorites, unselectAll } from '../store/favoritesSlice';
+import { getIds, unselectAll } from '../store/favoritesSlice';
 import { MyButton } from './MyButton';
-import { downloadCsv } from '../api/utils.ts';
 import { useContext, useRef } from 'react';
 import { AppContext } from '../constants.ts';
 import { useTranslations } from 'next-intl';
+import { sendFavorites } from '../../app/[locale]/actions/client.ts';
 
 export function FavoritesModal() {
   const context = useContext(AppContext);
@@ -13,7 +13,7 @@ export function FavoritesModal() {
   const themeStyle = !isDefaultTheme ? 'text-black' : '';
 
   const dispatch = useAppDispatch();
-  const favorites = useAppSelector(getFavorites);
+  const favorites = useAppSelector(getIds);
   const count = favorites.length;
   const link = useRef<HTMLAnchorElement>(null);
 
@@ -36,7 +36,7 @@ export function FavoritesModal() {
       <MyButton text={t('unselect')} onClick={unselect} className="m-0" />
       <MyButton
         text={t('download')}
-        onClick={() => downloadCsv(link, favorites, count)}
+        onClick={() => sendFavorites(favorites, link)}
         className="m-0"
       />
       <a ref={link} target={'_blank'} className="hidden" />

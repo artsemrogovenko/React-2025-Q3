@@ -3,7 +3,7 @@ import App from '../../components/App.tsx';
 import { AppProvider } from '../../components/AppContext.tsx';
 import { StoreProvider } from './StoreProvider.tsx';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import '../../components/index.css';
 import '../../components/App.css';
 import { notFound } from 'next/navigation';
@@ -29,6 +29,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+  const messages = await getMessages({ locale: locale });
   setRequestLocale(locale);
   return (
     <html lang={locale}>
@@ -37,7 +38,7 @@ export default async function LocaleLayout({
           <AppProvider>
             <StoreProvider>
               <div id="root">
-                <NextIntlClientProvider>
+                <NextIntlClientProvider messages={messages}>
                   <App>{children} </App>
                 </NextIntlClientProvider>
               </div>

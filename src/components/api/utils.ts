@@ -100,13 +100,15 @@ export function formatData(characters: Character[]): string {
 
 export const downloadCsv = (
   link: React.RefObject<HTMLAnchorElement | null>,
-  favorites: Character[],
-  count: number
+  count: number,
+  blob: Blob
 ) => {
-  const blob = makeCsv(favorites);
   const url = URL.createObjectURL(blob);
-
   if (link.current) {
+    if (link.current.href.startsWith('blob:')) {
+      URL.revokeObjectURL(link.current.href);
+    }
+
     link.current.href = url;
     link.current.download = `${count}_items.csv`;
     link.current.click();
