@@ -1,0 +1,10 @@
+@reference 'tailwindcss';
+.dead {
+  @apply border-red-600;
+}
+.alive {
+  @apply border-green-600;
+}
+.unknown {
+  @apply border-gray-500;
+}

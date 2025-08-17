@@ -1,0 +1,51 @@
+{
+  "AboutPage": {
+    "title": "Author:",
+    "author": "Artsem Rogovenko"
+  },
+  "ToHomepage": {
+    "message": "back to homepage"
+  },
+  "Header": {
+    "message": "switch theme",
+    "about": "about",
+    "title": "Rick and Morty App"
+  },
+  "Details": {
+    "type": "Type",
+    "seen-in": "Seen in:",
+    "episodes": "Episodes:",
+    "close": "Close",
+    "refresh-details": "Refresh Details",
+    "refresh-episodes": "Refresh episodes"
+  },
+  "Checkbox": {
+    "in-favorites": "in favorites",
+    "add-to-favorites": "add to favorites"
+  },
+  "Favorites": {
+    "items": "items",
+    "selected": "selected",
+    "download": "Download",
+    "unselect": "Unselect All"
+  },
+  "Search": {
+    "search-input-field": "Put name character here..",
+    "submit": "Search"
+  },
+  "Pagination": {
+    "next": "Next",
+    "prev": "Prev",
+    "refresh-page": "Refresh cache"
+  },
+  "NotFound": {
+    "default_reason": "page not found",
+    "details": "Failed to get character more details",
+    "characters": "No characters found",
+    "fetch": "Network error"
+  },
+  "Error": {
+    "title": "Error:",
+    "retry": "Retry"
+  }
+}
