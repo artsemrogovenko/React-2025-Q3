@@ -11,3 +11,4 @@ export const countries: string[] = [
 ];
 
 export const BACKDROP_ID = 'backdrop';
+export const Genders = ['Male', 'Female'] as const;

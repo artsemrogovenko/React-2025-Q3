@@ -1,4 +1,5 @@
 import type { MouseEventHandler, ReactNode } from 'react';
+import type { Genders } from '../constants.ts';
 
 export interface ErrorProps {
   children: ReactNode;
@@ -21,7 +22,7 @@ export interface ModalProps {
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export type Gender = 'Male' | 'Female';
+export type Gender = (typeof Genders)[number];
 export interface ProfileType {
   name: string;
   age: string;
@@ -32,13 +33,13 @@ export interface ProfileType {
   country: string;
 }
 
-export interface ErorrsProps {
-  nameError: string;
-  ageError: string;
-  emailError: string;
-  passwordError: string;
-  repeatError: string;
-  genderError: string;
-  pictureError: string;
-  countryError: string;
+export interface ErrorsForm {
+  pictureError?: string;
+  nameError?: string;
+  ageError?: string;
+  emailError?: string;
+  passwordError?: string;
+  repeatError?: string;
+  genderError?: string;
+  countryError?: string;
 }

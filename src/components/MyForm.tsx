@@ -3,7 +3,11 @@ import type { RootState } from '../store/store';
 import { Fragment } from 'react/jsx-runtime';
 import { MyButton } from './MyButton.tsx';
 import ErrorTitle from './ErrorTitle.tsx';
-import { type FormEvent, useRef } from 'react';
+import { type FormEvent, useRef, useState } from 'react';
+import { formSchema } from '../utils/validate.ts';
+import type { ErrorsForm } from './types.ts';
+import { z } from 'zod';
+import { zodErrorToObject } from '../utils/utils.ts';
 
 const twClass =
   'border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:border-transparent';
@@ -22,22 +26,23 @@ export default function MyFormFragment() {
     );
   });
 
-  const errors = {
-    ageError: '',
-    emailError: '',
-    genderError: '',
-    nameError: '',
-    passwordError: '',
-    repeatError: '',
-    pictureError: '',
-    countryError: '',
-  };
+  const [errors, setErrors] = useState<ErrorsForm>({});
 
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formRef.current) return;
+    const entries = Object.fromEntries(new FormData(formRef.current));
+    try {
+      setErrors({});
+      const validated = formSchema.parse(entries);
+      console.log('Validated data:', validated);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors((prev) => ({ ...prev, ...zodErrorToObject(error) }));
+      }
+    }
   };
 
   return (
