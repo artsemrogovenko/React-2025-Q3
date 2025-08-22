@@ -11,3 +11,4 @@ const countriesSlice = createSlice({
 });
 
 export const { getCountries } = countriesSlice.selectors;
+export default countriesSlice.reducer;

@@ -31,3 +31,14 @@ export interface ProfileType {
   picture: string;
   country: string;
 }
+
+export interface ErorrsProps {
+  nameError: string;
+  ageError: string;
+  emailError: string;
+  passwordError: string;
+  repeatError: string;
+  genderError: string;
+  pictureError: string;
+  countryError: string;
+}
