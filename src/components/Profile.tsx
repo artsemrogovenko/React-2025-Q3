@@ -27,7 +27,7 @@ export default function Profile() {
     <div>
       <img
         alt="avatar"
-        src={image ? `data:image/jpeg;base64,${image}` : noImage}
+        src={image ? image : noImage}
         className="size-[200px]"
       />
       <div className="grid items-start w-[300px]">{fields} </div>

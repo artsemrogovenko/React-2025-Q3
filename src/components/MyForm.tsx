@@ -5,16 +5,20 @@ import { MyButton } from './MyButton.tsx';
 import ErrorTitle from './ErrorTitle.tsx';
 import { type FormEvent, useRef, useState } from 'react';
 import { formSchema } from '../utils/validate.ts';
-import type { ErrorsForm } from './types.ts';
+import type { ErrorsForm, Gender } from './types.ts';
 import { z } from 'zod';
-import { zodErrorToObject } from '../utils/utils.ts';
+import { convertToBase64, zodErrorToObject } from '../utils/utils.ts';
+import { useAppDispatch } from '../hooks/hooks.ts';
+import { setData } from '../store/formSlice.ts';
 
 const twClass =
   'border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:border-transparent';
 const withError = 'border-red-500 focus:ring-red-500';
 const withoutError = 'border-gray-300 focus:ring-blue-500';
 
-export default function MyFormFragment() {
+export default function MyFormFragment({ onSubmit }: { onSubmit: () => void }) {
+  const dispatch = useAppDispatch();
+
   const countries = useSelector((state: RootState) => state.countries);
   const options = countries.map((country) => {
     return (
@@ -27,21 +31,37 @@ export default function MyFormFragment() {
   });
 
   const [errors, setErrors] = useState<ErrorsForm>({});
+  const [isSave, setIsSave] = useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formRef.current) return;
     const entries = Object.fromEntries(new FormData(formRef.current));
     try {
+      setIsSave(true);
       setErrors({});
       const validated = formSchema.parse(entries);
-      console.log('Validated data:', validated);
+      const fileData = await convertToBase64(validated.picture);
+      dispatch(
+        setData({
+          picture: fileData,
+          name: validated.name,
+          age: String(validated.age),
+          email: validated.email,
+          password: validated.password,
+          gender: validated.gender as Gender,
+          country: validated.country,
+        })
+      );
+      onSubmit();
     } catch (error) {
       if (error instanceof z.ZodError) {
         setErrors((prev) => ({ ...prev, ...zodErrorToObject(error) }));
       }
+    } finally {
+      setIsSave(false);
     }
   };
 
@@ -149,7 +169,7 @@ export default function MyFormFragment() {
         <input type="checkbox" required />
         Accept Terms and Conditions agreement
       </div>
-      <MyButton text="Submit" type="submit" />
+      <MyButton text="Submit" type="submit" disabled={isSave} />
     </form>
   );
 }

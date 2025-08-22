@@ -15,15 +15,16 @@ export const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    addData: (state, action: PayloadAction<ProfileType>) => {
-      state = { ...state, ...action.payload };
-    },
+    setData: (state, action: PayloadAction<ProfileType>) => ({
+      ...state,
+      ...action.payload,
+    }),
   },
   selectors: {
     getData: (state) => state,
   },
 });
 
-export const { addData } = formSlice.actions;
+export const { setData } = formSlice.actions;
 export const { getData } = formSlice.selectors;
 export default formSlice.reducer;
