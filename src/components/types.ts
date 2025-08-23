@@ -55,3 +55,5 @@ export interface Validated {
   country: string;
   picture: z.core.File | FileList;
 }
+
+export type StrengthPassword = 'SIMPLE' | 'MEDIUM' | 'HARD' | undefined;

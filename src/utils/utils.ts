@@ -1,4 +1,4 @@
-import type { ErrorsForm } from '../components/types.ts';
+import type { ErrorsForm, StrengthPassword } from '../components/types.ts';
 import type { ZodError } from 'zod';
 
 export function zodErrorToObject(zodError: ZodError): ErrorsForm {
@@ -23,3 +23,12 @@ export const convertToBase64 = (file: File): Promise<string> => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+export function getPasswordStrength(
+  value: string | undefined
+): StrengthPassword {
+  if (!value) return;
+  if (value.length > 0 && value.length <= 4) return 'SIMPLE';
+  if (value.length > 4 && value.length <= 8) return 'MEDIUM';
+  if (value.length > 8) return 'HARD';
+}

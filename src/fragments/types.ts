@@ -7,4 +7,5 @@ export interface UncontrolledFormProps {
   register?: UseFormRegister<TFormSchema>;
   isDirtyPicture?: boolean;
   invalidPicture?: boolean;
+  password?: string;
 }

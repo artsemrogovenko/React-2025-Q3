@@ -4,13 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import UncontrolledForm from './Uncontrolled.tsx';
 import TermsAndSubmit from '../components/TermsAndSubmit.tsx';
 import useStoreForm from '../hooks/hooks.ts';
+import { useLayoutEffect, useState } from 'react';
 
 export default function ControlledForm({
   closeModal,
 }: {
   closeModal: () => void;
 }) {
-  const { register, handleSubmit, getFieldState, formState } =
+  const { register, handleSubmit, getFieldState, formState, watch } =
     useForm<TFormSchema>({
       resolver: zodResolver(formSchema),
       mode: 'onChange',
@@ -25,12 +26,19 @@ export default function ControlledForm({
     }
   };
   const { isDirty, invalid } = getFieldState('picture', formState);
+  const formPassword = watch('password');
+  const [watchPassword, setWatchPassword] = useState<string>(formPassword);
+  useLayoutEffect(() => {
+    setWatchPassword(formPassword);
+  }, [formPassword]);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col content-between"
     >
       <UncontrolledForm
+        password={watchPassword}
         isDirtyPicture={isDirty}
         invalidPicture={invalid}
         register={register}

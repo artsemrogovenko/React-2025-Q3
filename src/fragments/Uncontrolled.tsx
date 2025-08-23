@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store.ts';
 import { Fragment } from 'react/jsx-runtime';
 import type { UncontrolledFormProps } from './types.ts';
+import { PASSWORD_HINT } from '../constants.ts';
+import StrengthHint from '../portal/Portals.tsx';
 
 const twClass =
   'border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:border-transparent';
@@ -14,6 +16,7 @@ export default function UncontrolledForm({
   register,
   isDirtyPicture,
   invalidPicture,
+  password,
 }: UncontrolledFormProps) {
   const countries = useSelector((state: RootState) => state.countries);
   const options = countries.map((country) => {
@@ -25,17 +28,27 @@ export default function UncontrolledForm({
       </Fragment>
     );
   });
+  const noErrors = (!errors.pictureError || !invalidPicture) && isDirtyPicture;
   const uploadStyle = register
-    ? `border ${errors?.pictureError && invalidPicture && isDirtyPicture ? 'animate-bounce' : 'bg-green-200'}`
+    ? `border ${noErrors ? 'bg-green-200' : 'animate-bounce'}`
     : 'border';
+
+  const buttonTite = register
+    ? noErrors
+      ? 'File is ok'
+      : 'Upload image'
+    : 'Upload image';
 
   return (
     <>
       <ErrorTitle message={errors.pictureError} />
       <div className="flex justify-between">
         <span>Avatar</span>
-        <label htmlFor="picture" className={uploadStyle}>
-          Upload image
+        <label
+          htmlFor="picture"
+          className={`flex justify-center items-center w-[110px] ${uploadStyle}`}
+        >
+          {buttonTite}
         </label>
         <input
           type="file"
@@ -80,7 +93,10 @@ export default function UncontrolledForm({
 
       <ErrorTitle message={errors.passwordError} />
       <div className="flex justify-between">
-        <label htmlFor="password">Password</label>
+        <div id={PASSWORD_HINT}>
+          <label htmlFor="password">Password</label>
+          <StrengthHint password={String(password)} />
+        </div>
         <input
           type="text"
           className={`${twClass} ${errors.passwordError ? withError : withoutError}`}
