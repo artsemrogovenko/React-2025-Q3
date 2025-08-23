@@ -3,8 +3,13 @@ import { type SubmitErrorHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import UncontrolledForm from './Uncontrolled.tsx';
 import TermsAndSubmit from '../components/TermsAndSubmit.tsx';
+import useStoreForm from '../hooks/hooks.ts';
 
-export default function ControlledForm() {
+export default function ControlledForm({
+  closeModal,
+}: {
+  closeModal: () => void;
+}) {
   const {
     register,
     handleSubmit,
@@ -13,8 +18,13 @@ export default function ControlledForm() {
     resolver: zodResolver(formSchema),
     mode: 'onChange',
   });
-  const onSubmit = (dataa: TFormSchema) => {
-    console.log(dataa);
+
+  const { saveToStore } = useStoreForm();
+  const onSubmit = async (data: TFormSchema) => {
+    if (isValid) {
+      await saveToStore(data);
+      closeModal();
+    }
   };
   const onError: SubmitErrorHandler<TFormSchema> = (errors) =>
     console.log(errors);

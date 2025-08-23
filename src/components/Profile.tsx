@@ -1,10 +1,9 @@
-import { useSelector } from 'react-redux';
-import type { RootState } from '../store/store';
 import noImage from '../assets/no-image.svg';
 import { Fragment } from 'react/jsx-runtime';
+import { useAppSelector } from '../hooks/hooks.ts';
 
 export default function Profile() {
-  const formData = useSelector((state: RootState) => state.form);
+  const formData = useAppSelector((state) => state.form);
   const fields = Object.entries(formData)
     .filter(([k]) => k !== 'picture')
     .map(([key, value]) => {

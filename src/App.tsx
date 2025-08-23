@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 import Modal from './components/Modal';
 import { MyButton } from './components/MyButton';
 import Profile from './components/Profile';

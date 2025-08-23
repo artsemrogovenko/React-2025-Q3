@@ -9,7 +9,7 @@ export default function Modal(props: ModalProps) {
   const { isOpen, type, onClick, onKeyDown } = props;
   if (!isOpen) return null;
 
-  const handleSubmit = () => {
+  const handleClose = () => {
     if (backdropRef.current) {
       const event = new MouseEvent('click', { bubbles: true });
       backdropRef.current.dispatchEvent(event);
@@ -27,8 +27,8 @@ export default function Modal(props: ModalProps) {
         className="flex flex-col fixed bg-amber-500 top-1/2 left-1/2  -translate-x-1/2  -translate-y-1/2 p-5"
         onKeyDown={onKeyDown}
       >
-        <h2 className="uppercase">test modal {type}</h2>
-        <MyForm onSubmit={handleSubmit} type={type} />
+        <h2 className="uppercase font-bold">test modal {type}</h2>
+        <MyForm closeModal={handleClose} type={type} />
       </div>
     </>,
     document.body

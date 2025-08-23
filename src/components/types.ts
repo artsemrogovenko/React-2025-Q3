@@ -1,5 +1,6 @@
 import type { MouseEventHandler, ReactNode } from 'react';
 import type { Genders } from '../constants.ts';
+import { z } from 'zod';
 
 export interface ErrorProps {
   children: ReactNode;
@@ -42,4 +43,15 @@ export interface ErrorsForm {
   repeatError?: string;
   genderError?: string;
   countryError?: string;
+}
+
+export interface Validated {
+  name: string;
+  age: string;
+  email: string;
+  password: string;
+  repeat: string;
+  gender: string;
+  country: string;
+  picture: z.core.File | FileList;
 }

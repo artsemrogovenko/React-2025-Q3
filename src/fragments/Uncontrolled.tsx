@@ -39,8 +39,6 @@ export default function UncontrolledForm({
         </label>
         <input
           type="file"
-          // accept="image/png, image/jpeg"
-
           id="picture"
           className="hidden"
           {...(register ? register('picture') : { name: 'picture' })}
@@ -52,7 +50,6 @@ export default function UncontrolledForm({
         <label htmlFor="name">Name</label>
         <input
           type="text"
-          // name="name"
           id="name"
           autoFocus={true}
           className={`${twClass} ${errors.nameError ? withError : withoutError}`}
@@ -65,7 +62,6 @@ export default function UncontrolledForm({
         <label htmlFor="age">Age</label>
         <input
           type="text"
-          // name="age"
           id="age"
           className={`${twClass} ${errors.ageError ? withError : withoutError}`}
           {...(register ? register('age') : { name: 'age' })}
@@ -77,7 +73,6 @@ export default function UncontrolledForm({
         <label htmlFor="email">Email</label>
         <input
           type="text"
-          // name="email"
           className={`${twClass} ${errors.emailError ? withError : withoutError}`}
           {...(register ? register('email') : { name: 'email' })}
         />
@@ -88,7 +83,6 @@ export default function UncontrolledForm({
         <label htmlFor="password">Password</label>
         <input
           type="text"
-          // name="password"
           className={`${twClass} ${errors.passwordError ? withError : withoutError}`}
           {...(register ? register('password') : { name: 'password' })}
         />
@@ -99,7 +93,6 @@ export default function UncontrolledForm({
         <label htmlFor="repeat">Repeat Password</label>
         <input
           type="text"
-          // name="repeat"
           id="repeat"
           className={`${twClass} ${errors.repeatError ? withError : withoutError}`}
           {...(register ? register('repeat') : { name: 'repeat' })}
@@ -110,7 +103,6 @@ export default function UncontrolledForm({
       <div className="flex justify-between">
         <label htmlFor="gender">Gender</label>
         <select
-          // name="gender"
           className={`${twClass} ${errors.genderError ? withError : withoutError}`}
           {...(register ? register('gender') : { name: 'gender' })}
         >
@@ -126,7 +118,6 @@ export default function UncontrolledForm({
         <input
           type="text"
           list="data"
-          // name="country"
           className={`${twClass} ${errors.countryError ? withError : withoutError}`}
           {...(register ? register('country') : { name: 'country' })}
         />
