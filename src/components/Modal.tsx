@@ -27,9 +27,8 @@ export default function Modal(props: ModalProps) {
         className="flex flex-col fixed bg-amber-500 top-1/2 left-1/2  -translate-x-1/2  -translate-y-1/2 p-5"
         onKeyDown={onKeyDown}
       >
-        <h2>test modal</h2>
-        {type}
-        <MyForm onSubmit={handleSubmit} />
+        <h2 className="uppercase">test modal {type}</h2>
+        <MyForm onSubmit={handleSubmit} type={type} />
       </div>
     </>,
     document.body

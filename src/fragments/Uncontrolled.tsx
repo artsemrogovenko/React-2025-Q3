@@ -3,13 +3,21 @@ import type { ErrorsForm } from '../components/types.ts';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store.ts';
 import { Fragment } from 'react/jsx-runtime';
+import type { TFormSchema } from '../utils/validate.ts';
+import type { UseFormRegister } from 'react-hook-form';
 
 const twClass =
   'border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:border-transparent';
 const withError = 'border-red-500 focus:ring-red-500';
 const withoutError = 'border-gray-300 focus:ring-blue-500';
 
-export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
+export default function UncontrolledForm({
+  errors,
+  register,
+}: {
+  errors: ErrorsForm;
+  register?: UseFormRegister<TFormSchema>;
+}) {
   const countries = useSelector((state: RootState) => state.countries);
   const options = countries.map((country) => {
     return (
@@ -31,10 +39,11 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
         </label>
         <input
           type="file"
-          accept="image/png, image/jpeg"
-          name="picture"
+          // accept="image/png, image/jpeg"
+
           id="picture"
           className="hidden"
+          {...(register ? register('picture') : { name: 'picture' })}
         />
       </div>
 
@@ -43,10 +52,11 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
         <label htmlFor="name">Name</label>
         <input
           type="text"
-          name="name"
+          // name="name"
           id="name"
           autoFocus={true}
           className={`${twClass} ${errors.nameError ? withError : withoutError}`}
+          {...(register ? register('name') : { name: 'name' })}
         />
       </div>
 
@@ -54,10 +64,11 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
       <div className="flex justify-between">
         <label htmlFor="age">Age</label>
         <input
-          type="number"
-          name="age"
+          type="text"
+          // name="age"
           id="age"
           className={`${twClass} ${errors.ageError ? withError : withoutError}`}
+          {...(register ? register('age') : { name: 'age' })}
         />
       </div>
 
@@ -65,9 +76,10 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
       <div className="flex justify-between">
         <label htmlFor="email">Email</label>
         <input
-          type="email"
-          name="email"
+          type="text"
+          // name="email"
           className={`${twClass} ${errors.emailError ? withError : withoutError}`}
+          {...(register ? register('email') : { name: 'email' })}
         />
       </div>
 
@@ -76,8 +88,9 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
         <label htmlFor="password">Password</label>
         <input
           type="text"
-          name="password"
+          // name="password"
           className={`${twClass} ${errors.passwordError ? withError : withoutError}`}
+          {...(register ? register('password') : { name: 'password' })}
         />
       </div>
 
@@ -86,9 +99,10 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
         <label htmlFor="repeat">Repeat Password</label>
         <input
           type="text"
-          name="repeat"
+          // name="repeat"
           id="repeat"
           className={`${twClass} ${errors.repeatError ? withError : withoutError}`}
+          {...(register ? register('repeat') : { name: 'repeat' })}
         />
       </div>
 
@@ -96,8 +110,9 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
       <div className="flex justify-between">
         <label htmlFor="gender">Gender</label>
         <select
-          name="gender"
+          // name="gender"
           className={`${twClass} ${errors.genderError ? withError : withoutError}`}
+          {...(register ? register('gender') : { name: 'gender' })}
         >
           <option value=""></option>
           <option value="Male">Male</option>
@@ -111,8 +126,9 @@ export default function UncontrolledForm({ errors }: { errors: ErrorsForm }) {
         <input
           type="text"
           list="data"
-          name="country"
+          // name="country"
           className={`${twClass} ${errors.countryError ? withError : withoutError}`}
+          {...(register ? register('country') : { name: 'country' })}
         />
         <datalist id="data">{options}</datalist>
       </div>

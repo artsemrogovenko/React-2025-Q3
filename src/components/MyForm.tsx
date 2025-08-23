@@ -1,14 +1,21 @@
-import { MyButton } from './MyButton.tsx';
 import { type FormEvent, useRef, useState } from 'react';
-import { formSchema } from '../utils/validate.ts';
-import type { ErrorsForm, Gender } from './types.ts';
+import { uncontroledShcema } from '../utils/validate.ts';
+import type { ErrorsForm, FormType, Gender } from './types.ts';
 import { z } from 'zod';
 import { convertToBase64, zodErrorToObject } from '../utils/utils.ts';
 import { useAppDispatch } from '../hooks/hooks.ts';
 import { setData } from '../store/formSlice.ts';
 import UncontrolledForm from '../fragments/Uncontrolled.tsx';
+import ControlledForm from '../fragments/Controlled.tsx';
+import TermsAndSubmit from './TermsAndSubmit.tsx';
 
-export default function MyForm({ onSubmit }: { onSubmit: () => void }) {
+export default function MyForm({
+  onSubmit,
+  type,
+}: {
+  onSubmit: () => void;
+  type: FormType;
+}) {
   const dispatch = useAppDispatch();
 
   const [errors, setErrors] = useState<ErrorsForm>({});
@@ -16,14 +23,15 @@ export default function MyForm({ onSubmit }: { onSubmit: () => void }) {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleUncontroled = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(e);
     if (!formRef.current) return;
     const entries = Object.fromEntries(new FormData(formRef.current));
     try {
       setIsSave(true);
       setErrors({});
-      const validated = formSchema.parse(entries);
+      const validated = uncontroledShcema.parse(entries);
       const fileData = await convertToBase64(validated.picture);
       dispatch(
         setData({
@@ -46,18 +54,19 @@ export default function MyForm({ onSubmit }: { onSubmit: () => void }) {
     }
   };
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      ref={formRef}
-      className="flex flex-col content-between"
-    >
-      <UncontrolledForm errors={errors} />
-      <div className="flex justify-between mt-2">
-        <input type="checkbox" id="checkbox" required />
-        <label htmlFor="checkbox">Accept Terms and Conditions agreement</label>
-      </div>
-      <MyButton text="Submit" type="submit" disabled={isSave} />
-    </form>
-  );
+  const selectedForm =
+    type === 'controlled' ? (
+      <ControlledForm />
+    ) : (
+      <form
+        onSubmit={handleUncontroled}
+        ref={formRef}
+        className="flex flex-col content-between"
+      >
+        <UncontrolledForm errors={errors} />
+        <TermsAndSubmit disabled={isSave} />
+      </form>
+    );
+
+  return selectedForm;
 }

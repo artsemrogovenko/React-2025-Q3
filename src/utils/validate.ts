@@ -5,9 +5,15 @@ import type { Gender } from '../components/types.ts';
 export const formSchema = z
   .object({
     picture: z
-      .file()
-      .min(1, { message: 'avatar is required' })
-      .mime(['image/png', 'image/jpeg'], { message: 'Only JPEG and PNG' }),
+      .instanceof(FileList)
+      .refine((files) => files.length, { message: 'avatar is required' })
+      .refine(
+        (files) =>
+          files.length && ['image/png', 'image/jpeg'].includes(files[0].type),
+        {
+          message: 'Only JPEG and PNG',
+        }
+      ),
     name: z
       .string()
       .min(1, { message: 'name is required' })
@@ -15,10 +21,12 @@ export const formSchema = z
         message: 'first uppercased letter',
       }),
     age: z
-      .union([z.string(), z.number()])
-      .refine((val) => typeof Number(val), { message: 'should be number' })
-      .transform((val) => (typeof val === 'number' ? val : parseInt(val)))
-      .refine((val) => val >= 0, { message: 'no negative values' }),
+      .string()
+      .min(1, { message: 'required' })
+      .refine((val) => !isNaN(Number(val)), { message: 'should be number' })
+      .transform(Number)
+      .refine((val) => val >= 0, { message: 'no negative values' })
+      .transform(String),
     email: z.email({ message: 'enter a valid email' }),
     password: z
       .string()
@@ -58,5 +66,12 @@ export const formSchema = z
       return;
     }
   });
+
+export const uncontroledShcema = formSchema.extend({
+  picture: z
+    .file()
+    .min(1, { message: 'avatar is required' })
+    .mime(['image/png', 'image/jpeg'], { message: 'Only JPEG and PNG' }),
+});
 
 export type TFormSchema = z.infer<typeof formSchema>;
