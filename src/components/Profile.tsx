@@ -1,9 +1,11 @@
 import noImage from '../assets/no-image.svg';
 import { Fragment } from 'react/jsx-runtime';
 import { useAppSelector } from '../hooks/hooks.ts';
+import componentStyle from './component.module.css';
 
 export default function Profile() {
   const formData = useAppSelector((state) => state.form);
+
   const fields = Object.entries(formData)
     .filter(([k]) => k !== 'picture')
     .map(([key, value]) => {
@@ -14,7 +16,7 @@ export default function Profile() {
             <input
               readOnly
               defaultValue={value || ''}
-              className="grid-column-end"
+              className={`${componentStyle.fields} ${value ? componentStyle.fieldsEffect : ''}`}
             />
           </label>
           <hr />

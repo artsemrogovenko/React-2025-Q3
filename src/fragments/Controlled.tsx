@@ -1,5 +1,5 @@
 import { formSchema, type TFormSchema } from '../utils/validate.ts';
-import { type SubmitErrorHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import UncontrolledForm from './Uncontrolled.tsx';
 import TermsAndSubmit from '../components/TermsAndSubmit.tsx';
@@ -10,15 +10,13 @@ export default function ControlledForm({
 }: {
   closeModal: () => void;
 }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<TFormSchema>({
-    resolver: zodResolver(formSchema),
-    mode: 'onChange',
-  });
+  const { register, handleSubmit, getFieldState, formState } =
+    useForm<TFormSchema>({
+      resolver: zodResolver(formSchema),
+      mode: 'onChange',
+    });
 
+  const { errors, isValid } = formState;
   const { saveToStore } = useStoreForm();
   const onSubmit = async (data: TFormSchema) => {
     if (isValid) {
@@ -26,15 +24,15 @@ export default function ControlledForm({
       closeModal();
     }
   };
-  const onError: SubmitErrorHandler<TFormSchema> = (errors) =>
-    console.log(errors);
-
+  const { isDirty, invalid } = getFieldState('picture', formState);
   return (
     <form
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col content-between"
     >
       <UncontrolledForm
+        isDirtyPicture={isDirty}
+        invalidPicture={invalid}
         register={register}
         errors={{
           pictureError: errors.picture?.message,

@@ -41,19 +41,16 @@ export default function MyForm({
     }
   };
 
-  const selectedForm =
-    type === 'controlled' ? (
-      <ControlledForm closeModal={closeModal} />
-    ) : (
-      <form
-        onSubmit={handleUncontrolled}
-        ref={formRef}
-        className="flex flex-col content-between"
-      >
-        <UncontrolledForm errors={errors} />
-        <TermsAndSubmit disabled={isSave} />
-      </form>
-    );
-
-  return selectedForm;
+  return type === 'controlled' ? (
+    <ControlledForm closeModal={closeModal} />
+  ) : (
+    <form
+      onSubmit={handleUncontrolled}
+      ref={formRef}
+      className="flex flex-col content-between"
+    >
+      <UncontrolledForm errors={errors} />
+      <TermsAndSubmit disabled={isSave} />
+    </form>
+  );
 }

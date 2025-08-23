@@ -1,10 +1,8 @@
 import ErrorTitle from '../components/ErrorTitle.tsx';
-import type { ErrorsForm } from '../components/types.ts';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store.ts';
 import { Fragment } from 'react/jsx-runtime';
-import type { TFormSchema } from '../utils/validate.ts';
-import type { UseFormRegister } from 'react-hook-form';
+import type { UncontrolledFormProps } from './types.ts';
 
 const twClass =
   'border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:border-transparent';
@@ -14,10 +12,9 @@ const withoutError = 'border-gray-300 focus:ring-blue-500';
 export default function UncontrolledForm({
   errors,
   register,
-}: {
-  errors: ErrorsForm;
-  register?: UseFormRegister<TFormSchema>;
-}) {
+  isDirtyPicture,
+  invalidPicture,
+}: UncontrolledFormProps) {
   const countries = useSelector((state: RootState) => state.countries);
   const options = countries.map((country) => {
     return (
@@ -28,13 +25,16 @@ export default function UncontrolledForm({
       </Fragment>
     );
   });
+  const uploadStyle = register
+    ? `border ${errors?.pictureError && invalidPicture && isDirtyPicture ? 'animate-bounce' : 'bg-green-200'}`
+    : 'border';
 
   return (
     <>
       <ErrorTitle message={errors.pictureError} />
       <div className="flex justify-between">
         <span>Avatar</span>
-        <label htmlFor="picture" className="border">
+        <label htmlFor="picture" className={uploadStyle}>
           Upload image
         </label>
         <input
