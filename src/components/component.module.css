@@ -1,0 +1,21 @@
+.fields {
+  grid-column-end: span 1;
+  color: #127f17;
+  font-weight: bold;
+}
+.fieldsEffect {
+  animation: pulse 2s ease 0s 1 alternate forwards;
+}
+
+@keyframes pulse {
+  0%,
+  50%,
+  100% {
+    box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+  }
+
+  25%,
+  75% {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+  }
+}

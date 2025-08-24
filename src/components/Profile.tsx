@@ -1,0 +1,37 @@
+import noImage from '../assets/no-image.svg';
+import { Fragment } from 'react/jsx-runtime';
+import { useAppSelector } from '../hooks/hooks.ts';
+import componentStyle from './component.module.css';
+
+export default function Profile() {
+  const formData = useAppSelector((state) => state.form);
+
+  const fields = Object.entries(formData)
+    .filter(([k]) => k !== 'picture')
+    .map(([key, value]) => {
+      return (
+        <Fragment key={`Profile${key}`}>
+          <label className="grid grid-cols-2 ">
+            {key.toUpperCase()}
+            <input
+              readOnly
+              defaultValue={value || ''}
+              className={`${componentStyle.fields} ${value ? componentStyle.fieldsEffect : ''}`}
+            />
+          </label>
+          <hr />
+        </Fragment>
+      );
+    });
+  const image = formData.picture;
+  return (
+    <div>
+      <img
+        alt="avatar"
+        src={image ? image : noImage}
+        className="size-[200px]"
+      />
+      <div className="grid items-start w-[300px]">{fields} </div>
+    </div>
+  );
+}
