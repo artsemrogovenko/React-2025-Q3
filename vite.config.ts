@@ -17,6 +17,8 @@ export default defineConfig({
   resolve: { preserveSymlinks: true },
   base: './',
   test: {
+    setupFiles: 'src/__tests__/Prepare.tsx',
+    exclude: ['src/__tests__/Prepare.tsx', 'node_modules'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{js,jsx,ts,tsx}'],

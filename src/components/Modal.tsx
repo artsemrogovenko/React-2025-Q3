@@ -22,10 +22,12 @@ export default function Modal(props: ModalProps) {
         id={BACKDROP_ID}
         onClick={onClick}
         ref={backdropRef}
+        data-testid={BACKDROP_ID}
       />
       <div
         className="flex flex-col fixed bg-amber-500 top-1/2 left-1/2  -translate-x-1/2  -translate-y-1/2 p-5"
         onKeyDown={onKeyDown}
+        data-testid="MyForm"
       >
         <h2 className="uppercase font-bold">test modal {type}</h2>
         <MyForm closeModal={handleClose} type={type} />
