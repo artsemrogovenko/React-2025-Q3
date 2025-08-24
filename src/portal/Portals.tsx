@@ -3,9 +3,10 @@ import { getPasswordStrength } from '../utils/utils.ts';
 export default function StrengthHint({
   password,
 }: {
-  password: string | undefined;
+  password?: string | undefined;
 }) {
   const result = getPasswordStrength(password);
+
   switch (result) {
     case 'SIMPLE':
       return (
@@ -21,6 +22,8 @@ export default function StrengthHint({
       return (
         <div className="text-green-600 font-semibold text-shadow-md">HARD</div>
       );
+    case 'REQUIRED':
+      return <div className="  font-semibold text-shadow-md">REQUIRED</div>;
     default:
       return null;
   }

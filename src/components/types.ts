@@ -56,4 +56,9 @@ export interface Validated {
   picture: z.core.File | FileList;
 }
 
-export type StrengthPassword = 'SIMPLE' | 'MEDIUM' | 'HARD' | undefined;
+export type StrengthPassword =
+  | 'SIMPLE'
+  | 'MEDIUM'
+  | 'HARD'
+  | 'REQUIRED'
+  | undefined;

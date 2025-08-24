@@ -27,8 +27,9 @@ export const convertToBase64 = (file: File): Promise<string> => {
 export function getPasswordStrength(
   value: string | undefined
 ): StrengthPassword {
-  if (!value) return;
+  if (!value) return 'REQUIRED';
   if (value.length > 0 && value.length <= 4) return 'SIMPLE';
   if (value.length > 4 && value.length <= 8) return 'MEDIUM';
   if (value.length > 8) return 'HARD';
+  return;
 }

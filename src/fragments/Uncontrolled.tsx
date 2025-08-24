@@ -95,7 +95,7 @@ export default function UncontrolledForm({
       <div className="flex justify-between">
         <div id={PASSWORD_HINT}>
           <label htmlFor="password">Password</label>
-          <StrengthHint password={String(password)} />
+          <StrengthHint password={password} />
         </div>
         <input
           type="text"

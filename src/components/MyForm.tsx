@@ -19,6 +19,7 @@ export default function MyForm({
 
   const [errors, setErrors] = useState<ErrorsForm>({});
   const [isSave, setIsSave] = useState<boolean>(false);
+  const [passwordValue, setPasswordValue] = useState<string>();
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -37,6 +38,8 @@ export default function MyForm({
         setErrors((prev) => ({ ...prev, ...zodErrorToObject(error) }));
       }
     } finally {
+      const passwordValue = entries['password'];
+      setPasswordValue(typeof passwordValue === 'string' ? passwordValue : '');
       setIsSave(false);
     }
   };
@@ -49,7 +52,7 @@ export default function MyForm({
       ref={formRef}
       className="flex flex-col content-between"
     >
-      <UncontrolledForm errors={errors} />
+      <UncontrolledForm errors={errors} password={passwordValue} />
       <TermsAndSubmit disabled={isSave} />
     </form>
   );
