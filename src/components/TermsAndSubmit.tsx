@@ -1,6 +1,7 @@
 import { MyButton } from './MyButton.tsx';
 
 export default function TermsAndSubmit(props: { disabled: boolean }) {
+  const isDisabled = props.disabled;
   return (
     <>
       <div className="flex justify-between mt-2 ">
@@ -10,8 +11,8 @@ export default function TermsAndSubmit(props: { disabled: boolean }) {
       <MyButton
         text="Submit"
         type="submit"
-        disabled={props.disabled}
-        style={props.disabled ? { cursor: 'not-allowed' } : {}}
+        disabled={isDisabled}
+        style={isDisabled ? { cursor: 'not-allowed' } : {}}
       />
     </>
   );

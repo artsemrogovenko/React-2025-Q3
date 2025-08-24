@@ -10,7 +10,7 @@ export default function Profile() {
     .filter(([k]) => k !== 'picture')
     .map(([key, value]) => {
       return (
-        <Fragment key={key}>
+        <Fragment key={`Profile${key}`}>
           <label className="grid grid-cols-2 ">
             {key.toUpperCase()}
             <input

@@ -55,6 +55,7 @@ export default function UncontrolledForm({
           id="picture"
           className="hidden"
           {...(register ? register('picture') : { name: 'picture' })}
+          data-testid="picture"
         />
       </div>
 
@@ -67,6 +68,7 @@ export default function UncontrolledForm({
           autoFocus={true}
           className={`${twClass} ${errors.nameError ? withError : withoutError}`}
           {...(register ? register('name') : { name: 'name' })}
+          data-testid="name"
         />
       </div>
 
@@ -78,6 +80,7 @@ export default function UncontrolledForm({
           id="age"
           className={`${twClass} ${errors.ageError ? withError : withoutError}`}
           {...(register ? register('age') : { name: 'age' })}
+          data-testid="age"
         />
       </div>
 
@@ -88,6 +91,7 @@ export default function UncontrolledForm({
           type="text"
           className={`${twClass} ${errors.emailError ? withError : withoutError}`}
           {...(register ? register('email') : { name: 'email' })}
+          data-testid="email"
         />
       </div>
 
@@ -101,6 +105,7 @@ export default function UncontrolledForm({
           type="text"
           className={`${twClass} ${errors.passwordError ? withError : withoutError}`}
           {...(register ? register('password') : { name: 'password' })}
+          data-testid="password"
         />
       </div>
 
@@ -112,20 +117,25 @@ export default function UncontrolledForm({
           id="repeat"
           className={`${twClass} ${errors.repeatError ? withError : withoutError}`}
           {...(register ? register('repeat') : { name: 'repeat' })}
+          data-testid="repeat"
         />
       </div>
 
       <ErrorTitle message={errors.genderError} />
       <div className="flex justify-between">
         <label htmlFor="gender">Gender</label>
-        <select
+        <input
+          type="text"
+          list="genders"
           className={`${twClass} ${errors.genderError ? withError : withoutError}`}
           {...(register ? register('gender') : { name: 'gender' })}
-        >
+          data-testid="gender"
+        />
+        <datalist id="genders">
           <option value=""></option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
-        </select>
+        </datalist>
       </div>
 
       <ErrorTitle message={errors.countryError} />
@@ -136,6 +146,7 @@ export default function UncontrolledForm({
           list="data"
           className={`${twClass} ${errors.countryError ? withError : withoutError}`}
           {...(register ? register('country') : { name: 'country' })}
+          data-testid="country"
         />
         <datalist id="data">{options}</datalist>
       </div>
